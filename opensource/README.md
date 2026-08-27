@@ -18,9 +18,11 @@ or in a browser.
   - [Docker](#docker)
 - [Architecture: Code–Data Separation](#architecture-code-data-separation)
 - [Full Backup Export / Import](#full-backup-export--import)
+- [Batch Data Import (Excel)](#batch-data-import-excel)
+- [Logo Acquisition & Matching](#logo-acquisition--matching)
 - [Configuration](#configuration)
 - [Onboarding a New Team](#onboarding-a-new-team)
-- [Demo Data & Anonymization](#demo-data--anonymization)
+- [Demo Data Generator](#demo-data-generator)
 - [Repository Layout](#repository-layout)
 - [License](#license)
 
@@ -131,6 +133,46 @@ The admin panel toolbar has **Export backup / Import backup** buttons (API:
 Typical uses: migrating between local ↔ Docker, handing a dataset to a new
 team, or scheduled off-site backups.
 
+## Batch Data Import (Excel)
+
+Skip manual entry — prepare your client list in Excel and import it in one go
+from the admin toolbar ("Import Excel").
+
+| Column | Required | Content |
+|---|---|---|
+| 1 | Yes | Company name (also used as the initial brand) |
+| 2 | No | Office code (e.g. `SHA` — city / region are derived automatically) |
+| 3 | No | Business lines (comma-separated) |
+| 4 | No | Owners (comma-separated) |
+
+- Logos are auto-matched from the built-in brand keyword library during
+  import; unmatched clients can be completed afterwards.
+- "Export Excel" produces the same layout, so an exported file can be edited
+  and re-imported as a round-trip format.
+- The import is also scriptable: `POST /api/import-excel` with Bearer-token
+  auth.
+
+## Logo Acquisition & Matching
+
+Three ways to attach a logo to a client (in the edit modal):
+
+1. **Auto-discover** — enter the company website (or just a name) and click
+   "Auto-discover logo". The app queries Clearbit, Google favicon and
+   DuckDuckGo icon services plus a built-in brand keyword library, verifies
+   that each candidate is reachable, and shows previews to pick from.
+2. **Upload** — pick a local image file (PNG / JPG / GIF / WebP / SVG).
+3. **Paste URL** — point directly at an image URL.
+
+**Logo library** — every logo (uploaded or fetched) lands in a shared
+library: batch-upload multiple files at once, identical files are
+deduplicated automatically, each logo shows which clients use it, and logos
+in use cannot be deleted. Assign any library logo to a client from the edit
+modal.
+
+**Missing-logo helper** — the admin stats card shows how many clients have
+no logo; click it to list them, or filter the client table by "Logo:
+missing".
+
 ## Configuration
 
 | Env var     | Default    | Purpose                          |
@@ -178,19 +220,19 @@ team's own folder. To hand over an existing dataset, export a backup zip in
 the admin panel and let them import it in theirs. Code upgrades are just
 `git pull` + restart — data directories are never touched.
 
-## Demo Data & Anonymization
+## Demo Data Generator
 
-The bundled `data.json` is fully fictional. If you maintain a private fork
-with real data, regenerate a safe demo dataset with:
+The bundled `data.json` is fully fictional. `tools/anonymize.py` can shuffle
+any dataset into a fresh fictional one — company names, brands, owners,
+offices/cities/regions, business lines, logos and websites are all replaced
+with fictional values:
 
 ```bash
-python tools/anonymize.py --src /path/to/real/data.json --out local/data.json
+python tools/anonymize.py --src local/data.json --out local/data.json
 ```
 
-The script replaces company names, brands, owners, offices/cities/regions,
-business lines, logos and websites with fictional values. Cities, regions and
-business lines are freshly reshuffled with a plausible weighted distribution
-(deterministic, seeded — same output every run).
+Cities, regions and business lines are reshuffled with a plausible weighted
+distribution (deterministic, seeded — same output every run).
 
 ## Repository Layout
 
