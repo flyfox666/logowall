@@ -314,7 +314,7 @@ async def auth_middleware(request, call_next):
     path = request.url.path
 
     # Public routes that never need auth
-    public_exact = {'/login', '/api/auth/login', '/api/auth/check'}
+    public_exact = {'/login', '/api/auth/login', '/api/auth/check', '/api/health'}
     public_prefixes = ('/static/',)
     # Public pages (HTML) — JS handles redirect to /login
     public_pages = {'/', '/admin'}
@@ -722,6 +722,12 @@ def delete_client(client_id: int, authorization: Optional[str] = Header(None)):
         raise HTTPException(404, 'Client not found')
     save_data(data)
     return {'ok': True}
+
+
+# ---- Health check (public, used by Docker healthcheck) ---------------------
+@app.get('/api/health')
+def health_check():
+    return {'status': 'ok'}
 
 
 # ---- Filters metadata -----------------------------------------------------

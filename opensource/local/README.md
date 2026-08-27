@@ -29,7 +29,7 @@ Simplest: copy `config.env.example` to `config.env`, edit `PORT` /
 |---|---|---|
 | `PORT` | 8080 | HTTP port |
 | `HOST` | 0.0.0.0 | Bind address; use 127.0.0.1 for local-only |
-| `ADMIN_TOKEN` | admin123 | Master token (fallback auth for write ops) |
+| `ADMIN_TOKEN` | admin123 | Master token for API calls (pages use account login) |
 | `AUTH_ENABLED` | true | Login page toggle (admin / viewer users) |
 | `JWT_SECRET` | derived | Login session secret; set a fixed value to survive restarts |
 | `JWT_EXPIRE_DAYS` | 7 | Login session lifetime (days) |

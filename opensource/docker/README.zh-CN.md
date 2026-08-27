@@ -12,7 +12,7 @@ docker compose up -d --build
 
 访问 http://localhost:8080/ ，后台 http://localhost:8080/admin 。
 
-首次启动会自动创建默认管理员 `admin / admin123`，登录后请在「用户管理」中修改密码、按需新增 viewer 只读账号。`ADMIN_TOKEN` 仍作为主令牌兜底。
+首次启动会自动创建默认管理员 `admin / admin123`，登录后请在「用户管理」中修改密码、按需新增 viewer 只读账号。`ADMIN_TOKEN` 仍作为 API 调用的主令牌兜底。
 
 前台与管理后台右上角均有「EN / 中文」按钮，可一键切换中英文界面（各自独立记忆）。
 
@@ -26,7 +26,7 @@ ADMIN_TOKEN=your-secret-token
 
 | 变量 | 默认值 | 说明 |
 |---|---|---|
-| `ADMIN_TOKEN` | admin123 | 主令牌（写操作兜底认证，生产环境务必修改） |
+| `ADMIN_TOKEN` | admin123 | API 主令牌（写操作兜底认证，页面登录用账号，生产环境务必修改） |
 | `AUTH_ENABLED` | true | 登录页开关（admin / viewer 多用户） |
 | `JWT_SECRET` | 自动派生 | 登录会话密钥；固定后重启不掉登录态 |
 | `JWT_EXPIRE_DAYS` | 7 | 登录会话有效期（天） |

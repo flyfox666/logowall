@@ -28,7 +28,7 @@ From other phones/computers on the same Wi-Fi/LAN:
 |---|---|---|
 | `PORT` | 8080 | 服务端口 |
 | `HOST` | 0.0.0.0 | 监听地址，仅本机用可改 127.0.0.1 |
-| `ADMIN_TOKEN` | admin123 | 主令牌（写操作兜底认证） |
+| `ADMIN_TOKEN` | admin123 | API 主令牌（写操作兜底认证，页面登录用账号） |
 | `AUTH_ENABLED` | true | 登录页开关（admin / viewer 多用户） |
 | `JWT_SECRET` | 自动派生 | 登录会话密钥；固定后重启不掉登录态 |
 | `JWT_EXPIRE_DAYS` | 7 | 登录会话有效期（天） |

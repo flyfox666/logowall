@@ -15,7 +15,7 @@ Open http://localhost:8080/ (admin panel: http://localhost:8080/admin).
 
 A default admin `admin / admin123` is created on first run — change the
 password in "User management" afterwards and add read-only viewer accounts as
-needed. `ADMIN_TOKEN` still works as a master token.
+needed. `ADMIN_TOKEN` still works as a master token for API calls.
 
 Both the wall and the admin panel have an "EN / 中文" button (top-right) that
 switches the interface language (remembered independently).
@@ -31,7 +31,7 @@ ADMIN_TOKEN=your-secret-token
 
 | Env var | Default | Description |
 |---|---|---|
-| `ADMIN_TOKEN` | admin123 | Master token (fallback auth — change in production) |
+| `ADMIN_TOKEN` | admin123 | Master token for API calls (pages use account login — change in production) |
 | `AUTH_ENABLED` | true | Login page toggle (admin / viewer users) |
 | `JWT_SECRET` | derived | Login session secret; set a fixed value to survive restarts |
 | `JWT_EXPIRE_DAYS` | 7 | Login session lifetime (days) |

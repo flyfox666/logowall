@@ -51,7 +51,7 @@ or in a browser.
   without touching the database by hand.
 - **Multi-user auth** — login page with `admin` and `viewer` roles; visitors
   see the wall, admins manage it. The legacy `ADMIN_TOKEN` still works as a
-  master token.
+  master token for API calls.
 - **Theming** — 5 preset color themes × 4 background patterns, visitor preview
   in the toolbar palette, site-wide default + custom colors in admin site
   settings.
@@ -75,8 +75,8 @@ start.bat
 ```
 
 Then open http://localhost:8080/ (admin: http://localhost:8080/admin,
-default account `admin / admin123`, or the legacy token `admin123` — change
-with `ADMIN_TOKEN` / user management after first login).
+default account `admin / admin123` — change the password in "User management"
+after first login; `ADMIN_TOKEN` works for API access only).
 
 ### Docker
 
@@ -137,7 +137,7 @@ team, or scheduled off-site backups.
 |-------------|------------|----------------------------------|
 | `PORT`      | `8080`     | HTTP port                        |
 | `HOST`      | `0.0.0.0`  | Bind address (`127.0.0.1` = local only) |
-| `ADMIN_TOKEN` | `admin123` | Master token for write operations |
+| `ADMIN_TOKEN` | `admin123` | Master token for API calls (pages use account login) |
 | `AUTH_ENABLED` | `true`   | Enable the login page (multi-user auth) |
 | `JWT_SECRET` | derived    | Secret for login sessions; set a fixed value to keep users logged in across restarts |
 | `JWT_EXPIRE_DAYS` | `7`   | Login session lifetime in days   |
