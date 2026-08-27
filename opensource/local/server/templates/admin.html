@@ -45,21 +45,6 @@ body {
 .btn-sm { padding: 5px 10px; font-size: 12px; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* Login */
-.login-wrap {
-    max-width: 380px; margin: 80px auto; background: var(--card);
-    border-radius: var(--radius); padding: 36px; box-shadow: var(--shadow-md);
-}
-.login-wrap h2 { font-size: 20px; margin-bottom: 6px; }
-.login-wrap p { color: var(--text-light); font-size: 13px; margin-bottom: 20px; }
-.login-wrap input {
-    width: 100%; padding: 10px 14px; border: 1px solid var(--border);
-    border-radius: 6px; font-size: 14px; margin-bottom: 14px;
-}
-.login-wrap input:focus { outline: none; border-color: var(--accent); }
-.login-wrap .btn { width: 100%; justify-content: center; padding: 10px; }
-.login-error { color: var(--danger); font-size: 13px; margin-bottom: 12px; }
-
 /* Layout */
 .container { max-width: 1400px; margin: 0 auto; padding: 24px 28px; }
 .stats-row { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
@@ -361,20 +346,6 @@ tr:hover { background: #f7fafc; }
 </style>
 </head>
 <body>
-
-<div id="login-view">
-    <div class="login-wrap">
-        <h2 data-i18n="login_title">Logo Wall 管理员后台</h2>
-        <p data-i18n="login_sub">请输入管理员令牌以继续</p>
-        <div id="login-error" class="login-error" style="display:none"></div>
-        <input type="password" id="token-input" placeholder="管理员令牌（Admin Token）" autofocus data-i18n-placeholder="token_ph">
-        <button class="btn btn-primary" onclick="doLogin()" data-i18n="login">登录</button>
-        <p style="margin-top:16px;font-size:12px;color:var(--text-muted)" data-i18n="login_hint">
-            默认令牌：admin123（可通过环境变量 ADMIN_TOKEN 修改）
-        </p>
-        <button class="lang-toggle" onclick="toggleLang()" id="login-lang">EN</button>
-    </div>
-</div>
 
 <div id="app-view" style="display:none">
     <div class="topbar">
@@ -723,12 +694,6 @@ function logoImgUrl(url) {
 // ---- i18n ----
 const I18N = {
     zh: {
-        login_title: 'Logo Wall 管理员后台',
-        login_sub: '请输入管理员令牌以继续',
-        token_ph: '管理员令牌（Admin Token）',
-        login: '登录',
-        login_hint: '默认令牌：admin123（可通过环境变量 ADMIN_TOKEN 修改）',
-        token_invalid: '令牌无效，请重试',
         brand_title: '客户品牌墙',
         admin_panel: 'ADMIN PANEL',
         view_front: '查看前台',
@@ -860,12 +825,6 @@ const I18N = {
         actions: '操作',
     },
     en: {
-        login_title: 'Logo Wall Admin',
-        login_sub: 'Enter the admin token to continue',
-        token_ph: 'Admin Token',
-        login: 'Sign in',
-        login_hint: 'Default token: admin123 (set ADMIN_TOKEN env to change)',
-        token_invalid: 'Invalid token, please retry',
         brand_title: 'Client Logo Wall',
         admin_panel: 'ADMIN PANEL',
         view_front: 'View site',
@@ -1018,7 +977,6 @@ function applyLang() {
     document.querySelectorAll('[data-i18n-title]').forEach(el => {
         el.title = t(el.getAttribute('data-i18n-title'));
     });
-    document.getElementById('login-lang').textContent = (lang === 'zh') ? 'EN' : '中文';
     document.getElementById('app-lang').textContent = (lang === 'zh') ? 'EN' : '中文';
     // Re-render dynamic pieces that carry visible text
     if (document.getElementById('app-view').style.display !== 'none') {
@@ -1032,34 +990,13 @@ function toggleLang() {
 }
 
 // ---- Auth ----
-function doLogin() {
-    const t = document.getElementById('token-input').value.trim();
-    if (!t) return;
-    fetch(API + '/auth/check', { headers: { Authorization: 'Bearer ' + t } })
-        .then(r => r.json())
-        .then(d => {
-            if (d.ok) {
-                token = t;
-                localStorage.setItem('lw_token', token);
-                showApp();
-            } else {
-                const el = document.getElementById('login-error');
-                el.textContent = t('token_invalid');
-                el.style.display = 'block';
-            }
-        });
-}
-document.getElementById('token-input').addEventListener('keypress', e => {
-    if (e.key === 'Enter') doLogin();
-});
 function logout() {
     localStorage.removeItem('lw_token');
+    localStorage.removeItem('lw_user');
     token = '';
-    document.getElementById('app-view').style.display = 'none';
-    document.getElementById('login-view').style.display = 'block';
+    window.location.href = '/login?redirect=admin';
 }
 function showApp() {
-    document.getElementById('login-view').style.display = 'none';
     document.getElementById('app-view').style.display = 'block';
     applyLang();
     const psSel = document.getElementById('page-size');
