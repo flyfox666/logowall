@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>登录 | Logo Wall</title>
+<style>
+:root {
+    --primary: #1a1a2e;
+    --primary-light: #16213e;
+    --accent: #e94560;
+    --bg: #f0f2f5;
+    --card: #fff;
+    --text: #1a202c;
+    --text-light: #718096;
+    --text-muted: #a0aec0;
+    --border: #e2e8f0;
+    --success: #38a169;
+    --danger: #e53e3e;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+.login-container {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+}
+.login-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 40px 36px;
+    box-shadow: var(--shadow-lg);
+}
+.login-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+.login-logo {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    font-size: 24px;
+    color: #fff;
+    font-weight: 700;
+}
+.login-header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 6px;
+}
+.login-header p {
+    font-size: 14px;
+    color: var(--text-light);
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+}
+.form-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 15px;
+    color: var(--text);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+.form-group input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1);
+}
+.form-group input::placeholder {
+    color: var(--text-muted);
+}
+.login-btn {
+    width: 100%;
+    padding: 13px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+.login-btn:hover {
+    background: #c73650;
+}
+.login-btn:active {
+    transform: scale(0.98);
+}
+.login-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+.error-msg {
+    background: #fff5f5;
+    color: var(--danger);
+    border: 1px solid #fed7d7;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    margin-bottom: 16px;
+    display: none;
+}
+.error-msg.show {
+    display: block;
+}
+.login-footer {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+.lang-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: background 0.2s;
+}
+.lang-toggle:hover {
+    background: rgba(255,255,255,0.3);
+}
+.redirect-info {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--text-light);
+}
+.redirect-info a {
+    color: var(--accent);
+    text-decoration: none;
+}
+.redirect-info a:hover {
+    text-decoration: underline;
+}
+</style>
+</head>
+<body>
+<button class="lang-toggle" id="lang-btn" onclick="toggleLang()">EN</button>
+
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <div class="login-logo">LW</div>
+            <h1 id="login-title">客户品牌墙</h1>
+            <p id="login-subtitle">请登录以继续访问</p>
+        </div>
+
+        <div class="error-msg" id="error-msg"></div>
+
+        <form id="login-form" onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label id="label-username" for="username">用户名</label>
+                <input type="text" id="username" placeholder="请输入用户名" autocomplete="username" required>
+            </div>
+            <div class="form-group">
+                <label id="label-password" for="password">密码</label>
+                <input type="password" id="password" placeholder="请输入密码" autocomplete="current-password" required>
+            </div>
+            <button type="submit" class="login-btn" id="login-btn">登录</button>
+        </form>
+
+        <div class="redirect-info">
+            <span id="redirect-text">登录后将跳转到</span>
+            <a id="redirect-link" href="/">展示页</a>
+        </div>
+
+        <div class="login-footer" id="login-footer">
+            Logo Wall &copy; 2026
+        </div>
+    </div>
+</div>
+
+<script>
+const I18N = {
+    zh: {
+        title: '客户品牌墙',
+        subtitle: '请登录以继续访问',
+        username: '用户名',
+        username_ph: '请输入用户名',
+        password: '密码',
+        password_ph: '请输入密码',
+        login: '登录',
+        logging_in: '登录中...',
+        redirect_text: '登录后将跳转到',
+        display_link: '展示页',
+        admin_link: '管理后台',
+        footer: 'Logo Wall &copy; 2026',
+        error_invalid: '用户名或密码错误',
+        error_server: '服务器连接失败',
+        error_empty: '请输入用户名和密码',
+    },
+    en: {
+        title: 'Client Logo Wall',
+        subtitle: 'Please sign in to continue',
+        username: 'Username',
+        username_ph: 'Enter your username',
+        password: 'Password',
+        password_ph: 'Enter your password',
+        login: 'Sign In',
+        logging_in: 'Signing in...',
+        redirect_text: 'After login, go to',
+        display_link: 'Display Page',
+        admin_link: 'Admin Panel',
+        footer: 'Logo Wall &copy; 2026',
+        error_invalid: 'Invalid username or password',
+        error_server: 'Server connection failed',
+        error_empty: 'Please enter username and password',
+    }
+};
+
+let lang = localStorage.getItem('lw_lang') || 'zh';
+
+function toggleLang() {
+    lang = lang === 'zh' ? 'en' : 'zh';
+    localStorage.setItem('lw_lang', lang);
+    applyLang();
+}
+
+function applyLang() {
+    const t = I18N[lang];
+    document.getElementById('login-title').textContent = t.title;
+    document.getElementById('login-subtitle').textContent = t.subtitle;
+    document.getElementById('label-username').textContent = t.username;
+    document.getElementById('username').placeholder = t.username_ph;
+    document.getElementById('label-password').textContent = t.password;
+    document.getElementById('password').placeholder = t.password_ph;
+    document.getElementById('login-btn').textContent = t.login;
+    document.getElementById('redirect-text').textContent = t.redirect_text;
+    document.getElementById('login-footer').innerHTML = t.footer;
+    document.getElementById('lang-btn').textContent = lang === 'zh' ? 'EN' : '中文';
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+
+    // Determine redirect target
+    const redirect = getRedirectTarget();
+    const linkEl = document.getElementById('redirect-link');
+    if (redirect === 'admin') {
+        linkEl.textContent = t.admin_link;
+        linkEl.href = '/admin';
+    } else {
+        linkEl.textContent = t.display_link;
+        linkEl.href = '/';
+    }
+}
+
+function getRedirectTarget() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('redirect') || 'display';
+}
+
+function showError(msg) {
+    const el = document.getElementById('error-msg');
+    el.textContent = msg;
+    el.classList.add('show');
+}
+
+function hideError() {
+    document.getElementById('error-msg').classList.remove('show');
+}
+
+async function handleLogin(e) {
+    e.preventDefault();
+    hideError();
+
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    const t = I18N[lang];
+
+    if (!username || !password) {
+        showError(t.error_empty);
+        return;
+    }
+
+    const btn = document.getElementById('login-btn');
+    btn.disabled = true;
+    btn.textContent = t.logging_in;
+
+    try {
+        const form = new URLSearchParams();
+        form.append('username', username);
+        form.append('password', password);
+
+        const resp = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: form.toString(),
+        });
+
+        const data = await resp.json();
+
+        if (resp.ok && data.ok) {
+            // Store token and user info
+            localStorage.setItem('lw_token', data.token);
+            localStorage.setItem('lw_user', JSON.stringify(data.user));
+
+            // Redirect
+            const redirect = getRedirectTarget();
+            if (redirect === 'admin' && data.user.role === 'admin') {
+                window.location.href = '/admin';
+            } else {
+                window.location.href = '/';
+            }
+        } else {
+            showError(data.detail || t.error_invalid);
+        }
+    } catch (err) {
+        showError(t.error_server);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = t.login;
+    }
+}
+
+// Check if already logged in
+async function checkExistingAuth() {
+    const token = localStorage.getItem('lw_token');
+    if (!token) return;
+
+    try {
+        const resp = await fetch('/api/auth/check', {
+            headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const data = await resp.json();
+        if (data.ok) {
+            // Already logged in, redirect
+            const redirect = getRedirectTarget();
+            if (redirect === 'admin' && data.user.role === 'admin') {
+                window.location.href = '/admin';
+            } else {
+                window.location.href = '/';
+            }
+        }
+    } catch (e) {
+        // Ignore errors, show login form
+    }
+}
+
+// Init
+applyLang();
+checkExistingAuth();
+document.getElementById('username').focus();
+</script>
+</body>
+</html>

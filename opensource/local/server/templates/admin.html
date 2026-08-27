@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>管理员后台 | Logo Wall Admin</title>
+<style>
+:root {
+    --primary: #1a1a2e; --primary-light: #16213e; --accent: #e94560;
+    --bg: #f0f2f5; --card: #fff; --text: #1a202c; --text-light: #718096;
+    --text-muted: #a0aec0; --border: #e2e8f0; --success: #38a169;
+    --danger: #e53e3e; --warning: #d69e2e; --info: #3182ce;
+    --radius: 10px; --shadow: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh;
+}
+
+/* Header */
+.topbar {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #fff; padding: 14px 28px; display: flex; align-items: center;
+    justify-content: space-between; box-shadow: var(--shadow-md); position: sticky; top: 0; z-index: 50;
+}
+.topbar h1 { font-size: 18px; font-weight: 700; }
+.topbar h1 .sub { font-size: 12px; font-weight: 400; opacity: 0.6; margin-left: 10px; }
+.topbar-actions { display: flex; gap: 10px; align-items: center; }
+.btn {
+    padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer;
+    font-size: 13px; font-weight: 500; transition: all 0.2s; display: inline-flex;
+    align-items: center; gap: 6px;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: #c73650; }
+.btn-light { background: rgba(255,255,255,0.15); color: #fff; }
+.btn-light:hover { background: rgba(255,255,255,0.25); }
+.btn-success { background: var(--success); color: #fff; }
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-danger:hover { background: #c53030; }
+.btn-outline { background: #fff; border: 1px solid var(--border); color: var(--text); }
+.btn-outline:hover { border-color: var(--primary); }
+.btn-sm { padding: 5px 10px; font-size: 12px; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Login */
+.login-wrap {
+    max-width: 380px; margin: 80px auto; background: var(--card);
+    border-radius: var(--radius); padding: 36px; box-shadow: var(--shadow-md);
+}
+.login-wrap h2 { font-size: 20px; margin-bottom: 6px; }
+.login-wrap p { color: var(--text-light); font-size: 13px; margin-bottom: 20px; }
+.login-wrap input {
+    width: 100%; padding: 10px 14px; border: 1px solid var(--border);
+    border-radius: 6px; font-size: 14px; margin-bottom: 14px;
+}
+.login-wrap input:focus { outline: none; border-color: var(--accent); }
+.login-wrap .btn { width: 100%; justify-content: center; padding: 10px; }
+.login-error { color: var(--danger); font-size: 13px; margin-bottom: 12px; }
+
+/* Layout */
+.container { max-width: 1400px; margin: 0 auto; padding: 24px 28px; }
+.stats-row { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+.stat-card {
+    background: var(--card); border-radius: var(--radius); padding: 18px 22px;
+    box-shadow: var(--shadow); flex: 1; min-width: 140px;
+}
+.stat-card .num { font-size: 28px; font-weight: 700; color: var(--primary); }
+.stat-card .label { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+.stat-card .sub { font-size: 11px; margin-top: 6px; font-weight: 600; min-height: 14px; }
+.stat-card.clickable { cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
+.stat-card.clickable:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+/* Toolbar */
+.toolbar {
+    background: var(--card); border-radius: var(--radius); padding: 14px 18px;
+    margin-bottom: 16px; display: flex; gap: 10px; align-items: center;
+    flex-wrap: wrap; box-shadow: var(--shadow);
+}
+.search-input {
+    padding: 8px 14px; border: 1px solid var(--border); border-radius: 6px;
+    font-size: 13px; width: 240px;
+}
+.search-input:focus { outline: none; border-color: var(--accent); }
+select.filter-select {
+    padding: 8px 28px 8px 12px; border: 1px solid var(--border); border-radius: 6px;
+    font-size: 13px; background: #fff; cursor: pointer;
+}
+
+/* Table */
+.table-wrap {
+    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    overflow: hidden;
+}
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead { background: #f7fafc; }
+th {
+    padding: 12px 14px; text-align: left; font-weight: 600; color: var(--text-light);
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border); white-space: nowrap;
+}
+th.sortable { cursor: pointer; user-select: none; }
+th.sortable:hover { color: var(--primary); }
+.sort-arrow { display: inline-block; margin-left: 4px; font-size: 10px; opacity: 0.3; }
+.sort-arrow::after { content: '▲▼'; }
+th.sort-asc .sort-arrow { opacity: 1; }
+th.sort-asc .sort-arrow::after { content: '▲'; }
+th.sort-desc .sort-arrow { opacity: 1; }
+th.sort-desc .sort-arrow::after { content: '▼'; }
+td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover { background: #f7fafc; }
+.logo-cell { width: 44px; }
+.logo-cell img { width: 40px; height: 40px; object-fit: contain; border-radius: 6px; background: #f7fafc; padding: 4px; }
+.logo-fallback-sm {
+    width: 40px; height: 40px; border-radius: 6px; display: flex; align-items: center;
+    justify-content: center; color: #fff; font-size: 13px; font-weight: 700;
+}
+.logo-missing-badge {
+    width: 40px; margin-top: 4px; text-align: center; font-size: 10px;
+    font-weight: 600; color: #c53030; background: rgba(229,62,62,0.1);
+    border-radius: 4px; padding: 1px 0;
+}
+.company-cell { font-weight: 500; max-width: 260px; }
+.company-cell .full { font-size: 12px; color: var(--text-light); font-weight: 400; margin-top: 2px; }
+.tag {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 11px; font-weight: 600; margin: 1px;
+}
+.tag-OOSG { background: rgba(79,70,229,0.1); color: #4f46e5; }
+.tag-OPLS { background: rgba(8,145,178,0.1); color: #0891b2; }
+.tag-OPCS { background: rgba(217,119,6,0.1); color: #d97706; }
+.owners-cell { font-size: 12px; color: var(--text-light); max-width: 160px; }
+.actions-cell { white-space: nowrap; text-align: right; }
+.empty-row { text-align: center; padding: 40px; color: var(--text-muted); }
+
+/* Modal */
+.modal-overlay {
+    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center;
+    padding: 20px;
+}
+.modal-overlay.show { display: flex; }
+.modal {
+    background: var(--card); border-radius: var(--radius); width: 100%; max-width: 640px;
+    max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.modal-header {
+    padding: 18px 24px; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #fff;
+}
+.modal-header h3 { font-size: 17px; }
+.modal-close {
+    width: 30px; height: 30px; border: none; background: none; font-size: 22px;
+    cursor: pointer; color: var(--text-light); border-radius: 6px;
+}
+.modal-close:hover { background: var(--bg); }
+.modal-body { padding: 20px 24px; }
+.modal-footer {
+    padding: 14px 24px; border-top: 1px solid var(--border);
+    display: flex; justify-content: flex-end; gap: 10px; position: sticky; bottom: 0; background: #fff;
+}
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 9px 12px; border: 1px solid var(--border);
+    border-radius: 6px; font-size: 14px; font-family: inherit;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(233,69,96,0.1);
+}
+.form-group .hint { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+.form-row { display: flex; gap: 14px; }
+.form-row .form-group { flex: 1; }
+
+/* Logo section in modal */
+.logo-section {
+    border: 1px dashed var(--border); border-radius: 8px; padding: 16px;
+    margin-bottom: 16px; background: #fafbfc;
+}
+.logo-preview {
+    width: 80px; height: 80px; object-fit: contain; border-radius: 8px;
+    background: #fff; border: 1px solid var(--border); padding: 8px;
+}
+.logo-preview-row { display: flex; gap: 16px; align-items: center; margin-bottom: 12px; }
+.logo-url-input { display: flex; gap: 8px; margin-bottom: 10px; }
+.logo-url-input input { flex: 1; }
+.logo-discover {
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px;
+}
+.discover-results {
+    display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;
+}
+.discover-item {
+    width: 72px; text-align: center; cursor: pointer; padding: 8px;
+    border: 2px solid var(--border); border-radius: 8px; transition: all 0.2s;
+}
+.discover-item:hover { border-color: var(--accent); transform: translateY(-2px); }
+.discover-item.selected { border-color: var(--accent); background: rgba(233,69,96,0.05); }
+.discover-item img { width: 48px; height: 48px; object-fit: contain; margin-bottom: 4px; }
+.discover-item .src { font-size: 10px; color: var(--text-light); }
+
+/* Toast */
+.toast {
+    position: fixed; bottom: 24px; right: 24px; background: var(--primary);
+    color: #fff; padding: 12px 20px; border-radius: 8px; box-shadow: var(--shadow-md);
+    font-size: 14px; z-index: 200; transform: translateY(100px); opacity: 0;
+    transition: all 0.3s;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.success { background: var(--success); }
+.toast.error { background: var(--danger); }
+
+/* Pagination */
+.pagination {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 18px; background: var(--card); border-top: 1px solid var(--border);
+    font-size: 13px; color: var(--text-light);
+}
+.pagination .pages { display: flex; gap: 4px; }
+.page-size-wrap { display: flex; align-items: center; gap: 6px; }
+.page-size-wrap select {
+    padding: 4px 8px; border: 1px solid var(--border); border-radius: 5px;
+    font-size: 12px; background: #fff; cursor: pointer;
+}
+.page-size-wrap select:focus { outline: none; border-color: var(--accent); }
+.page-btn {
+    padding: 5px 11px; border: 1px solid var(--border); background: #fff;
+    border-radius: 5px; cursor: pointer; font-size: 12px;
+}
+.page-btn:hover { border-color: var(--primary); }
+.page-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.spinner-sm {
+    display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== Logo Library Modal ===== */
+.logo-lib-body { padding: 0 !important; max-height: 70vh; display: flex; flex-direction: column; }
+.upload-zone {
+    margin: 20px 24px 0;
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    padding: 28px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #fafbfc;
+}
+.upload-zone:hover, .upload-zone.dragover {
+    border-color: var(--accent);
+    background: rgba(233,69,96,0.04);
+}
+.upload-zone .icon { font-size: 32px; margin-bottom: 8px; }
+.upload-zone .text { font-size: 14px; color: var(--text); font-weight: 500; }
+.upload-zone .hint { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+.upload-zone input { display: none; }
+
+.logo-lib-toolbar {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 24px; border-bottom: 1px solid var(--border);
+}
+.logo-lib-toolbar .search-input { width: 200px; }
+.logo-lib-count { font-size: 13px; color: var(--text-light); }
+
+.logo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+    padding: 18px 24px;
+    overflow-y: auto;
+    flex: 1;
+}
+.logo-grid-item {
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 8px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+.logo-grid-item:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+.logo-grid-item.selected {
+    border-color: var(--accent);
+    background: rgba(233,69,96,0.04);
+}
+.logo-grid-item img {
+    width: 64px; height: 64px; object-fit: contain;
+    margin-bottom: 6px; background: #f7fafc; border-radius: 4px; padding: 4px;
+}
+.logo-grid-item .logo-name {
+    font-size: 10px; color: var(--text-light);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.logo-grid-item .logo-used {
+    font-size: 10px; color: var(--success); margin-top: 2px;
+}
+.logo-grid-item .logo-delete {
+    position: absolute; top: 4px; right: 4px;
+    width: 20px; height: 20px; border: none; background: rgba(0,0,0,0.08);
+    border-radius: 50%; cursor: pointer; font-size: 12px; line-height: 1;
+    color: var(--text-light); display: none; align-items: center; justify-content: center;
+}
+.logo-grid-item:hover .logo-delete { display: flex; }
+.logo-grid-item .logo-delete:hover { background: var(--danger); color: #fff; }
+.logo-grid-empty {
+    grid-column: 1 / -1;
+    text-align: center; padding: 40px; color: var(--text-muted);
+}
+.upload-progress {
+    margin: 0 24px 12px; font-size: 12px; color: var(--text-light);
+}
+
+/* Logo Edit Panel */
+.logo-edit-panel {
+    display: flex; gap: 20px; padding: 20px 24px;
+}
+.logo-edit-preview {
+    flex: 0 0 160px; text-align: center;
+}
+.logo-edit-preview img {
+    width: 140px; height: 140px; object-fit: contain;
+    background: #f7fafc; border: 1px solid var(--border); border-radius: 8px; padding: 12px;
+}
+.logo-edit-preview .replace-btn {
+    margin-top: 10px; width: 100%;
+}
+.logo-edit-info { flex: 1; }
+.logo-edit-info .info-row {
+    display: flex; justify-content: space-between; padding: 6px 0;
+    border-bottom: 1px solid var(--border); font-size: 13px;
+}
+.logo-edit-info .info-row:last-child { border-bottom: none; }
+.logo-edit-info .info-label { color: var(--text-light); }
+.logo-edit-info .info-value { font-weight: 500; }
+.logo-edit-info .used-clients {
+    margin-top: 10px; font-size: 12px; color: var(--text-light);
+}
+.logo-edit-info .used-clients .client-tag {
+    display: inline-block; padding: 2px 8px; background: var(--bg);
+    border-radius: 4px; margin: 2px; font-size: 11px;
+}
+
+@media (max-width: 768px) {
+    .container { padding: 16px; }
+    .toolbar { flex-direction: column; align-items: stretch; }
+    .search-input { width: 100%; }
+    .form-row { flex-direction: column; gap: 0; }
+}
+</style>
+</head>
+<body>
+
+<div id="login-view">
+    <div class="login-wrap">
+        <h2 data-i18n="login_title">Logo Wall 管理员后台</h2>
+        <p data-i18n="login_sub">请输入管理员令牌以继续</p>
+        <div id="login-error" class="login-error" style="display:none"></div>
+        <input type="password" id="token-input" placeholder="管理员令牌（Admin Token）" autofocus data-i18n-placeholder="token_ph">
+        <button class="btn btn-primary" onclick="doLogin()" data-i18n="login">登录</button>
+        <p style="margin-top:16px;font-size:12px;color:var(--text-muted)" data-i18n="login_hint">
+            默认令牌：admin123（可通过环境变量 ADMIN_TOKEN 修改）
+        </p>
+        <button class="lang-toggle" onclick="toggleLang()" id="login-lang">EN</button>
+    </div>
+</div>
+
+<div id="app-view" style="display:none">
+    <div class="topbar">
+        <h1><span data-i18n="brand_title">客户品牌墙</span> <span class="sub" data-i18n="admin_panel">ADMIN PANEL</span></h1>
+        <div class="topbar-actions">
+            <a href="/" class="btn btn-light" target="_blank" rel="noopener" data-i18n="view_front">查看前台</a>
+            <button class="btn btn-light" onclick="openSettings()" data-i18n="site_settings">站点设置</button>
+            <button class="btn btn-light" onclick="openLogoLibrary()" data-i18n="logo_lib">Logo库</button>
+            <button class="btn btn-light" onclick="openUserManager()" data-i18n="user_mgmt">用户管理</button>
+            <button class="btn btn-light" onclick="exportExcel()" data-i18n="export_xlsx">导出Excel</button>
+            <button class="btn btn-light" onclick="document.getElementById('import-file').click()" data-i18n="import_xlsx">导入Excel</button>
+            <input type="file" id="import-file" accept=".xlsx,.xls" style="display:none">
+            <button class="btn btn-light" onclick="exportBackup()" data-i18n="export_backup">导出备份</button>
+            <button class="btn btn-light" onclick="document.getElementById('backup-file').click()" data-i18n="import_backup">导入备份</button>
+            <input type="file" id="backup-file" accept=".zip" style="display:none">
+            <button class="btn btn-primary" onclick="openAddModal()" data-i18n="add_client">+ 新增客户</button>
+            <button class="btn btn-light lang-toggle" onclick="toggleLang()" id="app-lang">EN</button>
+            <button class="btn btn-light" onclick="logout()" data-i18n="logout">退出</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="stats-row">
+            <div class="stat-card"><div class="num" id="stat-total">0</div><div class="label" data-i18n="stat_total">客户总数</div></div>
+            <div class="stat-card"><div class="num" id="stat-offices">0</div><div class="label" data-i18n="stat_offices">覆盖城市</div></div>
+            <div class="stat-card"><div class="num" id="stat-depts">0</div><div class="label" data-i18n="stat_depts">业务线</div></div>
+            <div class="stat-card"><div class="num" id="stat-owners">0</div><div class="label" data-i18n="stat_owners">负责人</div></div>
+            <div class="stat-card clickable" onclick="showMissingLogos()" title="点击查看未配 Logo 的客户" data-i18n-title="click_missing">
+                <div class="num" id="stat-logos">0</div>
+                <div class="label" data-i18n="stat_logos">已配Logo</div>
+                <div class="sub" id="stat-logos-missing"></div>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <input type="text" class="search-input" id="search" placeholder="搜索公司、负责人..." oninput="loadClients()" data-i18n-placeholder="search_ph">
+            <select class="filter-select" id="filter-office" onchange="loadClients()"><option value="all" data-i18n="all_city">全部城市</option></select>
+            <select class="filter-select" id="filter-region" onchange="loadClients()"><option value="all" data-i18n="all_region">全部区域</option></select>
+            <select class="filter-select" id="filter-dept" onchange="loadClients()"><option value="all" data-i18n="all_dept">全部业务线</option></select>
+            <select class="filter-select" id="filter-owner" onchange="loadClients()"><option value="all" data-i18n="all_owner">全部负责人</option></select>
+            <select class="filter-select" id="filter-logo" onchange="loadClients()">
+                <option value="all" data-i18n="logo_all">Logo：全部</option>
+                <option value="set" data-i18n="logo_set">Logo：已配</option>
+                <option value="missing" data-i18n="logo_missing">Logo：未配</option>
+            </select>
+            <div style="flex:1"></div>
+            <span style="font-size:13px;color:var(--text-light)"><span data-i18n="total_pre">共</span> <strong id="result-count">0</strong> <span data-i18n="total_post">条</span></span>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Logo</th>
+                        <th class="sortable" data-sort="brand" data-i18n="th_client">客户名称<span class="sort-arrow"></span></th>
+                        <th class="sortable" data-sort="region" data-i18n="th_region">区域<span class="sort-arrow"></span></th>
+                        <th class="sortable" data-sort="office_city" data-i18n="th_office">办公室<span class="sort-arrow"></span></th>
+                        <th class="sortable" data-sort="departments" data-i18n="th_dept">业务线<span class="sort-arrow"></span></th>
+                        <th class="sortable" data-sort="owners" data-i18n="th_owner">负责人<span class="sort-arrow"></span></th>
+                        <th style="text-align:right" data-i18n="th_action">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="client-tbody"></tbody>
+            </table>
+            <div class="pagination">
+                <span id="page-info"></span>
+                <div class="page-size-wrap">
+                    <span data-i18n="per_page_pre">每页</span>
+                    <select id="page-size" onchange="changePageSize(this.value)">
+                        <option value="15">15</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                    </select>
+                    <span data-i18n="per_page_post">条</span>
+                </div>
+                <div class="pages" id="page-buttons"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add/Edit Modal -->
+<div class="modal-overlay" id="client-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="modal-title" data-i18n="add_client">新增客户</h3>
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="edit-id">
+            <div class="form-group">
+                <label data-i18n="f_company">客户公司全称 *</label>
+                <input type="text" id="f-company" placeholder="如：灵犀科技（上海）有限公司（星辰通信）" data-i18n-placeholder="f_company_ph">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label data-i18n="f_office">办公室代码 *</label>
+                    <select id="f-office"></select>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="f_website">公司官网（可选，用于自动找Logo）</label>
+                    <input type="text" id="f-website" placeholder="如：www.example.com" data-i18n-placeholder="f_website_ph">
+                </div>
+            </div>
+            <div class="form-group">
+                <label data-i18n="f_depts">业务线（多个用分号分隔）</label>
+                <input type="text" id="f-depts" placeholder="如：OOSG；OPLS" data-i18n-placeholder="f_depts_ph">
+            </div>
+            <div class="form-group">
+                <label data-i18n="f_owners">业务负责人（多个用分号分隔）</label>
+                <input type="text" id="f-owners" placeholder="如：张三2026；李四2025" data-i18n-placeholder="f_owners_ph">
+            </div>
+            <div class="form-group">
+                <label data-i18n="f_description">公司简介（可选）</label>
+                <textarea id="f-description" rows="4" placeholder="输入公司简介，将在前台点击卡片时展示" data-i18n-placeholder="f_description_ph" style="width:100%;resize:vertical;font-family:inherit;font-size:13px;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text)"></textarea>
+            </div>
+
+            <div class="logo-section">
+                <label style="font-size:13px;font-weight:600;display:block;margin-bottom:10px" data-i18n="f_logo">品牌Logo</label>
+                <div class="logo-preview-row">
+                    <img class="logo-preview" id="f-logo-preview" src="" alt="" style="display:none">
+                    <div class="logo-fallback-sm" id="f-logo-fallback" style="width:80px;height:80px;font-size:18px">?</div>
+                    <div>
+                        <div style="font-size:12px;color:var(--text-light)" data-i18n="f_logo_tip1">支持三种方式设置Logo：</div>
+                        <div style="font-size:12px;color:var(--text-light)" data-i18n="f_logo_tip2">1. 输入图片URL；2. 自动抓取；3. 本地上传</div>
+                    </div>
+                </div>
+                <div class="logo-url-input">
+                    <input type="text" id="f-logo-url" placeholder="Logo图片URL（粘贴后点应用）" data-i18n-placeholder="f_logo_url_ph">
+                    <button class="btn btn-outline btn-sm" onclick="applyLogoUrl()" data-i18n="apply">应用</button>
+                </div>
+                <div class="logo-discover">
+                    <button class="btn btn-outline btn-sm" onclick="discoverLogo()">
+                        <span id="discover-spinner" style="display:none" class="spinner-sm"></span>
+                        <span data-i18n="auto_fetch">自动抓取Logo</span>
+                    </button>
+                    <button class="btn btn-outline btn-sm" onclick="document.getElementById('f-logo-upload').click()" data-i18n="upload_local">本地上传</button>
+                    <button class="btn btn-outline btn-sm" onclick="openLogoLibraryForClient()" data-i18n="from_lib">从Logo库选择</button>
+                    <input type="file" id="f-logo-upload" accept="image/*" style="display:none">
+                </div>
+                <div class="discover-results" id="discover-results"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeModal()" data-i18n="cancel">取消</button>
+            <button class="btn btn-primary" id="save-btn" onclick="saveClient()" data-i18n="save">保存</button>
+        </div>
+    </div>
+</div>
+
+<!-- Logo Library Modal -->
+<div class="modal-overlay" id="logo-lib-modal">
+    <div class="modal" style="max-width:720px">
+        <div class="modal-header">
+            <h3 data-i18n="logo_lib_title">Logo 图片库</h3>
+            <button class="modal-close" onclick="closeLogoLibrary()">&times;</button>
+        </div>
+        <div class="modal-body logo-lib-body">
+            <div class="upload-zone" id="upload-zone">
+                <div class="icon">📁</div>
+                <div class="text" data-i18n="upload_zone_text">点击或拖拽Logo图片到此处上传</div>
+                <div class="hint" data-i18n="upload_zone_hint">支持 PNG / JPG / SVG / WebP，单个最大5MB，可多文件</div>
+                <input type="file" id="lib-upload-input" accept="image/*" multiple>
+            </div>
+            <div class="upload-progress" id="upload-progress" style="display:none"></div>
+
+            <!-- Logo Edit Panel (hidden by default) -->
+            <div id="logo-edit-section" style="display:none">
+                <div class="logo-edit-panel">
+                    <div class="logo-edit-preview">
+                        <img id="edit-logo-img" src="" alt="">
+                        <button class="btn btn-outline btn-sm replace-btn" onclick="document.getElementById('replace-logo-input').click()" data-i18n="replace_img">替换图片</button>
+                        <input type="file" id="replace-logo-input" accept="image/*" style="display:none">
+                    </div>
+                    <div class="logo-edit-info">
+                        <div class="info-row"><span class="info-label" data-i18n="info_filename">文件名</span><span class="info-value" id="edit-logo-name"></span></div>
+                        <div class="info-row"><span class="info-label" data-i18n="info_size">文件大小</span><span class="info-value" id="edit-logo-size"></span></div>
+                        <div class="info-row"><span class="info-label" data-i18n="info_used">引用客户数</span><span class="info-value" id="edit-logo-used-count"></span></div>
+                        <div class="used-clients" id="edit-logo-clients"></div>
+                        <div style="margin-top:14px;display:flex;gap:8px">
+                            <button class="btn btn-danger btn-sm" id="edit-logo-delete-btn" onclick="deleteEditLogo()" data-i18n="delete_logo">删除此Logo</button>
+                            <button class="btn btn-outline btn-sm" onclick="closeLogoEdit()" data-i18n="back_list">返回列表</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="logo-lib-toolbar">
+                <input type="text" class="search-input" id="lib-search" placeholder="搜索文件名..." oninput="filterLogoGrid()" data-i18n-placeholder="search_filename">
+                <span class="logo-lib-count" id="lib-count-wrap"><span data-i18n="total_logos_pre">共</span> <strong id="lib-count">0</strong> <span data-i18n="total_logos_post">个Logo</span></span>
+            </div>
+            <div class="logo-grid" id="logo-grid"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeLogoLibrary()" data-i18n="close">关闭</button>
+        </div>
+    </div>
+</div>
+
+<!-- Site Settings Modal -->
+<div class="modal-overlay" id="settings-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 data-i18n="settings_title">站点设置</h3>
+            <button class="modal-close" onclick="closeSettings()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label data-i18n="s_title">主标题</label>
+                <input type="text" id="s-title" placeholder="如：客户品牌墙" data-i18n-placeholder="s_title_ph">
+            </div>
+            <div class="form-group">
+                <label data-i18n="s_title_en">英文副标题</label>
+                <input type="text" id="s-title-en" placeholder="如：CLIENT LOGO WALL" data-i18n-placeholder="s_title_en_ph">
+            </div>
+            <div class="form-group">
+                <label data-i18n="s_tagline">标语</label>
+                <input type="text" id="s-tagline">
+            </div>
+            <div class="form-group">
+                <label data-i18n="s_tagline_en">英文标语（EN 模式显示）</label>
+                <input type="text" id="s-tagline-en">
+            </div>
+            <div class="form-group">
+                <label data-i18n="s_footer">页脚文字</label>
+                <input type="text" id="s-footer">
+            </div>
+            <div class="form-group">
+                <label data-i18n="s_footer_en">英文页脚（EN 模式显示）</label>
+                <input type="text" id="s-footer-en">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label data-i18n="s_theme">默认主题</label>
+                    <select id="s-theme"></select>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="s_pattern">背景纹理</label>
+                    <select id="s-pattern"></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label style="display:flex;align-items:center;gap:8px;font-weight:400">
+                    <input type="checkbox" id="s-use-custom" style="width:auto">
+                    <span data-i18n="s_custom_toggle">启用自定义配色（覆盖所选主题的主色/强调色）</span>
+                </label>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label data-i18n="s_primary">自定义主色</label>
+                    <input type="color" id="s-primary" value="#1a1a2e">
+                </div>
+                <div class="form-group">
+                    <label data-i18n="s_accent">自定义强调色</label>
+                    <input type="color" id="s-accent" value="#e94560">
+                </div>
+            </div>
+            <p class="hint" style="font-size:12px;color:var(--text-light)" data-i18n="s_hint">保存后前台刷新即生效；访客仍可在前台用调色盘按钮做个人预览。</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeSettings()" data-i18n="cancel">取消</button>
+            <button class="btn btn-primary" onclick="saveSettings()" data-i18n="save">保存</button>
+        </div>
+    </div>
+</div>
+
+<!-- User Management Modal -->
+<div class="modal-overlay" id="users-modal">
+    <div class="modal" style="max-width:700px">
+        <div class="modal-header">
+            <h3 data-i18n="users_title">用户管理</h3>
+            <button class="modal-close" onclick="closeUsers()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                <p style="font-size:13px;color:var(--text-light)" data-i18n="users_desc">管理可以访问品牌墙的用户账户</p>
+                <button class="btn btn-primary btn-sm" onclick="showAddUser()" data-i18n="add_user">+ 添加用户</button>
+            </div>
+            <div id="users-list" style="border:1px solid var(--border);border-radius:8px;overflow:hidden">
+                <div style="padding:20px;text-align:center;color:var(--text-light)" data-i18n="loading">加载中...</div>
+            </div>
+            <!-- Add/Edit User Form -->
+            <div id="user-form" style="display:none;margin-top:20px;padding:16px;background:var(--bg);border-radius:8px">
+                <h4 id="user-form-title" style="margin-bottom:12px;font-size:15px" data-i18n="add_user">添加用户</h4>
+                <input type="hidden" id="u-edit-mode" value="add">
+                <input type="hidden" id="u-orig-username" value="">
+                <div class="form-row">
+                    <div class="form-group" style="flex:1">
+                        <label data-i18n="u_username">用户名</label>
+                        <input type="text" id="u-username" placeholder="如：zhangsan">
+                    </div>
+                    <div class="form-group" style="flex:1">
+                        <label data-i18n="u_display_name">显示名称</label>
+                        <input type="text" id="u-display-name" placeholder="如：张三">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex:1">
+                        <label data-i18n="u_password">密码</label>
+                        <input type="password" id="u-password" placeholder="至少4个字符">
+                    </div>
+                    <div class="form-group" style="flex:1">
+                        <label data-i18n="u_role">角色</label>
+                        <select id="u-role">
+                            <option value="viewer" data-i18n="role_viewer">访客（仅查看展示页）</option>
+                            <option value="admin" data-i18n="role_admin">管理员（完全访问）</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+                    <button class="btn btn-outline" onclick="hideUserForm()" data-i18n="cancel">取消</button>
+                    <button class="btn btn-primary" onclick="saveUser()" data-i18n="save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = '/api';
+let token = localStorage.getItem('lw_token') || '';
+let currentLogoUrl = '';
+let page = 1;
+let pageSize = parseInt(localStorage.getItem('lw_page_size'), 10) || 15;
+let filters = { q: '', office: 'all', dept: 'all', owner: 'all', logo: 'all' };
+let sortField = '';
+let sortDir = ''; // 'asc' or 'desc' or ''
+
+// Cache-bust local logo files so replaced/updated images show immediately;
+// external URLs (e.g. DuckDuckGo icons) must stay as-is because they
+// return a placeholder when given an unexpected query string.
+// Local files are served behind auth, so <img> tags (which can't send
+// headers) must carry the token as a query parameter.
+function logoImgUrl(url) {
+    if (!url) return '';
+    if (/^https?:\/\//i.test(url)) return url;
+    let u = '/' + url.replace(/^\/+/, '') + '?t=' + Date.now();
+    if (token) u += '&token=' + encodeURIComponent(token);
+    return u;
+}
+
+// ---- i18n ----
+const I18N = {
+    zh: {
+        login_title: 'Logo Wall 管理员后台',
+        login_sub: '请输入管理员令牌以继续',
+        token_ph: '管理员令牌（Admin Token）',
+        login: '登录',
+        login_hint: '默认令牌：admin123（可通过环境变量 ADMIN_TOKEN 修改）',
+        token_invalid: '令牌无效，请重试',
+        brand_title: '客户品牌墙',
+        admin_panel: 'ADMIN PANEL',
+        view_front: '查看前台',
+        site_settings: '站点设置',
+        logo_lib: 'Logo库',
+        user_mgmt: '用户管理',
+        export_xlsx: '导出Excel',
+        import_xlsx: '导入Excel',
+        export_backup: '导出备份',
+        import_backup: '导入备份',
+        add_client: '+ 新增客户',
+        logout: '退出',
+        stat_total: '客户总数', stat_offices: '覆盖城市', stat_depts: '业务线',
+        stat_owners: '负责人', stat_logos: '已配Logo',
+        click_missing: '点击查看未配 Logo 的客户',
+        missing_count: (n) => n + ' 未配 · 点击查看',
+        all_matched: '全部已配置',
+        search_ph: '搜索公司、负责人...',
+        all_city: '全部城市', all_region: '全部区域', all_dept: '全部业务线',
+        all_owner: '全部负责人',
+        logo_all: 'Logo：全部', logo_set: 'Logo：已配', logo_missing: 'Logo：未配',
+        total_pre: '共', total_post: '条',
+        th_client: '客户名称', th_region: '区域', th_office: '办公室',
+        th_dept: '业务线', th_owner: '负责人', th_action: '操作',
+        no_match: '没有匹配的客户',
+        per_page_pre: '每页', per_page_post: '条',
+        prev_page: '上一页', next_page: '下一页',
+        missing_badge: '未配',
+        cancel: '取消', save: '保存', apply: '应用',
+        add_client_title: '新增客户', edit_client_title: '编辑客户',
+        f_company: '客户公司全称 *', f_company_ph: '如：灵犀科技（上海）有限公司（星辰通信）',
+        f_office: '办公室代码 *', f_website: '公司官网（可选，用于自动找Logo）',
+        f_website_ph: '如：www.example.com',
+        f_depts: '业务线（多个用分号分隔）', f_depts_ph: '如：OOSG；OPLS',
+        f_owners: '业务负责人（多个用分号分隔）', f_owners_ph: '如：张三2026；李四2025',
+        f_description: '公司简介（可选）', f_description_ph: '输入公司简介，将在前台点击卡片时展示',
+        f_logo: '品牌Logo', f_logo_tip1: '支持三种方式设置Logo：',
+        f_logo_tip2: '1. 输入图片URL；2. 自动抓取；3. 本地上传',
+        f_logo_url_ph: 'Logo图片URL（粘贴后点应用）',
+        auto_fetch: '自动抓取Logo', upload_local: '本地上传', from_lib: '从Logo库选择',
+        logo_lib_title: 'Logo 图片库', upload_zone_text: '点击或拖拽Logo图片到此处上传',
+        upload_zone_hint: '支持 PNG / JPG / SVG / WebP，单个最大5MB，可多文件',
+        info_filename: '文件名', info_size: '文件大小', info_used: '引用客户数',
+        close: '关闭', replace_img: '替换图片', delete_logo: '删除此Logo',
+        back_list: '返回列表', search_filename: '搜索文件名...', total_logos_pre: '共', total_logos_post: '个Logo',
+        settings_title: '站点设置',
+        s_title: '主标题', s_title_ph: '如：客户品牌墙',
+        s_title_en: '英文副标题', s_title_en_ph: '如：CLIENT LOGO WALL',
+        s_tagline: '标语', s_tagline_en: '英文标语（EN 模式显示）',
+        s_footer: '页脚文字', s_footer_en: '英文页脚（EN 模式显示）',
+        s_theme: '默认主题', s_pattern: '背景纹理',
+        s_custom_toggle: '启用自定义配色（覆盖所选主题的主色/强调色）',
+        s_primary: '自定义主色', s_accent: '自定义强调色',
+        s_hint: '保存后前台刷新即生效；访客仍可在前台用调色盘按钮做个人预览。',
+        toast_saved: '站点设置已保存，前台刷新后生效', toast_fail: '保存失败：',
+        confirm_delete: '确定删除该客户？',
+        page_info: (p, t, n) => `第 ${p}/${t} 页，共 ${n} 条`,
+        lib_count: (n) => `共 ${n} 个Logo`,
+        import_hint: '导入完成，请刷新页面',
+        admin_title: '管理员后台 | Logo Wall Admin',
+        edit: '编辑', delete: '删除',
+        new_client: '新客户',
+        theme_classic: '经典深蓝', theme_gold: '商务金', theme_violet: '科技紫',
+        theme_orange: '活力橙', theme_green: '松石绿',
+        pattern_none: '纯净', pattern_dots: '点阵', pattern_grid: '网格', pattern_glow: '光晕',
+        need_company_or_website: '请先填写公司名称或官网',
+        searching: '正在搜索...',
+        discover_empty: '未找到可用Logo，请手动上传或输入URL',
+        search_fail: '搜索失败：',
+        logo_upload_ok: 'Logo上传成功',
+        upload_fail: '上传失败：',
+        need_company: '请填写公司名称',
+        saving: '保存中...',
+        saved_updated: '已更新', saved_added: '已新增',
+        save_fail: '保存失败：',
+        confirm_delete_client: '确定删除此客户？此操作不可撤销。',
+        deleted: '已删除',
+        delete_fail: '删除失败',
+        delete_fail_msg: (m) => '删除失败: ' + m,
+        confirm_import: '导入的客户将追加到现有数据中，是否继续？',
+        import_ok: (n, m) => `成功导入 ${n} 条记录（${m} 个自动匹配Logo）`,
+        import_fail: '导入失败',
+        export_fail: '导出失败',
+        confirm_backup_export: '将导出全部数据（客户数据 + Logo 图片 + 用户账户）为 zip 备份文件，是否继续？',
+        backup_export_ok: '备份已导出',
+        backup_export_fail: '备份导出失败',
+        confirm_backup_import: '导入备份将用备份文件中的数据覆盖现有客户数据与用户账户，Logo 文件合并覆盖，是否继续？',
+        backup_import_ok: (n, m) => `备份导入成功：${n} 条记录，${m} 个Logo`,
+        backup_import_fail: '备份导入失败：',
+        loading: '加载中...',
+        load_fail: '加载失败: ',
+        lib_empty: 'Logo库为空，请上传图片',
+        used_by: '已用: ',
+        used_count: (n) => n + ' 个客户',
+        used_by_label: '使用此Logo的客户：',
+        no_client_uses: '暂无客户使用此Logo',
+        load_logo_info_fail: '加载Logo信息失败',
+        confirm_delete_logo: '确定删除此Logo文件？此操作不可恢复。',
+        confirm_delete_logo_used: '确定删除此Logo文件？（已被客户使用的无法删除）',
+        logo_replaced: 'Logo已替换',
+        replace_fail: '替换失败',
+        logo_url_copied: (u) => 'Logo URL已复制到剪贴板: ' + u,
+        logo_path: (u) => 'Logo路径: ' + u,
+        logo_applied: 'Logo已应用',
+        apply_fail: '应用失败',
+        save_client_first: '请先保存客户后再从Logo库选择',
+        uploading_files: (n) => `正在上传 ${n} 个文件...`,
+        upload_done: (n) => `上传完成: ${n} 个成功`,
+        uploaded_count: (n) => `成功上传 ${n} 个Logo`,
+        upload_fail_short: '上传失败',
+        upload_fail_msg: (m) => '上传失败: ' + m,
+        users_title: '用户管理',
+        users_desc: '管理可以访问品牌墙的用户账户',
+        add_user: '+ 添加用户',
+        edit_user: '编辑用户',
+        users_empty: '暂无用户',
+        u_username: '用户名',
+        u_display_name: '显示名称',
+        u_password: '密码',
+        u_role: '角色',
+        role_viewer: '访客（仅查看展示页）',
+        role_admin: '管理员（完全访问）',
+        role_viewer_short: '访客',
+        role_admin_short: '管理员',
+        need_username: '请填写用户名',
+        need_password: '请填写密码',
+        password_short: '密码至少4个字符',
+        confirm_delete_user: (u) => `确定删除用户 "${u}"？`,
+        actions: '操作',
+    },
+    en: {
+        login_title: 'Logo Wall Admin',
+        login_sub: 'Enter the admin token to continue',
+        token_ph: 'Admin Token',
+        login: 'Sign in',
+        login_hint: 'Default token: admin123 (set ADMIN_TOKEN env to change)',
+        token_invalid: 'Invalid token, please retry',
+        brand_title: 'Client Logo Wall',
+        admin_panel: 'ADMIN PANEL',
+        view_front: 'View site',
+        site_settings: 'Site settings',
+        logo_lib: 'Logo library',
+        user_mgmt: 'User management',
+        export_xlsx: 'Export Excel',
+        import_xlsx: 'Import Excel',
+        export_backup: 'Export backup',
+        import_backup: 'Import backup',
+        add_client: '+ Add client',
+        logout: 'Sign out',
+        stat_total: 'Total clients', stat_offices: 'Cities', stat_depts: 'Business lines',
+        stat_owners: 'Owners', stat_logos: 'With logo',
+        click_missing: 'Click to list clients without a logo',
+        missing_count: (n) => n + ' missing · click to view',
+        all_matched: 'All matched',
+        search_ph: 'Search clients, owners...',
+        all_city: 'All cities', all_region: 'All regions', all_dept: 'All business lines',
+        all_owner: 'All owners',
+        logo_all: 'Logo: all', logo_set: 'Logo: set', logo_missing: 'Logo: missing',
+        total_pre: '', total_post: 'records',
+        th_client: 'Client', th_region: 'Region', th_office: 'Office',
+        th_dept: 'Business line', th_owner: 'Owner', th_action: 'Actions',
+        no_match: 'No matching clients',
+        per_page_pre: 'Per page', per_page_post: '',
+        prev_page: 'Prev', next_page: 'Next',
+        missing_badge: 'No logo',
+        cancel: 'Cancel', save: 'Save', apply: 'Apply',
+        add_client_title: 'Add client', edit_client_title: 'Edit client',
+        f_company: 'Full company name *', f_company_ph: 'e.g. Acme Inc.',
+        f_office: 'Office code *', f_website: 'Website (optional, used for logo discovery)',
+        f_website_ph: 'e.g. www.example.com',
+        f_depts: 'Business lines (semicolon-separated)', f_depts_ph: 'e.g. OOSG;OPLS',
+        f_owners: 'Owners (semicolon-separated)', f_owners_ph: 'e.g. John;Jane',
+        f_description: 'Company profile (optional)', f_description_ph: 'Enter company profile, shown when clicking the card on front page',
+        f_logo: 'Brand logo', f_logo_tip1: 'Set a logo in one of three ways:',
+        f_logo_tip2: '1. Paste image URL; 2. Auto-discover; 3. Upload',
+        f_logo_url_ph: 'Logo image URL (paste, then Apply)',
+        auto_fetch: 'Auto-discover logo', upload_local: 'Upload', from_lib: 'Pick from library',
+        logo_lib_title: 'Logo Library', upload_zone_text: 'Click or drop logo images to upload',
+        upload_zone_hint: 'PNG / JPG / SVG / WebP, up to 5MB each, multiple files OK',
+        info_filename: 'Filename', info_size: 'Size', info_used: 'Used by',
+        close: 'Close', replace_img: 'Replace image', delete_logo: 'Delete this logo',
+        back_list: 'Back to list', search_filename: 'Search filename...',
+        total_logos_pre: '', total_logos_post: 'logos',
+        settings_title: 'Site settings',
+        s_title: 'Main title', s_title_ph: 'e.g. Client Logo Wall',
+        s_title_en: 'English subtitle', s_title_en_ph: 'e.g. CLIENT LOGO WALL',
+        s_tagline: 'Tagline', s_tagline_en: 'English tagline (shown in EN mode)',
+        s_footer: 'Footer text', s_footer_en: 'English footer (shown in EN mode)',
+        s_theme: 'Default theme', s_pattern: 'Background',
+        s_custom_toggle: 'Enable custom colors (override theme primary/accent)',
+        s_primary: 'Custom primary', s_accent: 'Custom accent',
+        s_hint: 'Takes effect on the front-end after refresh. Visitors can still preview themes via the palette button.',
+        toast_saved: 'Settings saved. Refresh the front-end to see changes.', toast_fail: 'Save failed: ',
+        confirm_delete: 'Delete this client?',
+        page_info: (p, t, n) => `Page ${p}/${t}, ${n} records`,
+        lib_count: (n) => `${n} logos`,
+        import_hint: 'Import done, please refresh',
+        admin_title: 'Admin Panel | Logo Wall Admin',
+        edit: 'Edit', delete: 'Delete',
+        new_client: 'New client',
+        theme_classic: 'Classic Navy', theme_gold: 'Business Gold', theme_violet: 'Tech Violet',
+        theme_orange: 'Vivid Orange', theme_green: 'Jade Green',
+        pattern_none: 'Plain', pattern_dots: 'Dots', pattern_grid: 'Grid', pattern_glow: 'Glow',
+        need_company_or_website: 'Enter a company name or website first',
+        searching: 'Searching...',
+        discover_empty: 'No usable logo found. Upload manually or enter a URL',
+        search_fail: 'Search failed: ',
+        logo_upload_ok: 'Logo uploaded',
+        upload_fail: 'Upload failed: ',
+        need_company: 'Enter the company name',
+        saving: 'Saving...',
+        saved_updated: 'Updated', saved_added: 'Added',
+        save_fail: 'Save failed: ',
+        confirm_delete_client: 'Delete this client? This cannot be undone.',
+        deleted: 'Deleted',
+        delete_fail: 'Delete failed',
+        delete_fail_msg: (m) => 'Delete failed: ' + m,
+        confirm_import: 'Imported clients will be appended to existing data. Continue?',
+        import_ok: (n, m) => `Imported ${n} records (${m} logos auto-matched)`,
+        import_fail: 'Import failed',
+        export_fail: 'Export failed',
+        confirm_backup_export: 'Export the full dataset (clients + logo images + user accounts) as a zip backup?',
+        backup_export_ok: 'Backup exported',
+        backup_export_fail: 'Backup export failed',
+        confirm_backup_import: 'Importing a backup will replace existing client data and user accounts; logo files are merged. Continue?',
+        backup_import_ok: (n, m) => `Backup imported: ${n} records, ${m} logos`,
+        backup_import_fail: 'Backup import failed: ',
+        loading: 'Loading...',
+        load_fail: 'Load failed: ',
+        lib_empty: 'Logo library is empty. Upload images',
+        used_by: 'Used by: ',
+        used_count: (n) => n + ' client(s)',
+        used_by_label: 'Clients using this logo:',
+        no_client_uses: 'No clients use this logo',
+        load_logo_info_fail: 'Failed to load logo info',
+        confirm_delete_logo: 'Delete this logo file? This cannot be undone.',
+        confirm_delete_logo_used: 'Delete this logo file? (Logos in use cannot be deleted)',
+        logo_replaced: 'Logo replaced',
+        replace_fail: 'Replace failed',
+        logo_url_copied: (u) => 'Logo URL copied to clipboard: ' + u,
+        logo_path: (u) => 'Logo path: ' + u,
+        logo_applied: 'Logo applied',
+        apply_fail: 'Apply failed',
+        save_client_first: 'Save the client first, then pick from the logo library',
+        uploading_files: (n) => `Uploading ${n} file(s)...`,
+        upload_done: (n) => `Upload done: ${n} succeeded`,
+        uploaded_count: (n) => `Uploaded ${n} logos`,
+        upload_fail_short: 'Upload failed',
+        upload_fail_msg: (m) => 'Upload failed: ' + m,
+        users_title: 'User Management',
+        users_desc: 'Manage user accounts that can access the logo wall',
+        add_user: '+ Add User',
+        edit_user: 'Edit User',
+        users_empty: 'No users yet',
+        u_username: 'Username',
+        u_display_name: 'Display Name',
+        u_password: 'Password',
+        u_role: 'Role',
+        role_viewer: 'Viewer (display page only)',
+        role_admin: 'Admin (full access)',
+        role_viewer_short: 'Viewer',
+        role_admin_short: 'Admin',
+        need_username: 'Please enter username',
+        need_password: 'Please enter password',
+        password_short: 'Password must be at least 4 characters',
+        confirm_delete_user: (u) => `Delete user "${u}"?`,
+        actions: 'Actions',
+    },
+};
+let lang = localStorage.getItem('lw_admin_lang') || localStorage.getItem('lw_lang') || 'zh';
+function t(key) {
+    const dict = I18N[lang] || I18N.zh;
+    return (key in dict) ? dict[key] : (I18N.zh[key] || key);
+}
+function applyLang() {
+    document.documentElement.lang = (lang === 'zh') ? 'zh-CN' : 'en';
+    document.title = t('admin_title');
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        // For sortable th, preserve the sort-arrow span
+        const arrow = el.querySelector('.sort-arrow');
+        el.textContent = t(el.getAttribute('data-i18n'));
+        if (arrow) el.appendChild(arrow);
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
+    });
+    document.querySelectorAll('[data-i18n-title]').forEach(el => {
+        el.title = t(el.getAttribute('data-i18n-title'));
+    });
+    document.getElementById('login-lang').textContent = (lang === 'zh') ? 'EN' : '中文';
+    document.getElementById('app-lang').textContent = (lang === 'zh') ? 'EN' : '中文';
+    // Re-render dynamic pieces that carry visible text
+    if (document.getElementById('app-view').style.display !== 'none') {
+        loadClients();
+    }
+}
+function toggleLang() {
+    lang = (lang === 'zh') ? 'en' : 'zh';
+    localStorage.setItem('lw_admin_lang', lang);
+    applyLang();
+}
+
+// ---- Auth ----
+function doLogin() {
+    const t = document.getElementById('token-input').value.trim();
+    if (!t) return;
+    fetch(API + '/auth/check', { headers: { Authorization: 'Bearer ' + t } })
+        .then(r => r.json())
+        .then(d => {
+            if (d.ok) {
+                token = t;
+                localStorage.setItem('lw_token', token);
+                showApp();
+            } else {
+                const el = document.getElementById('login-error');
+                el.textContent = t('token_invalid');
+                el.style.display = 'block';
+            }
+        });
+}
+document.getElementById('token-input').addEventListener('keypress', e => {
+    if (e.key === 'Enter') doLogin();
+});
+function logout() {
+    localStorage.removeItem('lw_token');
+    token = '';
+    document.getElementById('app-view').style.display = 'none';
+    document.getElementById('login-view').style.display = 'block';
+}
+function showApp() {
+    document.getElementById('login-view').style.display = 'none';
+    document.getElementById('app-view').style.display = 'block';
+    applyLang();
+    const psSel = document.getElementById('page-size');
+    if (![...psSel.options].some(o => o.value === String(pageSize))) pageSize = 15;
+    psSel.value = String(pageSize);
+    initFilters();
+    loadClients();
+}
+function apiHeaders() {
+    return { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token };
+}
+// Auth header for GET/read requests (no Content-Type needed)
+function authHeaders() {
+    return token ? { Authorization: 'Bearer ' + token } : {};
+}
+
+// ---- Init ----
+async function initFilters() {
+    const r = await fetch(API + '/filters', { headers: authHeaders() }).then(r => r.json());
+    const officeSel = document.getElementById('filter-office');
+    r.offices.forEach(o => officeSel.add(new Option(o, o)));
+    const regionSel = document.getElementById('filter-region');
+    (r.regions || []).forEach(reg => regionSel.add(new Option(reg, reg)));
+    const deptSel = document.getElementById('filter-dept');
+    r.departments.forEach(d => deptSel.add(new Option(d, d)));
+    const ownerSel = document.getElementById('filter-owner');
+    r.owners.forEach(o => ownerSel.add(new Option(o, o)));
+
+    // Office select in modal
+    const fOffice = document.getElementById('f-office');
+    Object.entries(r.office_codes).forEach(([code, city]) => {
+        fOffice.add(new Option(`${city} (${code})`, code));
+    });
+}
+
+// ---- List ----
+async function loadClients() {
+    filters.q = document.getElementById('search').value.trim();
+    filters.office = document.getElementById('filter-office').value;
+    filters.region = document.getElementById('filter-region').value;
+    filters.dept = document.getElementById('filter-dept').value;
+    filters.owner = document.getElementById('filter-owner').value;
+    filters.logo = document.getElementById('filter-logo').value;
+
+    const params = new URLSearchParams();
+    if (filters.q) params.set('q', filters.q);
+    if (filters.office !== 'all') params.set('office', filters.office);
+    if (filters.region && filters.region !== 'all') params.set('region', filters.region);
+    if (filters.dept !== 'all') params.set('dept', filters.dept);
+    if (filters.owner !== 'all') params.set('owner', filters.owner);
+
+    const data = await fetch(API + '/clients?' + params, { headers: authHeaders() }).then(r => r.json());
+    let records = data.records;
+    // Client-side logo status filter
+    if (filters.logo === 'missing') records = records.filter(r => !r.logo_url);
+    else if (filters.logo === 'set') records = records.filter(r => !!r.logo_url);
+
+    // Client-side sorting
+    if (sortField && sortDir) {
+        records.sort((a, b) => {
+            let va, vb;
+            if (sortField === 'departments' || sortField === 'owners') {
+                va = (a[sortField] || []).join(' ');
+                vb = (b[sortField] || []).join(' ');
+            } else {
+                va = a[sortField] || '';
+                vb = b[sortField] || '';
+            }
+            if (typeof va === 'string') va = va.toLowerCase();
+            if (typeof vb === 'string') vb = vb.toLowerCase();
+            if (va < vb) return sortDir === 'asc' ? -1 : 1;
+            if (va > vb) return sortDir === 'asc' ? 1 : -1;
+            return 0;
+        });
+    }
+
+    document.getElementById('result-count').textContent = records.length;
+
+    // Stats from full dataset
+    const all = await fetch(API + '/clients', { headers: authHeaders() }).then(r => r.json());
+    document.getElementById('stat-total').textContent = all.total;
+    document.getElementById('stat-offices').textContent = new Set(all.records.map(r => r.office_city)).size;
+    document.getElementById('stat-depts').textContent = new Set(all.records.flatMap(r => r.departments || [])).size;
+    document.getElementById('stat-owners').textContent = new Set(all.records.flatMap(r => r.owners || [])).size;
+    const withLogo = all.records.filter(r => r.logo_url).length;
+    const missingLogo = all.total - withLogo;
+    document.getElementById('stat-logos').textContent = withLogo;
+    const missingEl = document.getElementById('stat-logos-missing');
+    if (missingLogo > 0) {
+        missingEl.textContent = t('missing_count')(missingLogo);
+        missingEl.style.color = '#c53030';
+    } else {
+        missingEl.textContent = t('all_matched');
+        missingEl.style.color = 'var(--success)';
+    }
+
+    // Pagination
+    const totalPages = Math.ceil(records.length / pageSize) || 1;
+    if (page > totalPages) page = totalPages;
+    const slice = records.slice((page-1)*pageSize, page*pageSize);
+
+    const tbody = document.getElementById('client-tbody');
+    if (slice.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="empty-row">${t('no_match')}</td></tr>`;
+    } else {
+        tbody.innerHTML = slice.map(renderRow).join('');
+    }
+    document.getElementById('page-info').textContent = t('page_info')(page, totalPages, records.length);
+    renderPagination(totalPages);
+}
+
+function changePageSize(v) {
+    pageSize = parseInt(v, 10) || 15;
+    localStorage.setItem('lw_page_size', String(pageSize));
+    page = 1;
+    loadClients();
+}
+
+// Click the "已配Logo" stat card to list clients without a logo
+function showMissingLogos() {
+    document.getElementById('filter-logo').value = 'missing';
+    page = 1;
+    loadClients();
+}
+
+function renderRow(r) {
+    const logoSrc = logoImgUrl(r.logo_url);
+    const logo = r.logo_url
+        ? `<img src="${logoSrc}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+           <div class="logo-fallback-sm" style="background:${r.color};display:none">${(r.brand||'?').substring(0,2)}</div>`
+        : `<div class="logo-fallback-sm" style="background:${r.color}">${(r.brand||'?').substring(0,2)}</div>
+           <div class="logo-missing-badge">${t('missing_badge')}</div>`;
+    const depts = (r.departments || []).map(d => `<span class="tag tag-${d}">${d}</span>`).join('');
+    const owners = (r.owners || []).join(lang === 'zh' ? '、' : ', ');
+    const region = r.region || '-';
+    return `<tr>
+        <td class="logo-cell">${logo}</td>
+        <td class="company-cell">
+            <div>${r.brand || r.company}</div>
+            <div class="full">${r.company}</div>
+        </td>
+        <td><span class="tag" style="background:rgba(113,128,150,0.12);color:#4a5568">${region}</span></td>
+        <td>${r.office_city} <span style="color:var(--text-muted)">(${r.office_code})</span></td>
+        <td>${depts}</td>
+        <td class="owners-cell">${owners || '-'}</td>
+        <td class="actions-cell">
+            <button class="btn btn-outline btn-sm" onclick="window._assignClientId=${r.id};openLogoLibrary()">Logo</button>
+            <button class="btn btn-outline btn-sm" onclick="openEditModal(${r.id})">${t('edit')}</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteClient(${r.id})">${t('delete')}</button>
+        </td>
+    </tr>`;
+}
+
+function renderPagination(totalPages) {
+    const container = document.getElementById('page-buttons');
+    let html = `<button class="page-btn" ${page<=1?'disabled':''} onclick="goPage(${page-1})">${t('prev_page')}</button>`;
+    for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || Math.abs(i - page) <= 1) {
+            html += `<button class="page-btn ${i===page?'active':''}" onclick="goPage(${i})">${i}</button>`;
+        } else if (Math.abs(i - page) === 2) {
+            html += '<span style="padding:0 4px">...</span>';
+        }
+    }
+    html += `<button class="page-btn" ${page>=totalPages?'disabled':''} onclick="goPage(${page+1})">${t('next_page')}</button>`;
+    container.innerHTML = html;
+}
+function goPage(p) { page = p; loadClients(); }
+
+// ---- Sorting ----
+function toggleSort(field) {
+    if (sortField === field) {
+        if (sortDir === 'asc') sortDir = 'desc';
+        else if (sortDir === 'desc') { sortField = ''; sortDir = ''; }
+    } else {
+        sortField = field;
+        sortDir = 'asc';
+    }
+    page = 1;
+    loadClients();
+    updateSortArrows();
+}
+
+function updateSortArrows() {
+    document.querySelectorAll('th.sortable').forEach(th => {
+        th.classList.remove('sort-asc', 'sort-desc');
+        if (th.dataset.sort === sortField) {
+            th.classList.add(sortDir === 'asc' ? 'sort-asc' : 'sort-desc');
+        }
+    });
+}
+
+// Bind sort click handlers
+document.querySelectorAll('th.sortable').forEach(th => {
+    th.addEventListener('click', () => toggleSort(th.dataset.sort));
+});
+
+// ---- Modal ----
+function openAddModal() {
+    document.getElementById('modal-title').textContent = t('add_client_title');
+    document.getElementById('edit-id').value = '';
+    document.getElementById('f-company').value = '';
+    document.getElementById('f-office').value = 'SHA';
+    document.getElementById('f-depts').value = '';
+    document.getElementById('f-owners').value = '';
+    document.getElementById('f-website').value = '';
+    document.getElementById('f-description').value = '';
+    document.getElementById('f-logo-url').value = '';
+    currentLogoUrl = '';
+    document.getElementById('discover-results').innerHTML = '';
+    updateLogoPreview('', t('new_client'));
+    document.getElementById('client-modal').classList.add('show');
+}
+
+async function openEditModal(id) {
+    const r = await fetch(API + '/clients/' + id, { headers: authHeaders() }).then(r => r.json());
+    document.getElementById('modal-title').textContent = t('edit_client_title');
+    document.getElementById('edit-id').value = id;
+    document.getElementById('f-company').value = r.company || '';
+    document.getElementById('f-office').value = r.office_code || 'SHA';
+    document.getElementById('f-depts').value = (r.departments || []).join('；');
+    document.getElementById('f-owners').value = (r.owners || []).join('；');
+    document.getElementById('f-website').value = r.website || '';
+    document.getElementById('f-description').value = r.description || '';
+    document.getElementById('f-logo-url').value = r.logo_url || '';
+    currentLogoUrl = r.logo_url || '';
+    document.getElementById('discover-results').innerHTML = '';
+    updateLogoPreview(r.logo_url, r.brand || r.company);
+    document.getElementById('client-modal').classList.add('show');
+}
+
+function closeModal() {
+    document.getElementById('client-modal').classList.remove('show');
+}
+
+// ---- Site settings ----
+const THEME_OPTIONS = [
+    { id: 'classic', label: '经典深蓝', label_en: 'Classic Navy' },
+    { id: 'gold',    label: '商务金',   label_en: 'Business Gold' },
+    { id: 'violet',  label: '科技紫',   label_en: 'Tech Violet' },
+    { id: 'orange',  label: '活力橙',   label_en: 'Vivid Orange' },
+    { id: 'green',   label: '松石绿',   label_en: 'Jade Green' },
+];
+const PATTERN_OPTIONS = [
+    { id: 'none', label: '纯净', label_en: 'Plain' },
+    { id: 'dots', label: '点阵', label_en: 'Dots' },
+    { id: 'grid', label: '网格', label_en: 'Grid' },
+    { id: 'glow', label: '光晕', label_en: 'Glow' },
+];
+function metaLabel(m) { return (lang === 'zh') ? m.label : (m.label_en || m.label); }
+
+async function openSettings() {
+    const d = await fetch('/data.json?t=' + Date.now(), { headers: authHeaders() }).then(r => r.json());
+    document.getElementById('s-title').value = d.title || '';
+    document.getElementById('s-title-en').value = d.title_en || '';
+    document.getElementById('s-tagline').value = d.tagline || '';
+    document.getElementById('s-tagline-en').value = d.tagline_en || '';
+    document.getElementById('s-footer').value = d.footer_text || '';
+    document.getElementById('s-footer-en').value = d.footer_en || '';
+    const themeSel = document.getElementById('s-theme');
+    themeSel.innerHTML = '';
+    THEME_OPTIONS.forEach(m => themeSel.add(new Option(metaLabel(m), m.id)));
+    themeSel.value = d.theme || 'classic';
+    const patSel = document.getElementById('s-pattern');
+    patSel.innerHTML = '';
+    PATTERN_OPTIONS.forEach(m => patSel.add(new Option(metaLabel(m), m.id)));
+    patSel.value = d.bg_pattern || 'none';
+    const useCustom = !!(d.custom_primary || d.custom_accent);
+    document.getElementById('s-use-custom').checked = useCustom;
+    document.getElementById('s-primary').value = d.custom_primary || '#1a1a2e';
+    document.getElementById('s-accent').value = d.custom_accent || '#e94560';
+    document.getElementById('settings-modal').classList.add('show');
+}
+
+function closeSettings() {
+    document.getElementById('settings-modal').classList.remove('show');
+}
+
+async function saveSettings() {
+    const useCustom = document.getElementById('s-use-custom').checked;
+    const body = {
+        title: document.getElementById('s-title').value,
+        title_en: document.getElementById('s-title-en').value,
+        tagline: document.getElementById('s-tagline').value,
+        footer_text: document.getElementById('s-footer').value,
+        theme: document.getElementById('s-theme').value,
+        bg_pattern: document.getElementById('s-pattern').value,
+        custom_primary: useCustom ? document.getElementById('s-primary').value : '',
+        custom_accent: useCustom ? document.getElementById('s-accent').value : '',
+    };
+    const r = await fetch(API + '/settings', {
+        method: 'PUT', headers: apiHeaders(), body: JSON.stringify(body)
+    });
+    if (r.ok) {
+        toast(t('toast_saved'), 'success');
+        closeSettings();
+    } else {
+        toast(t('toast_fail') + r.status, 'error');
+    }
+}
+
+function updateLogoPreview(url, name) {
+    const img = document.getElementById('f-logo-preview');
+    const fb = document.getElementById('f-logo-fallback');
+    if (url) {
+        img.src = logoImgUrl(url);
+        img.style.display = 'block';
+        fb.style.display = 'none';
+        img.onerror = () => { img.style.display = 'none'; fb.style.display = 'flex'; };
+    } else {
+        img.style.display = 'none';
+        fb.style.display = 'flex';
+        fb.textContent = (name || '?').substring(0, 2);
+        const colors = ['#4F46E5','#7C3AED','#DB2777','#DC2626','#EA580C','#16A34A','#0891B2'];
+        let h = 0;
+        for (const ch of name || '') h = ch.charCodeAt(0) + ((h << 5) - h);
+        fb.style.background = colors[Math.abs(h) % colors.length];
+    }
+}
+
+function applyLogoUrl() {
+    const url = document.getElementById('f-logo-url').value.trim();
+    currentLogoUrl = url;
+    updateLogoPreview(url, document.getElementById('f-company').value);
+}
+
+// ---- Logo discover ----
+async function discoverLogo() {
+    const company = document.getElementById('f-company').value.trim();
+    const website = document.getElementById('f-website').value.trim();
+    if (!company && !website) { toast(t('need_company_or_website'), 'error'); return; }
+
+    const spinner = document.getElementById('discover-spinner');
+    spinner.style.display = 'inline-block';
+    const results = document.getElementById('discover-results');
+    results.innerHTML = '<div style="font-size:12px;color:var(--text-light)">' + t('searching') + '</div>';
+
+    try {
+        const params = new URLSearchParams({ company });
+        if (website) params.set('website', website);
+        const data = await fetch(API + '/logo/discover?' + params, { headers: authHeaders() }).then(r => r.json());
+        const items = (data.results || []).filter(x => x.ok || x.source === 'builtin');
+        if (items.length === 0) {
+            results.innerHTML = '<div style="font-size:12px;color:var(--text-muted)">' + t('discover_empty') + '</div>';
+        } else {
+            results.innerHTML = items.map((item, i) => `
+                <div class="discover-item" onclick="selectDiscoverLogo('${item.url.replace(/'/g, "\\'")}', this)">
+                    <img src="${item.url}" alt="" onerror="this.parentElement.style.display='none'">
+                    <div class="src">${item.source}</div>
+                </div>
+            `).join('');
+        }
+    } catch (e) {
+        results.innerHTML = '<div style="font-size:12px;color:var(--danger)">' + t('search_fail') + e.message + '</div>';
+    } finally {
+        spinner.style.display = 'none';
+    }
+}
+
+function selectDiscoverLogo(url, el) {
+    currentLogoUrl = url;
+    document.getElementById('f-logo-url').value = url;
+    updateLogoPreview(url, document.getElementById('f-company').value);
+    document.querySelectorAll('.discover-item').forEach(d => d.classList.remove('selected'));
+    el.classList.add('selected');
+}
+
+// Upload logo
+document.getElementById('f-logo-upload').addEventListener('change', async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const form = new FormData();
+    form.append('file', file);
+    const r = await fetch(API + '/logo/upload', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + token },
+        body: form
+    }).then(r => r.json());
+    if (r.ok) {
+        currentLogoUrl = r.url;
+        document.getElementById('f-logo-url').value = r.url;
+        updateLogoPreview(r.url, document.getElementById('f-company').value);
+        toast(t('logo_upload_ok'), 'success');
+    } else {
+        toast(t('upload_fail') + (r.detail || ''), 'error');
+    }
+    e.target.value = '';
+});
+
+// ---- Save ----
+async function saveClient() {
+    const company = document.getElementById('f-company').value.trim();
+    if (!company) { toast(t('need_company'), 'error'); return; }
+    const id = document.getElementById('edit-id').value;
+    const payload = {
+        company: company,
+        office_code: document.getElementById('f-office').value,
+        departments: document.getElementById('f-depts').value,
+        owners: document.getElementById('f-owners').value,
+        logo_url: currentLogoUrl || null,
+        website: document.getElementById('f-website').value.trim(),
+        description: document.getElementById('f-description').value.trim() || null,
+    };
+
+    const btn = document.getElementById('save-btn');
+    btn.disabled = true; btn.textContent = t('saving');
+
+    try {
+        let r;
+        if (id) {
+            r = await fetch(API + '/clients/' + id, {
+                method: 'PUT', headers: apiHeaders(),
+                body: JSON.stringify(payload)
+            });
+        } else {
+            r = await fetch(API + '/clients', {
+                method: 'POST', headers: apiHeaders(),
+                body: JSON.stringify(payload)
+            });
+        }
+        if (r.ok) {
+            toast(id ? t('saved_updated') : t('saved_added'), 'success');
+            closeModal();
+            loadClients();
+        } else {
+            const err = await r.json();
+            toast(t('save_fail') + (err.detail || ''), 'error');
+        }
+    } catch (e) {
+        toast(t('save_fail') + e.message, 'error');
+    } finally {
+        btn.disabled = false; btn.textContent = t('save');
+    }
+}
+
+// ---- Delete ----
+async function deleteClient(id) {
+    if (!confirm(t('confirm_delete_client'))) return;
+    const r = await fetch(API + '/clients/' + id, {
+        method: 'DELETE', headers: { Authorization: 'Bearer ' + token }
+    });
+    if (r.ok) { toast(t('deleted'), 'success'); loadClients(); }
+    else toast(t('delete_fail'), 'error');
+}
+
+// ---- Excel ----
+document.getElementById('import-file').addEventListener('change', async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!confirm(t('confirm_import'))) { e.target.value = ''; return; }
+    const form = new FormData();
+    form.append('file', file);
+    const r = await fetch(API + '/import-excel', {
+        method: 'POST', headers: { Authorization: 'Bearer ' + token },
+        body: form
+    }).then(r => r.json());
+    if (r.ok) { toast(t('import_ok')(r.added, r.logo_matched || 0), 'success'); loadClients(); }
+    else toast(t('import_fail'), 'error');
+    e.target.value = '';
+});
+
+async function exportExcel() {
+    const r = await fetch(API + '/export-excel', {
+        headers: { Authorization: 'Bearer ' + token }
+    });
+    if (r.ok) {
+        const blob = await r.blob();
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'logo_wall_export.xlsx';
+        a.click();
+    } else toast(t('export_fail'), 'error');
+}
+
+// ---- Full backup (data.json + logos/ + users.json in one zip) ----
+async function exportBackup() {
+    if (!confirm(t('confirm_backup_export'))) return;
+    const r = await fetch(API + '/backup/export', {
+        headers: { Authorization: 'Bearer ' + token }
+    });
+    if (r.ok) {
+        const blob = await r.blob();
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'logo-wall-backup-' + new Date().toISOString().slice(0, 10).replace(/-/g, '') + '.zip';
+        a.click();
+        toast(t('backup_export_ok'), 'success');
+    } else toast(t('backup_export_fail'), 'error');
+}
+
+document.getElementById('backup-file').addEventListener('change', async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!confirm(t('confirm_backup_import'))) { e.target.value = ''; return; }
+    const form = new FormData();
+    form.append('file', file);
+    try {
+        const r = await fetch(API + '/backup/import', {
+            method: 'POST', headers: { Authorization: 'Bearer ' + token },
+            body: form
+        }).then(r => r.json());
+        if (r.ok) { toast(t('backup_import_ok')(r.records, r.logos), 'success'); loadClients(); }
+        else toast(t('backup_import_fail') + (r.detail || ''), 'error');
+    } catch (err) {
+        toast(t('backup_import_fail') + err.message, 'error');
+    }
+    e.target.value = '';
+});
+
+// ---- Toast ----
+function toast(msg, type = '') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show ' + type;
+    setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ---- Logo Library ----
+let allLogos = [];
+let editingLogo = null;
+
+function openLogoLibrary() {
+    document.getElementById('logo-lib-modal').classList.add('show');
+    closeLogoEdit();
+    loadLogoLibrary();
+}
+
+function closeLogoLibrary() {
+    document.getElementById('logo-lib-modal').classList.remove('show');
+    closeLogoEdit();
+}
+
+async function loadLogoLibrary() {
+    const grid = document.getElementById('logo-grid');
+    grid.innerHTML = '<div class="logo-grid-empty">' + t('loading') + '</div>';
+    try {
+        const r = await fetch(API + '/logos', { headers: authHeaders() }).then(r => r.json());
+        allLogos = r.logos || [];
+        document.getElementById('lib-count').textContent = allLogos.length;
+        renderLogoGrid(allLogos);
+    } catch (e) {
+        grid.innerHTML = '<div class="logo-grid-empty">' + t('load_fail') + e.message + '</div>';
+    }
+}
+
+function renderLogoGrid(logos) {
+    const grid = document.getElementById('logo-grid');
+    if (logos.length === 0) {
+        grid.innerHTML = '<div class="logo-grid-empty">' + t('lib_empty') + '</div>';
+        return;
+    }
+    grid.innerHTML = logos.map(item => {
+        const usedText = item.used_by.length > 0
+            ? '<div class="logo-used">' + t('used_by') + item.used_by.join(', ').substring(0, 20) + '</div>' : '';
+        return `<div class="logo-grid-item" onclick="openLogoEdit('${item.filename}')">
+            <img src="${logoImgUrl(item.url)}" alt="" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2264%22 height=%2264%22><rect fill=%22%23eee%22 width=%2264%22 height=%2264%22/><text x=%2232%22 y=%2236%22 text-anchor=%22middle%22 font-size=%2210%22 fill=%22%23999%22>N/A</text></svg>'">
+            <div class="logo-name">${item.filename}</div>
+            ${usedText}
+            <button class="logo-delete" onclick="event.stopPropagation();deleteLibLogo('${item.filename}')" title="${t('delete')}">&times;</button>
+        </div>`;
+    }).join('');
+}
+
+function filterLogoGrid() {
+    const q = document.getElementById('lib-search').value.trim().toLowerCase();
+    if (!q) { renderLogoGrid(allLogos); return; }
+    const filtered = allLogos.filter(item =>
+        item.filename.toLowerCase().includes(q) ||
+        item.used_by.some(b => b.toLowerCase().includes(q))
+    );
+    renderLogoGrid(filtered);
+}
+
+// ---- Logo Edit Panel ----
+async function openLogoEdit(filename) {
+    editingLogo = filename;
+    try {
+        const r = await fetch(API + '/logo/info/' + filename, { headers: authHeaders() }).then(r => r.json());
+        document.getElementById('edit-logo-img').src = logoImgUrl(r.url);
+        document.getElementById('edit-logo-name').textContent = r.filename;
+        document.getElementById('edit-logo-size').textContent = formatSize(r.size);
+        document.getElementById('edit-logo-used-count').textContent = t('used_count')(r.used_count);
+        
+        const clientsEl = document.getElementById('edit-logo-clients');
+        if (r.used_by.length > 0) {
+            clientsEl.innerHTML = '<div style="margin-bottom:4px;font-weight:500">' + t('used_by_label') + '</div>' +
+                r.used_by.map(c => `<span class="client-tag">${c.brand}</span>`).join('');
+        } else {
+            clientsEl.innerHTML = '<div style="color:var(--text-muted)">' + t('no_client_uses') + '</div>';
+        }
+        
+        // Show/hide delete button based on usage
+        document.getElementById('edit-logo-delete-btn').disabled = r.used_count > 0;
+        
+        document.getElementById('logo-edit-section').style.display = 'block';
+    } catch (e) {
+        toast(t('load_logo_info_fail'), 'error');
+    }
+}
+
+function closeLogoEdit() {
+    editingLogo = null;
+    document.getElementById('logo-edit-section').style.display = 'none';
+}
+
+function formatSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+async function deleteEditLogo() {
+    if (!editingLogo) return;
+    if (!confirm(t('confirm_delete_logo'))) return;
+    try {
+        const r = await fetch(API + '/logos/' + editingLogo, {
+            method: 'DELETE', headers: { Authorization: 'Bearer ' + token }
+        });
+        if (r.ok) {
+            toast(t('deleted'), 'success');
+            closeLogoEdit();
+            loadLogoLibrary();
+        } else {
+            const d = await r.json();
+            toast(d.detail || t('delete_fail'), 'error');
+        }
+    } catch (e) { toast(t('delete_fail'), 'error'); }
+}
+
+// Replace logo image
+document.getElementById('replace-logo-input').addEventListener('change', async function() {
+    if (!this.files[0] || !editingLogo) return;
+    const form = new FormData();
+    form.append('filename', editingLogo);
+    form.append('file', this.files[0]);
+    
+    try {
+        const r = await fetch(API + '/logo/replace', {
+            method: 'POST',
+            headers: { Authorization: 'Bearer ' + token },
+            body: form
+        });
+        const d = await r.json();
+        if (r.ok) {
+            toast(t('logo_replaced'), 'success');
+            // Refresh preview with cache-busting
+            document.getElementById('edit-logo-img').src = logoImgUrl(d.url);
+            loadLogoLibrary();
+        } else {
+            toast(d.detail || t('replace_fail'), 'error');
+        }
+    } catch (e) { toast(t('replace_fail'), 'error'); }
+    this.value = '';
+});
+
+function selectLibLogo(url) {
+    // If we're in "assign to client" mode
+    if (window._assignClientId) {
+        assignLogoToClient(window._assignClientId, url);
+        return;
+    }
+    // Otherwise copy URL for use in client editor
+    const fullUrl = window.location.origin + '/' + url;
+    navigator.clipboard.writeText(fullUrl).then(() => {
+        toast(t('logo_url_copied')(url), 'success');
+    }).catch(() => {
+        toast(t('logo_path')(url));
+    });
+}
+
+async function deleteLibLogo(filename) {
+    if (!confirm(t('confirm_delete_logo_used'))) return;
+    try {
+        const r = await fetch(API + '/logos/' + filename, {
+            method: 'DELETE', headers: { Authorization: 'Bearer ' + token }
+        });
+        const d = await r.json();
+        if (r.ok) {
+            toast(t('deleted'), 'success');
+            loadLogoLibrary();
+        } else {
+            toast(d.detail || t('delete_fail'), 'error');
+        }
+    } catch (e) { toast(t('delete_fail_msg')(e.message), 'error'); }
+}
+
+async function assignLogoToClient(clientId, logoUrl) {
+    try {
+        const form = new FormData();
+        form.append('client_id', clientId);
+        form.append('logo_url', logoUrl);
+        const r = await fetch(API + '/logo/assign', {
+            method: 'POST',
+            headers: { Authorization: 'Bearer ' + token },
+            body: form
+        });
+        if (r.ok) {
+            toast(t('logo_applied'), 'success');
+            closeLogoLibrary();
+            loadClients();
+        } else {
+            const d = await r.json();
+            toast(d.detail || t('apply_fail'), 'error');
+        }
+    } catch (e) { toast(t('apply_fail'), 'error'); }
+    window._assignClientId = null;
+}
+
+// Upload zone drag & drop + click
+const uploadZone = document.getElementById('upload-zone');
+const libUploadInput = document.getElementById('lib-upload-input');
+
+// Open logo library in "assign to client" mode
+function openLogoLibraryForClient() {
+    const id = document.getElementById('edit-id').value;
+    if (!id) { toast(t('save_client_first'), 'error'); return; }
+    window._assignClientId = parseInt(id);
+    openLogoLibrary();
+}
+
+uploadZone.addEventListener('click', () => libUploadInput.click());
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+uploadZone.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadZone.classList.remove('dragover');
+    if (e.dataTransfer.files.length) uploadLogoFiles(e.dataTransfer.files);
+});
+libUploadInput.addEventListener('change', () => {
+    if (libUploadInput.files.length) uploadLogoFiles(libUploadInput.files);
+    libUploadInput.value = '';
+});
+
+async function uploadLogoFiles(files) {
+    const progress = document.getElementById('upload-progress');
+    progress.style.display = 'block';
+    progress.textContent = t('uploading_files')(files.length);
+
+    const form = new FormData();
+    for (const f of files) form.append('files', f);
+
+    try {
+        const r = await fetch(API + '/logo/batch-upload', {
+            method: 'POST',
+            headers: { Authorization: 'Bearer ' + token },
+            body: form
+        });
+        const d = await r.json();
+        if (r.ok) {
+            progress.textContent = t('upload_done')(d.uploaded);
+            toast(t('uploaded_count')(d.uploaded), 'success');
+            setTimeout(() => { progress.style.display = 'none'; }, 2000);
+            loadLogoLibrary();
+        } else {
+            progress.textContent = t('upload_fail_short');
+            toast(d.detail || t('upload_fail_short'), 'error');
+        }
+    } catch (e) {
+        progress.textContent = t('upload_fail_msg')(e.message);
+        toast(t('upload_fail_short'), 'error');
+    }
+}
+
+// ---- Close modals on overlay click ----
+document.getElementById('client-modal').addEventListener('click', e => {
+    if (e.target.id === 'client-modal') closeModal();
+});
+document.getElementById('logo-lib-modal').addEventListener('click', e => {
+    if (e.target.id === 'logo-lib-modal') closeLogoLibrary();
+});
+
+// ---- User Management ----
+function openUserManager() {
+    document.getElementById('users-modal').classList.add('show');
+    loadUsers();
+}
+function closeUsers() {
+    document.getElementById('users-modal').classList.remove('show');
+    hideUserForm();
+}
+
+async function loadUsers() {
+    const list = document.getElementById('users-list');
+    list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-light)">' + t('loading') + '</div>';
+    try {
+        const r = await fetch(API + '/users', { headers: apiHeaders() });
+        const d = await r.json();
+        if (!r.ok) throw new Error(d.detail || 'Failed');
+        const users = d.users || [];
+        if (users.length === 0) {
+            list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-light)">' + t('users_empty') + '</div>';
+            return;
+        }
+        list.innerHTML = '<table style="width:100%;border-collapse:collapse;font-size:13px">' +
+            '<thead><tr style="background:var(--bg)">' +
+            '<th style="padding:10px 14px;text-align:left;font-weight:600">' + t('u_username') + '</th>' +
+            '<th style="padding:10px 14px;text-align:left;font-weight:600">' + t('u_display_name') + '</th>' +
+            '<th style="padding:10px 14px;text-align:left;font-weight:600">' + t('u_role') + '</th>' +
+            '<th style="padding:10px 14px;text-align:right;font-weight:600">' + t('actions') + '</th>' +
+            '</tr></thead><tbody>' +
+            users.map(u => {
+                const roleLabel = u.role === 'admin' ? t('role_admin_short') : t('role_viewer_short');
+                const roleColor = u.role === 'admin' ? 'var(--accent)' : 'var(--success)';
+                return '<tr style="border-top:1px solid var(--border)">' +
+                    '<td style="padding:10px 14px"><strong>' + u.username + '</strong></td>' +
+                    '<td style="padding:10px 14px;color:var(--text-light)">' + (u.display_name || '-') + '</td>' +
+                    '<td style="padding:10px 14px"><span style="color:' + roleColor + ';font-weight:500">' + roleLabel + '</span></td>' +
+                    '<td style="padding:10px 14px;text-align:right">' +
+                    '<button class="btn btn-outline btn-sm" onclick="editUser(\'' + u.username + '\')">' + t('edit') + '</button> ' +
+                    '<button class="btn btn-danger btn-sm" onclick="deleteUser(\'' + u.username + '\')">' + t('delete') + '</button>' +
+                    '</td></tr>';
+            }).join('') +
+            '</tbody></table>';
+    } catch (e) {
+        list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--danger)">' + t('load_fail') + e.message + '</div>';
+    }
+}
+
+function showAddUser() {
+    document.getElementById('u-edit-mode').value = 'add';
+    document.getElementById('u-orig-username').value = '';
+    document.getElementById('u-username').value = '';
+    document.getElementById('u-username').disabled = false;
+    document.getElementById('u-display-name').value = '';
+    document.getElementById('u-password').value = '';
+    document.getElementById('u-role').value = 'viewer';
+    document.getElementById('user-form-title').textContent = t('add_user');
+    document.getElementById('user-form').style.display = 'block';
+}
+
+function editUser(username) {
+    fetch(API + '/users', { headers: apiHeaders() })
+        .then(r => r.json())
+        .then(d => {
+            const u = (d.users || []).find(x => x.username === username);
+            if (!u) return;
+            document.getElementById('u-edit-mode').value = 'edit';
+            document.getElementById('u-orig-username').value = u.username;
+            document.getElementById('u-username').value = u.username;
+            document.getElementById('u-username').disabled = false;
+            document.getElementById('u-display-name').value = u.display_name || '';
+            document.getElementById('u-password').value = '';
+            document.getElementById('u-role').value = u.role;
+            document.getElementById('user-form-title').textContent = t('edit_user') + ': ' + u.username;
+            document.getElementById('user-form').style.display = 'block';
+        });
+}
+
+function hideUserForm() {
+    document.getElementById('user-form').style.display = 'none';
+}
+
+async function saveUser() {
+    const mode = document.getElementById('u-edit-mode').value;
+    const origUsername = document.getElementById('u-orig-username').value;
+    const username = document.getElementById('u-username').value.trim();
+    const displayName = document.getElementById('u-display-name').value.trim();
+    const password = document.getElementById('u-password').value;
+    const role = document.getElementById('u-role').value;
+
+    if (!username) { toast(t('need_username'), 'error'); return; }
+    if (mode === 'add' && !password) { toast(t('need_password'), 'error'); return; }
+    if (password && password.length < 4) { toast(t('password_short'), 'error'); return; }
+
+    try {
+        let r;
+        if (mode === 'add') {
+            r = await fetch(API + '/users', {
+                method: 'POST',
+                headers: apiHeaders(),
+                body: JSON.stringify({ username, password, role, display_name: displayName || username })
+            });
+        } else {
+            const body = {};
+            if (username !== origUsername) body.username = username;
+            if (displayName) body.display_name = displayName;
+            if (password) body.password = password;
+            if (role) body.role = role;
+            r = await fetch(API + '/users/' + encodeURIComponent(origUsername), {
+                method: 'PUT',
+                headers: apiHeaders(),
+                body: JSON.stringify(body)
+            });
+        }
+        const d = await r.json();
+        if (r.ok) {
+            toast(t('saved'), 'success');
+            hideUserForm();
+            loadUsers();
+        } else {
+            toast(d.detail || t('save_fail'), 'error');
+        }
+    } catch (e) {
+        toast(t('save_fail') + e.message, 'error');
+    }
+}
+
+async function deleteUser(username) {
+    if (!confirm(t('confirm_delete_user')(username))) return;
+    try {
+        const r = await fetch(API + '/users/' + encodeURIComponent(username), {
+            method: 'DELETE',
+            headers: { Authorization: 'Bearer ' + token }
+        });
+        const d = await r.json();
+        if (r.ok) {
+            toast(t('deleted'), 'success');
+            loadUsers();
+        } else {
+            toast(d.detail || t('delete_fail'), 'error');
+        }
+    } catch (e) {
+        toast(t('delete_fail'), 'error');
+    }
+}
+
+document.getElementById('users-modal').addEventListener('click', e => {
+    if (e.target.id === 'users-modal') closeUsers();
+});
+
+// Check existing token on load
+if (token) {
+    fetch(API + '/auth/check', { headers: { Authorization: 'Bearer ' + token } })
+        .then(r => r.json())
+        .then(d => {
+            if (d.ok) {
+                // Ensure user is admin for admin panel
+                if (d.user && d.user.role === 'admin') {
+                    showApp();
+                } else {
+                    // Non-admin users cannot access admin panel
+                    alert(lang === 'zh' ? '需要管理员权限' : 'Admin access required');
+                    window.location.href = '/login?redirect=admin';
+                }
+            } else {
+                // Token invalid, redirect to login
+                localStorage.removeItem('lw_token');
+                localStorage.removeItem('lw_user');
+                window.location.href = '/login?redirect=admin';
+            }
+        })
+        .catch(() => {
+            // Server error, redirect to login
+            window.location.href = '/login?redirect=admin';
+        });
+} else {
+    // No token, redirect to login
+    window.location.href = '/login?redirect=admin';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+# posdemo 为内部演示环境（含真实数据与原始资料），不同步到 GitHub
+posdemo/
+
+# 系统文件
+.DS_Store
+Thumbs.db

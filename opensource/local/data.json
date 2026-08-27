@@ -1,0 +1,3811 @@
+{
+  "title": "客户品牌墙",
+  "subtitle": "CLIENT LOGO WALL",
+  "tagline": "OFFICE × BUSINESS LINE  ·  连接客户价值，共创长期合作",
+  "total_count": 202,
+  "offices": [
+    "上海",
+    "北京",
+    "南京",
+    "厦门",
+    "台湾",
+    "大连",
+    "广州",
+    "成都",
+    "武汉",
+    "深圳",
+    "苏州",
+    "西安",
+    "郑州",
+    "重庆",
+    "长沙",
+    "青岛"
+  ],
+  "departments": [
+    "咨询",
+    "审计",
+    "税务"
+  ],
+  "records": [
+    {
+      "id": 1,
+      "company": "灵犀通信（广州）信息技术有限公司",
+      "brand": "灵犀通信",
+      "office_code": "GZH",
+      "office_city": "广州",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "孙志强"
+      ],
+      "logo_url": null,
+      "color": "#0891B2",
+      "region": "华南",
+      "website": "",
+      "description": "灵犀通信（广州）信息技术有限公司，成立于2010年，位于广州市，是一家专注于灵犀通信领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。"
+    },
+    {
+      "id": 2,
+      "company": "沐光云创（郑州）有限公司",
+      "brand": "沐光云创",
+      "office_code": "ZZH",
+      "office_city": "郑州",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "郑梦琪",
+        "林若曦"
+      ],
+      "logo_url": null,
+      "color": "#CA8A04",
+      "region": "华东",
+      "description": "沐光云创（郑州）有限公司，成立于2007年，位于郑州市，是一家专注于沐光云创领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 3,
+      "company": "星辰通信（长沙）信息技术有限公司",
+      "brand": "星辰通信",
+      "office_code": "CSH",
+      "office_city": "长沙",
+      "departments": [
+        "税务",
+        "咨询"
+      ],
+      "owners": [
+        "陈雅静",
+        "卫俊杰"
+      ],
+      "logo_url": null,
+      "color": "#EA580C",
+      "region": "华南",
+      "description": "星辰通信（长沙）信息技术有限公司，成立于2013年，位于长沙市，是一家专注于星辰通信领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 4,
+      "company": "极光智联（北京）信息技术有限公司",
+      "brand": "极光智联",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "韩诗涵"
+      ],
+      "logo_url": null,
+      "color": "#EA580C",
+      "region": "华北",
+      "description": "极光智联（北京）信息技术有限公司，成立于2019年，位于北京市，是一家专注于极光智联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 5,
+      "company": "岚图通信（武汉）信息技术有限公司",
+      "brand": "岚图通信",
+      "office_code": "WHA",
+      "office_city": "武汉",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "吴雨桐",
+        "冯欣怡"
+      ],
+      "logo_url": null,
+      "color": "#16A34A",
+      "region": "华南",
+      "description": "岚图通信（武汉）信息技术有限公司，成立于2015年，位于武汉市，是一家专注于岚图通信领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 6,
+      "company": "澄川云创（上海）信息技术有限公司",
+      "brand": "澄川云创",
+      "office_code": "SHA",
+      "office_city": "上海",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "朱雨桐",
+        "蒋志强"
+      ],
+      "logo_url": null,
+      "color": "#7C3AED",
+      "region": "华东",
+      "description": "澄川云创（上海）信息技术有限公司，成立于2018年，位于上海市，是一家专注于澄川云创领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 7,
+      "company": "曜阳云创（广州）信息技术有限公司",
+      "brand": "曜阳云创",
+      "office_code": "GZH",
+      "office_city": "广州",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "孙欣怡"
+      ],
+      "logo_url": null,
+      "color": "#0891B2",
+      "region": "华南",
+      "description": "曜阳云创（广州）信息技术有限公司，成立于2008年，位于广州市，是一家专注于曜阳云创领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 8,
+      "company": "汇川科技（北京）咨询有限公司",
+      "brand": "汇川科技",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "秦静怡"
+      ],
+      "logo_url": null,
+      "color": "#16A34A",
+      "region": "华北",
+      "description": "汇川科技（北京）咨询有限公司，成立于2022年，位于北京市，是一家专注于汇川科技领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 9,
+      "company": "峻岭数据（重庆）信息技术有限公司",
+      "brand": "峻岭数据",
+      "office_code": "CQI",
+      "office_city": "重庆",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "赵欣怡"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华西",
+      "description": "峻岭数据（重庆）信息技术有限公司，成立于2021年，位于重庆市，是一家专注于峻岭数据领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 10,
+      "company": "灵犀数字（南京）咨询有限公司",
+      "brand": "灵犀数字",
+      "office_code": "NJI",
+      "office_city": "南京",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "钱若曦"
+      ],
+      "logo_url": null,
+      "color": "#DC2626",
+      "region": "华东",
+      "description": "灵犀数字（南京）咨询有限公司，成立于1999年，位于南京市，是一家专注于灵犀数字领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 11,
+      "company": "知远智能（长沙）科技有限公司",
+      "brand": "知远智能",
+      "office_code": "CSH",
+      "office_city": "长沙",
+      "departments": [
+        "咨询",
+        "税务"
+      ],
+      "owners": [
+        "尤子墨"
+      ],
+      "logo_url": null,
+      "color": "#DC2626",
+      "region": "华南",
+      "description": "知远智能（长沙）科技有限公司，成立于2002年，位于长沙市，是一家专注于知远智能领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 12,
+      "company": "澄川智联（苏州）有限公司",
+      "brand": "澄川智联",
+      "office_code": "SUZ",
+      "office_city": "苏州",
+      "departments": [
+        "审计",
+        "税务"
+      ],
+      "owners": [
+        "蒋梦琪",
+        "韩国强"
+      ],
+      "logo_url": null,
+      "color": "#EA580C",
+      "region": "华东",
+      "description": "澄川智联（苏州）有限公司，成立于2003年，位于苏州市，是一家专注于澄川智联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 13,
+      "company": "天穹云创（成都）有限公司",
+      "brand": "天穹云创",
+      "office_code": "CDU",
+      "office_city": "成都",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "尤建华"
+      ],
+      "logo_url": null,
+      "color": "#0D9488",
+      "region": "华西",
+      "description": "天穹云创（成都）有限公司，成立于1998年，位于成都市，是一家专注于天穹云创领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 14,
+      "company": "青柠智能（郑州）信息技术有限公司",
+      "brand": "青柠智能",
+      "office_code": "ZZH",
+      "office_city": "郑州",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "何俊杰"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华东",
+      "description": "青柠智能（郑州）信息技术有限公司，成立于2016年，位于郑州市，是一家专注于青柠智能领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 15,
+      "company": "沐光互联（武汉）科技有限公司",
+      "brand": "沐光互联",
+      "office_code": "WHA",
+      "office_city": "武汉",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "秦婉婷"
+      ],
+      "logo_url": null,
+      "color": "#C026D3",
+      "region": "华南",
+      "description": "沐光互联（武汉）科技有限公司，成立于2017年，位于武汉市，是一家专注于沐光互联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 16,
+      "company": "汇川数字（青岛）有限公司",
+      "brand": "汇川数字",
+      "office_code": "QDA",
+      "office_city": "青岛",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "朱慧敏"
+      ],
+      "logo_url": null,
+      "color": "#2563EB",
+      "region": "华北",
+      "website": "",
+      "description": "汇川数字（青岛）有限公司，成立于2009年，位于青岛市，是一家专注于汇川数字领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。"
+    },
+    {
+      "id": 17,
+      "company": "云帆通信（上海）咨询有限公司",
+      "brand": "云帆通信",
+      "office_code": "SHA",
+      "office_city": "上海",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "林明轩"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华东",
+      "website": "",
+      "description": "云帆通信（上海）咨询有限公司，成立于2011年，位于上海市，是一家专注于云帆通信领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。"
+    },
+    {
+      "id": 18,
+      "company": "知远数据（重庆）信息技术有限公司",
+      "brand": "知远数据",
+      "office_code": "CQI",
+      "office_city": "重庆",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "许天佑",
+        "卫婉婷"
+      ],
+      "logo_url": null,
+      "color": "#C026D3",
+      "region": "华西",
+      "description": "知远数据（重庆）信息技术有限公司，成立于2014年，位于重庆市，是一家专注于知远数据领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 19,
+      "company": "拾光软件（重庆）咨询有限公司",
+      "brand": "拾光软件",
+      "office_code": "CQI",
+      "office_city": "重庆",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "孙梦琪",
+        "沈子墨"
+      ],
+      "logo_url": null,
+      "color": "#2563EB",
+      "region": "华西",
+      "description": "拾光软件（重庆）咨询有限公司，成立于2011年，位于重庆市，是一家专注于拾光软件领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 20,
+      "company": "曜阳信息（青岛）咨询有限公司",
+      "brand": "曜阳信息",
+      "office_code": "QDA",
+      "office_city": "青岛",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "秦天佑"
+      ],
+      "logo_url": null,
+      "color": "#0D9488",
+      "region": "华北",
+      "description": "曜阳信息（青岛）咨询有限公司，成立于2012年，位于青岛市，是一家专注于曜阳信息领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 21,
+      "company": "明澈系统（北京）信息技术有限公司",
+      "brand": "明澈系统",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "陈建华",
+        "林雨桐"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华北",
+      "description": "明澈系统（北京）信息技术有限公司，成立于1998年，位于北京市，是一家专注于明澈系统领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 22,
+      "company": "望舒数字（苏州）咨询有限公司",
+      "brand": "望舒数字",
+      "office_code": "SUZ",
+      "office_city": "苏州",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "陈欣怡"
+      ],
+      "logo_url": null,
+      "color": "#C026D3",
+      "region": "华东",
+      "description": "望舒数字（苏州）咨询有限公司，成立于2023年，位于苏州市，是一家专注于望舒数字领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 23,
+      "company": "曜石智能（北京）咨询有限公司",
+      "brand": "曜石智能",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "咨询",
+        "税务"
+      ],
+      "owners": [
+        "杨雨桐",
+        "钱晓芸"
+      ],
+      "logo_url": null,
+      "color": "#16A34A",
+      "region": "华北",
+      "website": "",
+      "description": "曜石智能（北京）咨询有限公司，成立于2000年，位于北京市，是一家专注于曜石智能领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。"
+    },
+    {
+      "id": 24,
+      "company": "知远信息（北京）信息技术有限公司",
+      "brand": "知远信息",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "赵若曦"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华北",
+      "description": "知远信息（北京）信息技术有限公司，成立于2013年，位于北京市，是一家专注于知远信息领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 25,
+      "company": "明澈云创（成都）信息技术有限公司",
+      "brand": "明澈云创",
+      "office_code": "CDU",
+      "office_city": "成都",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "秦晓芸"
+      ],
+      "logo_url": null,
+      "color": "#DB2777",
+      "region": "华西",
+      "description": "明澈云创（成都）信息技术有限公司，成立于2005年，位于成都市，是一家专注于明澈云创领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 26,
+      "company": "澜庭智能（广州）科技有限公司",
+      "brand": "澜庭智能",
+      "office_code": "GZH",
+      "office_city": "广州",
+      "departments": [
+        "审计",
+        "税务"
+      ],
+      "owners": [
+        "蒋志强"
+      ],
+      "logo_url": null,
+      "color": "#CA8A04",
+      "region": "华南",
+      "description": "澜庭智能（广州）科技有限公司，成立于2015年，位于广州市，是一家专注于澜庭智能领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 27,
+      "company": "极光科技（苏州）信息技术有限公司",
+      "brand": "极光科技",
+      "office_code": "SUZ",
+      "office_city": "苏州",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "尤雅静",
+        "郑子墨"
+      ],
+      "logo_url": null,
+      "color": "#4F46E5",
+      "region": "华东",
+      "website": "",
+      "description": "极光科技（苏州）信息技术有限公司，成立于2012年，位于苏州市，是一家专注于极光科技领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。"
+    },
+    {
+      "id": 28,
+      "company": "峻岭科技（深圳）咨询有限公司",
+      "brand": "峻岭科技",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "咨询",
+        "审计"
+      ],
+      "owners": [
+        "赵浩然"
+      ],
+      "logo_url": null,
+      "color": "#0284C7",
+      "region": "华南",
+      "description": "峻岭科技（深圳）咨询有限公司，成立于2001年，位于深圳市，是一家专注于峻岭科技领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 29,
+      "company": "澄川软件（长沙）科技有限公司",
+      "brand": "澄川软件",
+      "office_code": "CSH",
+      "office_city": "长沙",
+      "departments": [
+        "审计",
+        "税务"
+      ],
+      "owners": [
+        "杨子墨"
+      ],
+      "logo_url": null,
+      "color": "#DB2777",
+      "region": "华南",
+      "description": "澄川软件（长沙）科技有限公司，成立于2021年，位于长沙市，是一家专注于澄川软件领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 30,
+      "company": "沐光系统（南京）咨询有限公司",
+      "brand": "沐光系统",
+      "office_code": "NJI",
+      "office_city": "南京",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "吴欣怡"
+      ],
+      "logo_url": null,
+      "color": "#7C3AED",
+      "region": "华东",
+      "description": "沐光系统（南京）咨询有限公司，成立于2009年，位于南京市，是一家专注于沐光系统领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 31,
+      "company": "南风智能（北京）有限公司",
+      "brand": "南风智能",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "钱梦琪",
+        "周婉婷"
+      ],
+      "logo_url": null,
+      "color": "#0284C7",
+      "region": "华北",
+      "description": "南风智能（北京）有限公司，成立于1999年，位于北京市，是一家专注于南风智能领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 32,
+      "company": "曜石智联（南京）科技有限公司",
+      "brand": "曜石智联",
+      "office_code": "NJI",
+      "office_city": "南京",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "卫明轩",
+        "何诗涵"
+      ],
+      "logo_url": null,
+      "color": "#CA8A04",
+      "region": "华东",
+      "website": "",
+      "description": "曜石智联（南京）科技有限公司，成立于2016年，位于南京市，是一家专注于曜石智联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。"
+    },
+    {
+      "id": 33,
+      "company": "青柠智联（深圳）信息技术有限公司",
+      "brand": "青柠智联",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "赵国强"
+      ],
+      "logo_url": null,
+      "color": "#0D9488",
+      "region": "华南",
+      "description": "青柠智联（深圳）信息技术有限公司，成立于2006年，位于深圳市，是一家专注于青柠智联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 34,
+      "company": "峻岭云创（重庆）信息技术有限公司",
+      "brand": "峻岭云创",
+      "office_code": "CQI",
+      "office_city": "重庆",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "吴雅静"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华西",
+      "description": "峻岭云创（重庆）信息技术有限公司，成立于2000年，位于重庆市，是一家专注于峻岭云创领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 35,
+      "company": "云帆科技（南京）有限公司",
+      "brand": "云帆科技",
+      "office_code": "NJI",
+      "office_city": "南京",
+      "departments": [
+        "审计",
+        "咨询"
+      ],
+      "owners": [
+        "林国强"
+      ],
+      "logo_url": null,
+      "color": "#DC2626",
+      "region": "华东",
+      "description": "云帆科技（南京）有限公司，成立于2005年，位于南京市，是一家专注于云帆科技领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 36,
+      "company": "峻岭系统（上海）信息技术有限公司",
+      "brand": "峻岭系统",
+      "office_code": "SHA",
+      "office_city": "上海",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "朱婉婷",
+        "赵雨桐"
+      ],
+      "logo_url": null,
+      "color": "#9333EA",
+      "region": "华东",
+      "description": "峻岭系统（上海）信息技术有限公司，成立于2010年，位于上海市，是一家专注于峻岭系统领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 37,
+      "company": "岚图网络（广州）信息技术有限公司",
+      "brand": "岚图网络",
+      "office_code": "GZH",
+      "office_city": "广州",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "杨国强"
+      ],
+      "logo_url": null,
+      "color": "#0891B2",
+      "region": "华南",
+      "description": "岚图网络（广州）信息技术有限公司，成立于2016年，位于广州市，是一家专注于岚图网络领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 38,
+      "company": "天穹数据（成都）有限公司",
+      "brand": "天穹数据",
+      "office_code": "CDU",
+      "office_city": "成都",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "韩若曦"
+      ],
+      "logo_url": null,
+      "color": "#0D9488",
+      "website": "",
+      "region": "华西",
+      "description": "天穹数据（成都）有限公司，成立于2019年，位于成都市，是一家专注于天穹数据领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。"
+    },
+    {
+      "id": 39,
+      "company": "澄川通信（上海）科技有限公司",
+      "brand": "澄川通信",
+      "office_code": "SHA",
+      "office_city": "上海",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "韩晓芸"
+      ],
+      "logo_url": null,
+      "color": "#0891B2",
+      "region": "华东",
+      "description": "澄川通信（上海）科技有限公司，成立于1998年，位于上海市，是一家专注于澄川通信领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 40,
+      "company": "沐光智联（广州）信息技术有限公司",
+      "brand": "沐光智联",
+      "office_code": "GZH",
+      "office_city": "广州",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "冯梦琪"
+      ],
+      "logo_url": null,
+      "color": "#9333EA",
+      "region": "华南",
+      "description": "沐光智联（广州）信息技术有限公司，成立于2020年，位于广州市，是一家专注于沐光智联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 41,
+      "company": "汇川智能（深圳）信息技术有限公司",
+      "brand": "汇川智能",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "吴梦琪"
+      ],
+      "logo_url": null,
+      "color": "#0891B2",
+      "region": "华南",
+      "description": "汇川智能（深圳）信息技术有限公司，成立于2023年，位于深圳市，是一家专注于汇川智能领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 42,
+      "company": "星辰软件（厦门）科技有限公司",
+      "brand": "星辰软件",
+      "office_code": "XME",
+      "office_city": "厦门",
+      "departments": [
+        "咨询",
+        "税务"
+      ],
+      "owners": [
+        "冯静怡"
+      ],
+      "logo_url": null,
+      "color": "#CA8A04",
+      "region": "华南",
+      "website": "",
+      "description": "星辰软件（厦门）科技有限公司，成立于2006年，位于厦门市，是一家专注于星辰软件领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。"
+    },
+    {
+      "id": 43,
+      "company": "澜庭信息（青岛）有限公司",
+      "brand": "澜庭信息",
+      "office_code": "QDA",
+      "office_city": "青岛",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "吴雨桐"
+      ],
+      "logo_url": null,
+      "color": "#EA580C",
+      "region": "华北",
+      "description": "澜庭信息（青岛）有限公司，成立于2021年，位于青岛市，是一家专注于澜庭信息领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 44,
+      "company": "天穹智能（青岛）咨询有限公司",
+      "brand": "天穹智能",
+      "office_code": "QDA",
+      "office_city": "青岛",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "钱雅静"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华北",
+      "website": "",
+      "description": "天穹智能（青岛）咨询有限公司，成立于2007年，位于青岛市，是一家专注于天穹智能领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。"
+    },
+    {
+      "id": 45,
+      "company": "灵犀智能（武汉）咨询有限公司",
+      "brand": "灵犀智能",
+      "office_code": "WHA",
+      "office_city": "武汉",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "朱建华",
+        "秦慧敏"
+      ],
+      "logo_url": null,
+      "color": "#0891B2",
+      "region": "华南",
+      "description": "灵犀智能（武汉）咨询有限公司，成立于2017年，位于武汉市，是一家专注于灵犀智能领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 46,
+      "company": "曜阳软件（上海）信息技术有限公司",
+      "brand": "曜阳软件",
+      "office_code": "SHA",
+      "office_city": "上海",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "冯雅静",
+        "周雨桐"
+      ],
+      "logo_url": null,
+      "color": "#DC2626",
+      "region": "华东",
+      "website": "",
+      "description": "曜阳软件（上海）信息技术有限公司，成立于2000年，位于上海市，是一家专注于曜阳软件领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。"
+    },
+    {
+      "id": 47,
+      "company": "岚图互联（北京）有限公司",
+      "brand": "岚图互联",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "尤国强",
+        "秦俊杰"
+      ],
+      "logo_url": null,
+      "color": "#0891B2",
+      "region": "华北",
+      "website": "",
+      "description": "岚图互联（北京）有限公司，成立于2013年，位于北京市，是一家专注于岚图互联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。"
+    },
+    {
+      "id": 48,
+      "company": "极光云创（苏州）信息技术有限公司",
+      "brand": "极光云创",
+      "office_code": "SUZ",
+      "office_city": "苏州",
+      "departments": [
+        "审计",
+        "税务"
+      ],
+      "owners": [
+        "何国强"
+      ],
+      "logo_url": null,
+      "color": "#7C3AED",
+      "region": "华东",
+      "description": "极光云创（苏州）信息技术有限公司，成立于2000年，位于苏州市，是一家专注于极光云创领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 49,
+      "company": "星辰网络（苏州）信息技术有限公司",
+      "brand": "星辰网络",
+      "office_code": "SUZ",
+      "office_city": "苏州",
+      "departments": [
+        "咨询",
+        "税务"
+      ],
+      "owners": [
+        "蒋雅静"
+      ],
+      "logo_url": null,
+      "color": "#EA580C",
+      "region": "华东",
+      "description": "星辰网络（苏州）信息技术有限公司，成立于2008年，位于苏州市，是一家专注于星辰网络领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 50,
+      "company": "拾光信息（广州）信息技术有限公司",
+      "brand": "拾光信息",
+      "office_code": "GZH",
+      "office_city": "广州",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "蒋志强"
+      ],
+      "logo_url": null,
+      "color": "#EA580C",
+      "region": "华南",
+      "description": "拾光信息（广州）信息技术有限公司，成立于1999年，位于广州市，是一家专注于拾光信息领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 51,
+      "company": "知远科技（广州）咨询有限公司",
+      "brand": "知远科技",
+      "office_code": "GZH",
+      "office_city": "广州",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "冯雅静"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华南",
+      "description": "知远科技（广州）咨询有限公司，成立于2014年，位于广州市，是一家专注于知远科技领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 52,
+      "company": "沧海网络（青岛）有限公司",
+      "brand": "沧海网络",
+      "office_code": "QDA",
+      "office_city": "青岛",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "冯国强",
+        "许诗涵"
+      ],
+      "logo_url": null,
+      "color": "#7C3AED",
+      "region": "华北",
+      "description": "沧海网络（青岛）有限公司，成立于2004年，位于青岛市，是一家专注于沧海网络领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 53,
+      "company": "星辰云创（苏州）信息技术有限公司",
+      "brand": "星辰云创",
+      "office_code": "SUZ",
+      "office_city": "苏州",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "冯文博",
+        "秦静怡"
+      ],
+      "logo_url": null,
+      "color": "#0891B2",
+      "region": "华东",
+      "description": "星辰云创（苏州）信息技术有限公司，成立于2006年，位于苏州市，是一家专注于星辰云创领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 54,
+      "company": "知远系统（南京）咨询有限公司",
+      "brand": "知远系统",
+      "office_code": "NJI",
+      "office_city": "南京",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "陈梦琪"
+      ],
+      "logo_url": null,
+      "color": "#16A34A",
+      "region": "华东",
+      "description": "知远系统（南京）咨询有限公司，成立于1998年，位于南京市，是一家专注于知远系统领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 55,
+      "company": "曜石科技（台湾）科技有限公司",
+      "brand": "曜石科技",
+      "office_code": "TWN",
+      "office_city": "台湾",
+      "departments": [
+        "咨询",
+        "审计"
+      ],
+      "owners": [
+        "许浩然",
+        "尤建华"
+      ],
+      "logo_url": null,
+      "color": "#9333EA",
+      "region": "台湾",
+      "description": "曜石科技（台湾）科技有限公司，成立于2000年，位于台湾市，是一家专注于曜石科技领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 56,
+      "company": "星辰数据（北京）有限公司",
+      "brand": "星辰数据",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "咨询",
+        "审计"
+      ],
+      "owners": [
+        "杨思远"
+      ],
+      "logo_url": null,
+      "color": "#9333EA",
+      "region": "华北",
+      "description": "星辰数据（北京）有限公司，成立于2020年，位于北京市，是一家专注于星辰数据领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 57,
+      "company": "云帆数据（深圳）咨询有限公司",
+      "brand": "云帆数据",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "郑天佑"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华南",
+      "description": "云帆数据（深圳）咨询有限公司，成立于2012年，位于深圳市，是一家专注于云帆数据领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 58,
+      "company": "青柠科技（南京）信息技术有限公司",
+      "brand": "青柠科技",
+      "office_code": "NJI",
+      "office_city": "南京",
+      "departments": [
+        "税务",
+        "咨询"
+      ],
+      "owners": [
+        "秦诗涵"
+      ],
+      "logo_url": null,
+      "color": "#DB2777",
+      "region": "华东",
+      "description": "青柠科技（南京）信息技术有限公司，成立于2000年，位于南京市，是一家专注于青柠科技领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 59,
+      "company": "知远智联（深圳）信息技术有限公司",
+      "brand": "知远智联",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "郑雅静"
+      ],
+      "logo_url": null,
+      "color": "#65A30D",
+      "region": "华南",
+      "description": "知远智联（深圳）信息技术有限公司，成立于2007年，位于深圳市，是一家专注于知远智联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 60,
+      "company": "南风智联（武汉）信息技术有限公司",
+      "brand": "南风智联",
+      "office_code": "WHA",
+      "office_city": "武汉",
+      "departments": [
+        "审计",
+        "税务"
+      ],
+      "owners": [
+        "林慧敏"
+      ],
+      "logo_url": null,
+      "color": "#4F46E5",
+      "region": "华南",
+      "description": "南风智联（武汉）信息技术有限公司，成立于2008年，位于武汉市，是一家专注于南风智联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 61,
+      "company": "明澈信息（南京）信息技术有限公司",
+      "brand": "明澈信息",
+      "office_code": "NJI",
+      "office_city": "南京",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "蒋雅静"
+      ],
+      "logo_url": null,
+      "color": "#4F46E5",
+      "region": "华东",
+      "description": "明澈信息（南京）信息技术有限公司，成立于2005年，位于南京市，是一家专注于明澈信息领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 62,
+      "company": "澄川科技（南京）科技有限公司",
+      "brand": "澄川科技",
+      "office_code": "NJI",
+      "office_city": "南京",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "钱文博"
+      ],
+      "logo_url": null,
+      "color": "#0284C7",
+      "region": "华东",
+      "description": "澄川科技（南京）科技有限公司，成立于2013年，位于南京市，是一家专注于澄川科技领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 63,
+      "company": "岚图数据（武汉）信息技术有限公司",
+      "brand": "岚图数据",
+      "office_code": "WHA",
+      "office_city": "武汉",
+      "departments": [
+        "咨询",
+        "审计"
+      ],
+      "owners": [
+        "蒋志强"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华南",
+      "description": "岚图数据（武汉）信息技术有限公司，成立于1999年，位于武汉市，是一家专注于岚图数据领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 64,
+      "company": "澄川系统（上海）咨询有限公司",
+      "brand": "澄川系统",
+      "office_code": "SHA",
+      "office_city": "上海",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "许雨桐"
+      ],
+      "logo_url": null,
+      "color": "#DC2626",
+      "region": "华东",
+      "description": "澄川系统（上海）咨询有限公司，成立于2012年，位于上海市，是一家专注于澄川系统领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 65,
+      "company": "星辰信息（上海）科技有限公司",
+      "brand": "星辰信息",
+      "office_code": "SHA",
+      "office_city": "上海",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "沈诗涵"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华东",
+      "description": "星辰信息（上海）科技有限公司，成立于2013年，位于上海市，是一家专注于星辰信息领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 66,
+      "company": "明澈数字（厦门）咨询有限公司",
+      "brand": "明澈数字",
+      "office_code": "XME",
+      "office_city": "厦门",
+      "departments": [
+        "审计",
+        "咨询"
+      ],
+      "owners": [
+        "吴思远"
+      ],
+      "logo_url": null,
+      "color": "#4F46E5",
+      "region": "华南",
+      "description": "明澈数字（厦门）咨询有限公司，成立于2008年，位于厦门市，是一家专注于明澈数字领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 67,
+      "company": "澜庭通信（大连）信息技术有限公司",
+      "brand": "澜庭通信",
+      "office_code": "DLI",
+      "office_city": "大连",
+      "departments": [
+        "审计",
+        "咨询"
+      ],
+      "owners": [
+        "韩若曦"
+      ],
+      "logo_url": null,
+      "color": "#C026D3",
+      "region": "华北",
+      "description": "澜庭通信（大连）信息技术有限公司，成立于2017年，位于大连市，是一家专注于澜庭通信领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 68,
+      "company": "青柠通信（上海）咨询有限公司",
+      "brand": "青柠通信",
+      "office_code": "SHA",
+      "office_city": "上海",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "陈雅静"
+      ],
+      "logo_url": null,
+      "color": "#65A30D",
+      "region": "华东",
+      "description": "青柠通信（上海）咨询有限公司，成立于2001年，位于上海市，是一家专注于青柠通信领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 69,
+      "company": "岚图信息（长沙）有限公司",
+      "brand": "岚图信息",
+      "office_code": "CSH",
+      "office_city": "长沙",
+      "departments": [
+        "审计",
+        "咨询"
+      ],
+      "owners": [
+        "何晓芸"
+      ],
+      "logo_url": null,
+      "color": "#2563EB",
+      "region": "华南",
+      "description": "岚图信息（长沙）有限公司，成立于1999年，位于长沙市，是一家专注于岚图信息领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 70,
+      "company": "明澈网络（深圳）有限公司",
+      "brand": "明澈网络",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "何子墨"
+      ],
+      "logo_url": null,
+      "color": "#EA580C",
+      "region": "华南",
+      "description": "明澈网络（深圳）有限公司，成立于2002年，位于深圳市，是一家专注于明澈网络领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 71,
+      "company": "明澈智联（北京）信息技术有限公司",
+      "brand": "明澈智联",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "沈天佑",
+        "何国强"
+      ],
+      "logo_url": null,
+      "color": "#65A30D",
+      "region": "华北",
+      "description": "明澈智联（北京）信息技术有限公司，成立于2000年，位于北京市，是一家专注于明澈智联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 72,
+      "company": "灵犀系统（成都）信息技术有限公司",
+      "brand": "灵犀系统",
+      "office_code": "CDU",
+      "office_city": "成都",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "沈天佑",
+        "卫国强"
+      ],
+      "logo_url": null,
+      "color": "#0891B2",
+      "region": "华西",
+      "description": "灵犀系统（成都）信息技术有限公司，成立于2002年，位于成都市，是一家专注于灵犀系统领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 73,
+      "company": "沐光网络（北京）咨询有限公司",
+      "brand": "沐光网络",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "咨询",
+        "审计"
+      ],
+      "owners": [
+        "周文博"
+      ],
+      "logo_url": null,
+      "color": "#0891B2",
+      "region": "华北",
+      "description": "沐光网络（北京）咨询有限公司，成立于2007年，位于北京市，是一家专注于沐光网络领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 74,
+      "company": "南风通信（武汉）科技有限公司",
+      "brand": "南风通信",
+      "office_code": "WHA",
+      "office_city": "武汉",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "冯文博"
+      ],
+      "logo_url": null,
+      "color": "#0891B2",
+      "region": "华南",
+      "description": "南风通信（武汉）科技有限公司，成立于2007年，位于武汉市，是一家专注于南风通信领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 75,
+      "company": "青柠云创（成都）信息技术有限公司",
+      "brand": "青柠云创",
+      "office_code": "CDU",
+      "office_city": "成都",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "韩子墨",
+        "褚思远"
+      ],
+      "logo_url": null,
+      "color": "#EA580C",
+      "region": "华西",
+      "description": "青柠云创（成都）信息技术有限公司，成立于2010年，位于成都市，是一家专注于青柠云创领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 76,
+      "company": "灵犀信息（大连）有限公司",
+      "brand": "灵犀信息",
+      "office_code": "DLI",
+      "office_city": "大连",
+      "departments": [
+        "审计",
+        "税务"
+      ],
+      "owners": [
+        "赵梦琪"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华北",
+      "website": "",
+      "description": "灵犀信息（大连）有限公司，成立于2020年，位于大连市，是一家专注于灵犀信息领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。"
+    },
+    {
+      "id": 77,
+      "company": "云帆智联（深圳）信息技术有限公司",
+      "brand": "云帆智联",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "税务",
+        "咨询"
+      ],
+      "owners": [
+        "吴慧敏"
+      ],
+      "logo_url": null,
+      "color": "#0284C7",
+      "region": "华南",
+      "description": "云帆智联（深圳）信息技术有限公司，成立于2017年，位于深圳市，是一家专注于云帆智联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 78,
+      "company": "青柠互联（长沙）咨询有限公司",
+      "brand": "青柠互联",
+      "office_code": "CSH",
+      "office_city": "长沙",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "许文博"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华南",
+      "description": "青柠互联（长沙）咨询有限公司，成立于2018年，位于长沙市，是一家专注于青柠互联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 79,
+      "company": "澜庭软件（北京）咨询有限公司",
+      "brand": "澜庭软件",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "税务",
+        "咨询"
+      ],
+      "owners": [
+        "卫文博",
+        "韩建华"
+      ],
+      "logo_url": null,
+      "color": "#9333EA",
+      "region": "华北",
+      "description": "澜庭软件（北京）咨询有限公司，成立于2018年，位于北京市，是一家专注于澜庭软件领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 80,
+      "company": "曜石网络（上海）有限公司",
+      "brand": "曜石网络",
+      "office_code": "SHA",
+      "office_city": "上海",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "许雨桐"
+      ],
+      "logo_url": null,
+      "color": "#DC2626",
+      "region": "华东",
+      "description": "曜石网络（上海）有限公司，成立于2009年，位于上海市，是一家专注于曜石网络领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 81,
+      "company": "天穹通信（武汉）有限公司",
+      "brand": "天穹通信",
+      "office_code": "WHA",
+      "office_city": "武汉",
+      "departments": [
+        "审计",
+        "咨询"
+      ],
+      "owners": [
+        "许雅静"
+      ],
+      "logo_url": null,
+      "color": "#7C3AED",
+      "region": "华南",
+      "description": "天穹通信（武汉）有限公司，成立于2004年，位于武汉市，是一家专注于天穹通信领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 82,
+      "company": "星辰科技（上海）咨询有限公司",
+      "brand": "星辰科技",
+      "office_code": "SHA",
+      "office_city": "上海",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "韩梦琪",
+        "杨静怡"
+      ],
+      "logo_url": null,
+      "color": "#4F46E5",
+      "region": "华东",
+      "description": "星辰科技（上海）咨询有限公司，成立于2013年，位于上海市，是一家专注于星辰科技领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 83,
+      "company": "曜阳系统（台湾）咨询有限公司",
+      "brand": "曜阳系统",
+      "office_code": "TWN",
+      "office_city": "台湾",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "赵静怡",
+        "冯静怡"
+      ],
+      "logo_url": null,
+      "color": "#DB2777",
+      "region": "台湾",
+      "description": "曜阳系统（台湾）咨询有限公司，成立于2002年，位于台湾市，是一家专注于曜阳系统领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 84,
+      "company": "澄川数字（长沙）科技有限公司",
+      "brand": "澄川数字",
+      "office_code": "CSH",
+      "office_city": "长沙",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "何志强",
+        "陈明轩"
+      ],
+      "logo_url": null,
+      "color": "#0D9488",
+      "region": "华南",
+      "description": "澄川数字（长沙）科技有限公司，成立于2009年，位于长沙市，是一家专注于澄川数字领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 85,
+      "company": "澄川网络（上海）信息技术有限公司",
+      "brand": "澄川网络",
+      "office_code": "SHA",
+      "office_city": "上海",
+      "departments": [
+        "咨询",
+        "审计"
+      ],
+      "owners": [
+        "卫静怡"
+      ],
+      "logo_url": null,
+      "color": "#0284C7",
+      "region": "华东",
+      "description": "澄川网络（上海）信息技术有限公司，成立于2009年，位于上海市，是一家专注于澄川网络领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 86,
+      "company": "灵犀智联（武汉）咨询有限公司",
+      "brand": "灵犀智联",
+      "office_code": "WHA",
+      "office_city": "武汉",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "赵梦琪",
+        "冯思远"
+      ],
+      "logo_url": null,
+      "color": "#DC2626",
+      "region": "华南",
+      "description": "灵犀智联（武汉）咨询有限公司，成立于2019年，位于武汉市，是一家专注于灵犀智联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 87,
+      "company": "南风云创（北京）有限公司",
+      "brand": "南风云创",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "咨询",
+        "税务"
+      ],
+      "owners": [
+        "陈静怡",
+        "许雅静"
+      ],
+      "logo_url": null,
+      "color": "#0D9488",
+      "region": "华北",
+      "description": "南风云创（北京）有限公司，成立于2018年，位于北京市，是一家专注于南风云创领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 88,
+      "company": "拾光互联（青岛）咨询有限公司",
+      "brand": "拾光互联",
+      "office_code": "QDA",
+      "office_city": "青岛",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "秦欣怡",
+        "许建华"
+      ],
+      "logo_url": null,
+      "color": "#2563EB",
+      "region": "华北",
+      "description": "拾光互联（青岛）咨询有限公司，成立于1999年，位于青岛市，是一家专注于拾光互联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 89,
+      "company": "青柠软件（深圳）信息技术有限公司",
+      "brand": "青柠软件",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "沈思远"
+      ],
+      "logo_url": null,
+      "color": "#DB2777",
+      "region": "华南",
+      "description": "青柠软件（深圳）信息技术有限公司，成立于2002年，位于深圳市，是一家专注于青柠软件领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 90,
+      "company": "天穹软件（广州）咨询有限公司",
+      "brand": "天穹软件",
+      "office_code": "GZH",
+      "office_city": "广州",
+      "departments": [
+        "审计",
+        "咨询"
+      ],
+      "owners": [
+        "秦建华",
+        "秦婉婷"
+      ],
+      "logo_url": null,
+      "color": "#0284C7",
+      "region": "华南",
+      "description": "天穹软件（广州）咨询有限公司，成立于2011年，位于广州市，是一家专注于天穹软件领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 91,
+      "company": "曜阳智能（成都）信息技术有限公司",
+      "brand": "曜阳智能",
+      "office_code": "CDU",
+      "office_city": "成都",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "冯建华",
+        "周梦琪"
+      ],
+      "logo_url": null,
+      "color": "#4F46E5",
+      "region": "华西",
+      "description": "曜阳智能（成都）信息技术有限公司，成立于2009年，位于成都市，是一家专注于曜阳智能领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 92,
+      "company": "南风数据（北京）信息技术有限公司",
+      "brand": "南风数据",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "赵思远"
+      ],
+      "logo_url": null,
+      "color": "#C026D3",
+      "region": "华北",
+      "description": "南风数据（北京）信息技术有限公司，成立于2009年，位于北京市，是一家专注于南风数据领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 93,
+      "company": "沐光数据（南京）咨询有限公司",
+      "brand": "沐光数据",
+      "office_code": "NJI",
+      "office_city": "南京",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "尤雨桐"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华东",
+      "description": "沐光数据（南京）咨询有限公司，成立于2001年，位于南京市，是一家专注于沐光数据领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 94,
+      "company": "望舒互联（重庆）信息技术有限公司",
+      "brand": "望舒互联",
+      "office_code": "CQI",
+      "office_city": "重庆",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "蒋志强"
+      ],
+      "logo_url": null,
+      "color": "#0284C7",
+      "region": "华西",
+      "description": "望舒互联（重庆）信息技术有限公司，成立于2018年，位于重庆市，是一家专注于望舒互联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 95,
+      "company": "岚图软件（南京）有限公司",
+      "brand": "岚图软件",
+      "office_code": "NJI",
+      "office_city": "南京",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "何明轩"
+      ],
+      "logo_url": null,
+      "color": "#DC2626",
+      "region": "华东",
+      "description": "岚图软件（南京）有限公司，成立于2023年，位于南京市，是一家专注于岚图软件领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 96,
+      "company": "曜阳科技（南京）有限公司",
+      "brand": "曜阳科技",
+      "office_code": "NJI",
+      "office_city": "南京",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "卫慧敏",
+        "杨诗涵"
+      ],
+      "logo_url": null,
+      "color": "#2563EB",
+      "region": "华东",
+      "description": "曜阳科技（南京）有限公司，成立于2008年，位于南京市，是一家专注于曜阳科技领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 97,
+      "company": "峻岭互联（厦门）有限公司",
+      "brand": "峻岭互联",
+      "office_code": "XME",
+      "office_city": "厦门",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "林梦琪"
+      ],
+      "logo_url": null,
+      "color": "#DC2626",
+      "region": "华南",
+      "description": "峻岭互联（厦门）有限公司，成立于2006年，位于厦门市，是一家专注于峻岭互联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 98,
+      "company": "天穹数字（厦门）有限公司",
+      "brand": "天穹数字",
+      "office_code": "XME",
+      "office_city": "厦门",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "郑雨桐",
+        "朱明轩"
+      ],
+      "logo_url": null,
+      "color": "#2563EB",
+      "region": "华南",
+      "description": "天穹数字（厦门）有限公司，成立于2023年，位于厦门市，是一家专注于天穹数字领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 99,
+      "company": "汇川信息（厦门）咨询有限公司",
+      "brand": "汇川信息",
+      "office_code": "XME",
+      "office_city": "厦门",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "秦思远"
+      ],
+      "logo_url": null,
+      "color": "#0D9488",
+      "region": "华南",
+      "description": "汇川信息（厦门）咨询有限公司，成立于2002年，位于厦门市，是一家专注于汇川信息领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 100,
+      "company": "曜阳数字（长沙）有限公司",
+      "brand": "曜阳数字",
+      "office_code": "CSH",
+      "office_city": "长沙",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "钱明轩",
+        "林思远"
+      ],
+      "logo_url": null,
+      "color": "#CA8A04",
+      "region": "华南",
+      "description": "曜阳数字（长沙）有限公司，成立于2014年，位于长沙市，是一家专注于曜阳数字领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 101,
+      "company": "岚图数字（南京）信息技术有限公司",
+      "brand": "岚图数字",
+      "office_code": "NJI",
+      "office_city": "南京",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "沈国强",
+        "陈晓芸"
+      ],
+      "logo_url": null,
+      "color": "#0284C7",
+      "region": "华东",
+      "description": "岚图数字（南京）信息技术有限公司，成立于2023年，位于南京市，是一家专注于岚图数字领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 102,
+      "company": "沧海科技（郑州）咨询有限公司",
+      "brand": "沧海科技",
+      "office_code": "ZZH",
+      "office_city": "郑州",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "杨文博"
+      ],
+      "logo_url": null,
+      "color": "#0284C7",
+      "region": "华东",
+      "description": "沧海科技（郑州）咨询有限公司，成立于2013年，位于郑州市，是一家专注于沧海科技领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 103,
+      "company": "峻岭智联（大连）信息技术有限公司",
+      "brand": "峻岭智联",
+      "office_code": "DLI",
+      "office_city": "大连",
+      "departments": [
+        "审计",
+        "咨询"
+      ],
+      "owners": [
+        "冯志强",
+        "何诗涵"
+      ],
+      "logo_url": null,
+      "color": "#DC2626",
+      "region": "华北",
+      "description": "峻岭智联（大连）信息技术有限公司，成立于2000年，位于大连市，是一家专注于峻岭智联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 104,
+      "company": "望舒智能（深圳）科技有限公司",
+      "brand": "望舒智能",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "周婉婷"
+      ],
+      "logo_url": null,
+      "color": "#7C3AED",
+      "region": "华南",
+      "description": "望舒智能（深圳）科技有限公司，成立于2018年，位于深圳市，是一家专注于望舒智能领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 105,
+      "company": "青柠网络（南京）咨询有限公司",
+      "brand": "青柠网络",
+      "office_code": "NJI",
+      "office_city": "南京",
+      "departments": [
+        "审计",
+        "税务"
+      ],
+      "owners": [
+        "朱婉婷"
+      ],
+      "logo_url": null,
+      "color": "#4F46E5",
+      "region": "华东",
+      "description": "青柠网络（南京）咨询有限公司，成立于2014年，位于南京市，是一家专注于青柠网络领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 106,
+      "company": "知远网络（成都）有限公司",
+      "brand": "知远网络",
+      "office_code": "CDU",
+      "office_city": "成都",
+      "departments": [
+        "税务",
+        "咨询"
+      ],
+      "owners": [
+        "冯静怡",
+        "沈诗涵"
+      ],
+      "logo_url": null,
+      "color": "#4F46E5",
+      "region": "华西",
+      "description": "知远网络（成都）有限公司，成立于2011年，位于成都市，是一家专注于知远网络领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 107,
+      "company": "澄川互联（广州）科技有限公司",
+      "brand": "澄川互联",
+      "office_code": "GZH",
+      "office_city": "广州",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "赵静怡"
+      ],
+      "logo_url": null,
+      "color": "#9333EA",
+      "region": "华南",
+      "description": "澄川互联（广州）科技有限公司，成立于2011年，位于广州市，是一家专注于澄川互联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 108,
+      "company": "汇川智联（武汉）咨询有限公司",
+      "brand": "汇川智联",
+      "office_code": "WHA",
+      "office_city": "武汉",
+      "departments": [
+        "审计",
+        "税务"
+      ],
+      "owners": [
+        "尤天佑"
+      ],
+      "logo_url": null,
+      "color": "#0D9488",
+      "region": "华南",
+      "description": "汇川智联（武汉）咨询有限公司，成立于2002年，位于武汉市，是一家专注于汇川智联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 109,
+      "company": "南风系统（武汉）信息技术有限公司",
+      "brand": "南风系统",
+      "office_code": "WHA",
+      "office_city": "武汉",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "尤晓芸"
+      ],
+      "logo_url": null,
+      "color": "#DC2626",
+      "region": "华南",
+      "description": "南风系统（武汉）信息技术有限公司，成立于2011年，位于武汉市，是一家专注于南风系统领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 110,
+      "company": "明澈通信（上海）咨询有限公司",
+      "brand": "明澈通信",
+      "office_code": "SHA",
+      "office_city": "上海",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "赵若曦"
+      ],
+      "logo_url": null,
+      "color": "#9333EA",
+      "region": "华东",
+      "description": "明澈通信（上海）咨询有限公司，成立于2015年，位于上海市，是一家专注于明澈通信领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 111,
+      "company": "云帆互联（南京）有限公司",
+      "brand": "云帆互联",
+      "office_code": "NJI",
+      "office_city": "南京",
+      "departments": [
+        "审计",
+        "咨询"
+      ],
+      "owners": [
+        "蒋欣怡"
+      ],
+      "logo_url": null,
+      "color": "#DC2626",
+      "region": "华东",
+      "description": "云帆互联（南京）有限公司，成立于2007年，位于南京市，是一家专注于云帆互联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 112,
+      "company": "明澈科技（成都）咨询有限公司",
+      "brand": "明澈科技",
+      "office_code": "CDU",
+      "office_city": "成都",
+      "departments": [
+        "咨询",
+        "税务"
+      ],
+      "owners": [
+        "秦俊杰"
+      ],
+      "logo_url": null,
+      "color": "#7C3AED",
+      "region": "华西",
+      "description": "明澈科技（成都）咨询有限公司，成立于2019年，位于成都市，是一家专注于明澈科技领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 113,
+      "company": "沐光信息（苏州）有限公司",
+      "brand": "沐光信息",
+      "office_code": "SUZ",
+      "office_city": "苏州",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "赵若曦"
+      ],
+      "logo_url": null,
+      "color": "#DC2626",
+      "region": "华东",
+      "description": "沐光信息（苏州）有限公司，成立于2022年，位于苏州市，是一家专注于沐光信息领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 114,
+      "company": "澜庭科技（深圳）科技有限公司",
+      "brand": "澜庭科技",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "税务",
+        "咨询"
+      ],
+      "owners": [
+        "陈静怡"
+      ],
+      "logo_url": null,
+      "color": "#0284C7",
+      "region": "华南",
+      "description": "澜庭科技（深圳）科技有限公司，成立于2017年，位于深圳市，是一家专注于澜庭科技领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 115,
+      "company": "拾光智联（郑州）咨询有限公司",
+      "brand": "拾光智联",
+      "office_code": "ZZH",
+      "office_city": "郑州",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "何国强"
+      ],
+      "logo_url": null,
+      "color": "#7C3AED",
+      "region": "华东",
+      "description": "拾光智联（郑州）咨询有限公司，成立于2022年，位于郑州市，是一家专注于拾光智联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 116,
+      "company": "望舒数据（深圳）咨询有限公司",
+      "brand": "望舒数据",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "钱静怡"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华南",
+      "description": "望舒数据（深圳）咨询有限公司，成立于2016年，位于深圳市，是一家专注于望舒数据领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 117,
+      "company": "知远数字（成都）有限公司",
+      "brand": "知远数字",
+      "office_code": "CDU",
+      "office_city": "成都",
+      "departments": [
+        "咨询",
+        "税务"
+      ],
+      "owners": [
+        "秦明轩"
+      ],
+      "logo_url": null,
+      "color": "#DB2777",
+      "region": "华西",
+      "description": "知远数字（成都）有限公司，成立于2021年，位于成都市，是一家专注于知远数字领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 118,
+      "company": "曜石云创（苏州）信息技术有限公司",
+      "brand": "曜石云创",
+      "office_code": "SUZ",
+      "office_city": "苏州",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "尤慧敏"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华东",
+      "description": "曜石云创（苏州）信息技术有限公司，成立于2009年，位于苏州市，是一家专注于曜石云创领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 119,
+      "company": "望舒网络（深圳）咨询有限公司",
+      "brand": "望舒网络",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "朱婉婷",
+        "沈志强"
+      ],
+      "logo_url": null,
+      "color": "#65A30D",
+      "region": "华南",
+      "description": "望舒网络（深圳）咨询有限公司，成立于2003年，位于深圳市，是一家专注于望舒网络领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 120,
+      "company": "峻岭软件（长沙）有限公司",
+      "brand": "峻岭软件",
+      "office_code": "CSH",
+      "office_city": "长沙",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "赵欣怡",
+        "杨静怡"
+      ],
+      "logo_url": null,
+      "color": "#0891B2",
+      "region": "华南",
+      "description": "峻岭软件（长沙）有限公司，成立于2011年，位于长沙市，是一家专注于峻岭软件领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 121,
+      "company": "灵犀软件（苏州）信息技术有限公司",
+      "brand": "灵犀软件",
+      "office_code": "SUZ",
+      "office_city": "苏州",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "杨静怡"
+      ],
+      "logo_url": null,
+      "color": "#DB2777",
+      "region": "华东",
+      "description": "灵犀软件（苏州）信息技术有限公司，成立于2001年，位于苏州市，是一家专注于灵犀软件领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 122,
+      "company": "沧海数据（深圳）有限公司",
+      "brand": "沧海数据",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "税务",
+        "审计"
+      ],
+      "owners": [
+        "郑诗涵"
+      ],
+      "logo_url": null,
+      "color": "#C026D3",
+      "region": "华南",
+      "description": "沧海数据（深圳）有限公司，成立于2014年，位于深圳市，是一家专注于沧海数据领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 123,
+      "company": "知远云创（武汉）有限公司",
+      "brand": "知远云创",
+      "office_code": "WHA",
+      "office_city": "武汉",
+      "departments": [
+        "咨询",
+        "税务"
+      ],
+      "owners": [
+        "沈婉婷"
+      ],
+      "logo_url": null,
+      "color": "#DB2777",
+      "region": "华南",
+      "description": "知远云创（武汉）有限公司，成立于2004年，位于武汉市，是一家专注于知远云创领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 124,
+      "company": "曜阳数据（深圳）科技有限公司",
+      "brand": "曜阳数据",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "赵天佑"
+      ],
+      "logo_url": null,
+      "color": "#DC2626",
+      "region": "华南",
+      "description": "曜阳数据（深圳）科技有限公司，成立于2008年，位于深圳市，是一家专注于曜阳数据领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 125,
+      "company": "汇川数据（上海）信息技术有限公司",
+      "brand": "汇川数据",
+      "office_code": "SHA",
+      "office_city": "上海",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "钱诗涵",
+        "秦思远"
+      ],
+      "logo_url": null,
+      "color": "#C026D3",
+      "region": "华东",
+      "description": "汇川数据（上海）信息技术有限公司，成立于2015年，位于上海市，是一家专注于汇川数据领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 126,
+      "company": "望舒科技（武汉）咨询有限公司",
+      "brand": "望舒科技",
+      "office_code": "WHA",
+      "office_city": "武汉",
+      "departments": [
+        "咨询",
+        "审计"
+      ],
+      "owners": [
+        "尤雨桐"
+      ],
+      "logo_url": null,
+      "color": "#CA8A04",
+      "region": "华南",
+      "description": "望舒科技（武汉）咨询有限公司，成立于1998年，位于武汉市，是一家专注于望舒科技领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 127,
+      "company": "极光系统（广州）有限公司",
+      "brand": "极光系统",
+      "office_code": "GZH",
+      "office_city": "广州",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "孙子墨"
+      ],
+      "logo_url": null,
+      "color": "#CA8A04",
+      "region": "华南",
+      "description": "极光系统（广州）有限公司，成立于2010年，位于广州市，是一家专注于极光系统领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 128,
+      "company": "知远软件（武汉）信息技术有限公司",
+      "brand": "知远软件",
+      "office_code": "WHA",
+      "office_city": "武汉",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "冯静怡"
+      ],
+      "logo_url": null,
+      "color": "#0D9488",
+      "region": "华南",
+      "description": "知远软件（武汉）信息技术有限公司，成立于2008年，位于武汉市，是一家专注于知远软件领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 129,
+      "company": "曜石数据（北京）信息技术有限公司",
+      "brand": "曜石数据",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "赵思远",
+        "林晓芸"
+      ],
+      "logo_url": null,
+      "color": "#DC2626",
+      "region": "华北",
+      "description": "曜石数据（北京）信息技术有限公司，成立于2005年，位于北京市，是一家专注于曜石数据领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 130,
+      "company": "峻岭网络（广州）信息技术有限公司",
+      "brand": "峻岭网络",
+      "office_code": "GZH",
+      "office_city": "广州",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "韩欣怡",
+        "沈婉婷"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华南",
+      "description": "峻岭网络（广州）信息技术有限公司，成立于2008年，位于广州市，是一家专注于峻岭网络领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 131,
+      "company": "拾光智能（北京）科技有限公司",
+      "brand": "拾光智能",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "咨询",
+        "税务"
+      ],
+      "owners": [
+        "孙慧敏"
+      ],
+      "logo_url": null,
+      "color": "#0891B2",
+      "region": "华北",
+      "description": "拾光智能（北京）科技有限公司，成立于2022年，位于北京市，是一家专注于拾光智能领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 132,
+      "company": "灵犀科技（深圳）科技有限公司",
+      "brand": "灵犀科技",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "林建华"
+      ],
+      "logo_url": null,
+      "color": "#0D9488",
+      "region": "华南",
+      "description": "灵犀科技（深圳）科技有限公司，成立于2004年，位于深圳市，是一家专注于灵犀科技领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 133,
+      "company": "拾光网络（北京）科技有限公司",
+      "brand": "拾光网络",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "审计",
+        "税务"
+      ],
+      "owners": [
+        "沈雅静",
+        "陈雨桐"
+      ],
+      "logo_url": null,
+      "color": "#7C3AED",
+      "region": "华北",
+      "description": "拾光网络（北京）科技有限公司，成立于2022年，位于北京市，是一家专注于拾光网络领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 134,
+      "company": "岚图云创（南京）信息技术有限公司",
+      "brand": "岚图云创",
+      "office_code": "NJI",
+      "office_city": "南京",
+      "departments": [
+        "税务",
+        "审计"
+      ],
+      "owners": [
+        "蒋建华",
+        "杨文博"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华东",
+      "description": "岚图云创（南京）信息技术有限公司，成立于2018年，位于南京市，是一家专注于岚图云创领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 135,
+      "company": "知远互联（深圳）信息技术有限公司",
+      "brand": "知远互联",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "陈婉婷"
+      ],
+      "logo_url": null,
+      "color": "#65A30D",
+      "region": "华南",
+      "description": "知远互联（深圳）信息技术有限公司，成立于2007年，位于深圳市，是一家专注于知远互联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 136,
+      "company": "曜阳通信（厦门）有限公司",
+      "brand": "曜阳通信",
+      "office_code": "XME",
+      "office_city": "厦门",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "郑雅静"
+      ],
+      "logo_url": null,
+      "color": "#7C3AED",
+      "region": "华南",
+      "description": "曜阳通信（厦门）有限公司，成立于2012年，位于厦门市，是一家专注于曜阳通信领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 137,
+      "company": "曜阳互联（广州）有限公司",
+      "brand": "曜阳互联",
+      "office_code": "GZH",
+      "office_city": "广州",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "卫思远"
+      ],
+      "logo_url": null,
+      "color": "#EA580C",
+      "region": "华南",
+      "description": "曜阳互联（广州）有限公司，成立于2000年，位于广州市，是一家专注于曜阳互联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 138,
+      "company": "沧海智能（成都）信息技术有限公司",
+      "brand": "沧海智能",
+      "office_code": "CDU",
+      "office_city": "成都",
+      "departments": [
+        "税务",
+        "咨询"
+      ],
+      "owners": [
+        "孙婉婷"
+      ],
+      "logo_url": null,
+      "color": "#0D9488",
+      "region": "华西",
+      "description": "沧海智能（成都）信息技术有限公司，成立于2012年，位于成都市，是一家专注于沧海智能领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 139,
+      "company": "云帆网络（郑州）科技有限公司",
+      "brand": "云帆网络",
+      "office_code": "ZZH",
+      "office_city": "郑州",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "周雨桐"
+      ],
+      "logo_url": null,
+      "color": "#0D9488",
+      "region": "华东",
+      "description": "云帆网络（郑州）科技有限公司，成立于2002年，位于郑州市，是一家专注于云帆网络领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 140,
+      "company": "南风科技（重庆）信息技术有限公司",
+      "brand": "南风科技",
+      "office_code": "CQI",
+      "office_city": "重庆",
+      "departments": [
+        "咨询",
+        "税务"
+      ],
+      "owners": [
+        "朱子墨"
+      ],
+      "logo_url": null,
+      "color": "#2563EB",
+      "region": "华西",
+      "description": "南风科技（重庆）信息技术有限公司，成立于1999年，位于重庆市，是一家专注于南风科技领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 141,
+      "company": "岚图智能（北京）信息技术有限公司",
+      "brand": "岚图智能",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "税务",
+        "咨询"
+      ],
+      "owners": [
+        "杨明轩"
+      ],
+      "logo_url": null,
+      "color": "#0284C7",
+      "region": "华北",
+      "website": "",
+      "description": "岚图智能（北京）信息技术有限公司，成立于2009年，位于北京市，是一家专注于岚图智能领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。"
+    },
+    {
+      "id": 142,
+      "company": "青柠数字（广州）咨询有限公司",
+      "brand": "青柠数字",
+      "office_code": "GZH",
+      "office_city": "广州",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "秦欣怡"
+      ],
+      "logo_url": null,
+      "color": "#0284C7",
+      "region": "华南",
+      "description": "青柠数字（广州）咨询有限公司，成立于2017年，位于广州市，是一家专注于青柠数字领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 143,
+      "company": "澜庭互联（上海）咨询有限公司",
+      "brand": "澜庭互联",
+      "office_code": "SHA",
+      "office_city": "上海",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "何雨桐"
+      ],
+      "logo_url": null,
+      "color": "#0891B2",
+      "region": "华东",
+      "description": "澜庭互联（上海）咨询有限公司，成立于2019年，位于上海市，是一家专注于澜庭互联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 144,
+      "company": "望舒信息（广州）咨询有限公司",
+      "brand": "望舒信息",
+      "office_code": "GZH",
+      "office_city": "广州",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "杨浩然",
+        "杨若曦"
+      ],
+      "logo_url": null,
+      "color": "#7C3AED",
+      "region": "华南",
+      "description": "望舒信息（广州）咨询有限公司，成立于2000年，位于广州市，是一家专注于望舒信息领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 145,
+      "company": "云帆信息（南京）科技有限公司",
+      "brand": "云帆信息",
+      "office_code": "NJI",
+      "office_city": "南京",
+      "departments": [
+        "税务",
+        "审计"
+      ],
+      "owners": [
+        "朱国强"
+      ],
+      "logo_url": null,
+      "color": "#EA580C",
+      "region": "华东",
+      "description": "云帆信息（南京）科技有限公司，成立于2002年，位于南京市，是一家专注于云帆信息领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 146,
+      "company": "青柠系统（南京）有限公司",
+      "brand": "青柠系统",
+      "office_code": "NJI",
+      "office_city": "南京",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "林浩然"
+      ],
+      "logo_url": null,
+      "color": "#DC2626",
+      "region": "华东",
+      "description": "青柠系统（南京）有限公司，成立于2023年，位于南京市，是一家专注于青柠系统领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 147,
+      "company": "曜阳网络（深圳）科技有限公司",
+      "brand": "曜阳网络",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "税务",
+        "咨询"
+      ],
+      "owners": [
+        "杨雨桐",
+        "赵明轩"
+      ],
+      "logo_url": null,
+      "color": "#4F46E5",
+      "region": "华南",
+      "description": "曜阳网络（深圳）科技有限公司，成立于2018年，位于深圳市，是一家专注于曜阳网络领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 148,
+      "company": "汇川软件（武汉）咨询有限公司",
+      "brand": "汇川软件",
+      "office_code": "WHA",
+      "office_city": "武汉",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "赵思远"
+      ],
+      "logo_url": null,
+      "color": "#DB2777",
+      "region": "华南",
+      "description": "汇川软件（武汉）咨询有限公司，成立于2004年，位于武汉市，是一家专注于汇川软件领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 149,
+      "company": "曜石通信（深圳）信息技术有限公司",
+      "brand": "曜石通信",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "朱晓芸"
+      ],
+      "logo_url": null,
+      "color": "#0891B2",
+      "region": "华南",
+      "description": "曜石通信（深圳）信息技术有限公司，成立于2000年，位于深圳市，是一家专注于曜石通信领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 150,
+      "company": "南风数字（深圳）有限公司",
+      "brand": "南风数字",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "税务",
+        "咨询"
+      ],
+      "owners": [
+        "何文博",
+        "朱建华"
+      ],
+      "logo_url": null,
+      "color": "#16A34A",
+      "region": "华南",
+      "description": "南风数字（深圳）有限公司，成立于2019年，位于深圳市，是一家专注于南风数字领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 151,
+      "company": "沐光软件（深圳）科技有限公司",
+      "brand": "沐光软件",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "褚晓芸",
+        "许天佑"
+      ],
+      "logo_url": null,
+      "color": "#C026D3",
+      "region": "华南",
+      "description": "沐光软件（深圳）科技有限公司，成立于2020年，位于深圳市，是一家专注于沐光软件领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 152,
+      "company": "望舒通信（厦门）科技有限公司",
+      "brand": "望舒通信",
+      "office_code": "XME",
+      "office_city": "厦门",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "韩雨桐",
+        "钱文博"
+      ],
+      "logo_url": null,
+      "color": "#C026D3",
+      "region": "华南",
+      "description": "望舒通信（厦门）科技有限公司，成立于2019年，位于厦门市，是一家专注于望舒通信领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 153,
+      "company": "峻岭智能（武汉）信息技术有限公司",
+      "brand": "峻岭智能",
+      "office_code": "WHA",
+      "office_city": "武汉",
+      "departments": [
+        "审计",
+        "咨询"
+      ],
+      "owners": [
+        "许若曦",
+        "卫明轩"
+      ],
+      "logo_url": null,
+      "color": "#9333EA",
+      "region": "华南",
+      "description": "峻岭智能（武汉）信息技术有限公司，成立于2015年，位于武汉市，是一家专注于峻岭智能领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 154,
+      "company": "汇川网络（北京）信息技术有限公司",
+      "brand": "汇川网络",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "税务",
+        "审计"
+      ],
+      "owners": [
+        "冯若曦"
+      ],
+      "logo_url": null,
+      "color": "#EA580C",
+      "region": "华北",
+      "description": "汇川网络（北京）信息技术有限公司，成立于2012年，位于北京市，是一家专注于汇川网络领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 155,
+      "company": "灵犀互联（厦门）信息技术有限公司",
+      "brand": "灵犀互联",
+      "office_code": "XME",
+      "office_city": "厦门",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "钱建华",
+        "周国强"
+      ],
+      "logo_url": null,
+      "color": "#DC2626",
+      "region": "华南",
+      "description": "灵犀互联（厦门）信息技术有限公司，成立于2023年，位于厦门市，是一家专注于灵犀互联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 156,
+      "company": "云帆智能（成都）咨询有限公司",
+      "brand": "云帆智能",
+      "office_code": "CDU",
+      "office_city": "成都",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "韩静怡"
+      ],
+      "logo_url": null,
+      "color": "#0D9488",
+      "region": "华西",
+      "description": "云帆智能（成都）咨询有限公司，成立于2015年，位于成都市，是一家专注于云帆智能领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 157,
+      "company": "曜石数字（重庆）有限公司",
+      "brand": "曜石数字",
+      "office_code": "CQI",
+      "office_city": "重庆",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "林天佑"
+      ],
+      "logo_url": null,
+      "color": "#C026D3",
+      "region": "华西",
+      "website": "",
+      "description": "曜石数字（重庆）有限公司，成立于2012年，位于重庆市，是一家专注于曜石数字领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。"
+    },
+    {
+      "id": 158,
+      "company": "沧海云创（郑州）科技有限公司",
+      "brand": "沧海云创",
+      "office_code": "ZZH",
+      "office_city": "郑州",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "尤晓芸"
+      ],
+      "logo_url": null,
+      "color": "#0284C7",
+      "region": "华东",
+      "description": "沧海云创（郑州）科技有限公司，成立于2009年，位于郑州市，是一家专注于沧海云创领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 159,
+      "company": "极光智能（郑州）信息技术有限公司",
+      "brand": "极光智能",
+      "office_code": "ZZH",
+      "office_city": "郑州",
+      "departments": [
+        "审计",
+        "咨询"
+      ],
+      "owners": [
+        "沈婉婷"
+      ],
+      "logo_url": null,
+      "color": "#CA8A04",
+      "region": "华东",
+      "description": "极光智能（郑州）信息技术有限公司，成立于2010年，位于郑州市，是一家专注于极光智能领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 160,
+      "company": "极光软件（台湾）咨询有限公司",
+      "brand": "极光软件",
+      "office_code": "TWN",
+      "office_city": "台湾",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "韩诗涵"
+      ],
+      "logo_url": null,
+      "color": "#EA580C",
+      "region": "台湾",
+      "description": "极光软件（台湾）咨询有限公司，成立于2020年，位于台湾市，是一家专注于极光软件领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 161,
+      "company": "灵犀云创（成都）科技有限公司",
+      "brand": "灵犀云创",
+      "office_code": "CDU",
+      "office_city": "成都",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "褚梦琪"
+      ],
+      "logo_url": null,
+      "color": "#EA580C",
+      "region": "华西",
+      "description": "灵犀云创（成都）科技有限公司，成立于2020年，位于成都市，是一家专注于灵犀云创领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 162,
+      "company": "极光通信（青岛）信息技术有限公司",
+      "brand": "极光通信",
+      "office_code": "QDA",
+      "office_city": "青岛",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "吴晓芸"
+      ],
+      "logo_url": null,
+      "color": "#7C3AED",
+      "region": "华北",
+      "description": "极光通信（青岛）信息技术有限公司，成立于1998年，位于青岛市，是一家专注于极光通信领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 163,
+      "company": "沐光数字（北京）科技有限公司",
+      "brand": "沐光数字",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "审计",
+        "咨询"
+      ],
+      "owners": [
+        "孙雅静",
+        "孙思远"
+      ],
+      "logo_url": null,
+      "color": "#2563EB",
+      "region": "华北",
+      "description": "沐光数字（北京）科技有限公司，成立于2022年，位于北京市，是一家专注于沐光数字领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 164,
+      "company": "澄川智能（深圳）咨询有限公司",
+      "brand": "澄川智能",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "周子墨"
+      ],
+      "logo_url": null,
+      "color": "#65A30D",
+      "region": "华南",
+      "description": "澄川智能（深圳）咨询有限公司，成立于2018年，位于深圳市，是一家专注于澄川智能领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 165,
+      "company": "拾光系统（厦门）信息技术有限公司",
+      "brand": "拾光系统",
+      "office_code": "XME",
+      "office_city": "厦门",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "韩明轩"
+      ],
+      "logo_url": null,
+      "color": "#65A30D",
+      "region": "华南",
+      "description": "拾光系统（厦门）信息技术有限公司，成立于2015年，位于厦门市，是一家专注于拾光系统领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 166,
+      "company": "天穹智联（上海）科技有限公司",
+      "brand": "天穹智联",
+      "office_code": "SHA",
+      "office_city": "上海",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "孙若曦",
+        "韩志强"
+      ],
+      "logo_url": null,
+      "color": "#0D9488",
+      "region": "华东",
+      "description": "天穹智联（上海）科技有限公司，成立于2017年，位于上海市，是一家专注于天穹智联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 167,
+      "company": "澜庭数据（深圳）信息技术有限公司",
+      "brand": "澜庭数据",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "咨询",
+        "审计"
+      ],
+      "owners": [
+        "孙晓芸"
+      ],
+      "logo_url": null,
+      "color": "#4F46E5",
+      "region": "华南",
+      "description": "澜庭数据（深圳）信息技术有限公司，成立于2000年，位于深圳市，是一家专注于澜庭数据领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 168,
+      "company": "拾光科技（重庆）有限公司",
+      "brand": "拾光科技",
+      "office_code": "CQI",
+      "office_city": "重庆",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "陈婉婷"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华西",
+      "description": "拾光科技（重庆）有限公司，成立于2010年，位于重庆市，是一家专注于拾光科技领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 169,
+      "company": "青柠信息（台湾）咨询有限公司",
+      "brand": "青柠信息",
+      "office_code": "TWN",
+      "office_city": "台湾",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "秦晓芸",
+        "尤文博"
+      ],
+      "logo_url": null,
+      "color": "#16A34A",
+      "region": "台湾",
+      "description": "青柠信息（台湾）咨询有限公司，成立于2005年，位于台湾市，是一家专注于青柠信息领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 170,
+      "company": "沧海软件（武汉）有限公司",
+      "brand": "沧海软件",
+      "office_code": "WHA",
+      "office_city": "武汉",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "卫俊杰",
+        "褚雨桐"
+      ],
+      "logo_url": null,
+      "color": "#0D9488",
+      "region": "华南",
+      "description": "沧海软件（武汉）有限公司，成立于1999年，位于武汉市，是一家专注于沧海软件领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 171,
+      "company": "望舒智联（深圳）咨询有限公司",
+      "brand": "望舒智联",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "审计",
+        "税务"
+      ],
+      "owners": [
+        "秦思远",
+        "杨志强"
+      ],
+      "logo_url": null,
+      "color": "#0284C7",
+      "region": "华南",
+      "description": "望舒智联（深圳）咨询有限公司，成立于2018年，位于深圳市，是一家专注于望舒智联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 172,
+      "company": "拾光云创（北京）科技有限公司",
+      "brand": "拾光云创",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "何俊杰"
+      ],
+      "logo_url": null,
+      "color": "#EA580C",
+      "region": "华北",
+      "description": "拾光云创（北京）科技有限公司，成立于2007年，位于北京市，是一家专注于拾光云创领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 173,
+      "company": "云帆云创（北京）科技有限公司",
+      "brand": "云帆云创",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "孙静怡"
+      ],
+      "logo_url": null,
+      "color": "#7C3AED",
+      "region": "华北",
+      "description": "云帆云创（北京）科技有限公司，成立于2010年，位于北京市，是一家专注于云帆云创领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 174,
+      "company": "沧海智联（台湾）信息技术有限公司",
+      "brand": "沧海智联",
+      "office_code": "TWN",
+      "office_city": "台湾",
+      "departments": [
+        "咨询",
+        "审计"
+      ],
+      "owners": [
+        "沈建华"
+      ],
+      "logo_url": null,
+      "color": "#9333EA",
+      "region": "台湾",
+      "description": "沧海智联（台湾）信息技术有限公司，成立于2009年，位于台湾市，是一家专注于沧海智联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 175,
+      "company": "明澈数据（大连）有限公司",
+      "brand": "明澈数据",
+      "office_code": "DLI",
+      "office_city": "大连",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "郑子墨",
+        "杨静怡"
+      ],
+      "logo_url": null,
+      "color": "#C026D3",
+      "region": "华北",
+      "description": "明澈数据（大连）有限公司，成立于2011年，位于大连市，是一家专注于明澈数据领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 176,
+      "company": "极光数字（西安）信息技术有限公司",
+      "brand": "极光数字",
+      "office_code": "XAN",
+      "office_city": "西安",
+      "departments": [
+        "审计"
+      ],
+      "owners": [
+        "赵静怡"
+      ],
+      "logo_url": null,
+      "color": "#CA8A04",
+      "region": "华北",
+      "description": "极光数字（西安）信息技术有限公司，成立于2020年，位于西安市，是一家专注于极光数字领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 177,
+      "company": "南风信息（苏州）咨询有限公司",
+      "brand": "南风信息",
+      "office_code": "SUZ",
+      "office_city": "苏州",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "孙雅静"
+      ],
+      "logo_url": null,
+      "color": "#0891B2",
+      "region": "华东",
+      "description": "南风信息（苏州）咨询有限公司，成立于2011年，位于苏州市，是一家专注于南风信息领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 178,
+      "company": "南风网络（成都）科技有限公司",
+      "brand": "南风网络",
+      "office_code": "CDU",
+      "office_city": "成都",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "吴天佑",
+        "蒋雅静"
+      ],
+      "logo_url": null,
+      "color": "#0284C7",
+      "region": "华西",
+      "description": "南风网络（成都）科技有限公司，成立于2008年，位于成都市，是一家专注于南风网络领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 179,
+      "company": "青柠数据（成都）咨询有限公司",
+      "brand": "青柠数据",
+      "office_code": "CDU",
+      "office_city": "成都",
+      "departments": [
+        "审计",
+        "咨询"
+      ],
+      "owners": [
+        "杨若曦"
+      ],
+      "logo_url": null,
+      "color": "#EA580C",
+      "region": "华西",
+      "description": "青柠数据（成都）咨询有限公司，成立于2020年，位于成都市，是一家专注于青柠数据领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 180,
+      "company": "汇川通信（广州）信息技术有限公司",
+      "brand": "汇川通信",
+      "office_code": "GZH",
+      "office_city": "广州",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "孙雅静"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华南",
+      "description": "汇川通信（广州）信息技术有限公司，成立于2011年，位于广州市，是一家专注于汇川通信领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 181,
+      "company": "云帆数字（深圳）有限公司",
+      "brand": "云帆数字",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "审计",
+        "税务"
+      ],
+      "owners": [
+        "褚建华"
+      ],
+      "logo_url": null,
+      "color": "#65A30D",
+      "region": "华南",
+      "description": "云帆数字（深圳）有限公司，成立于2014年，位于深圳市，是一家专注于云帆数字领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 182,
+      "company": "岚图科技（青岛）科技有限公司",
+      "brand": "岚图科技",
+      "office_code": "QDA",
+      "office_city": "青岛",
+      "departments": [
+        "税务",
+        "审计"
+      ],
+      "owners": [
+        "孙若曦"
+      ],
+      "logo_url": null,
+      "color": "#C026D3",
+      "region": "华北",
+      "description": "岚图科技（青岛）科技有限公司，成立于1999年，位于青岛市，是一家专注于岚图科技领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 183,
+      "company": "天穹互联（上海）科技有限公司",
+      "brand": "天穹互联",
+      "office_code": "SHA",
+      "office_city": "上海",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "卫雅静",
+        "赵思远"
+      ],
+      "logo_url": null,
+      "color": "#0D9488",
+      "region": "华东",
+      "description": "天穹互联（上海）科技有限公司，成立于1999年，位于上海市，是一家专注于天穹互联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 184,
+      "company": "汇川云创（成都）信息技术有限公司",
+      "brand": "汇川云创",
+      "office_code": "CDU",
+      "office_city": "成都",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "何建华"
+      ],
+      "logo_url": null,
+      "color": "#C026D3",
+      "region": "华西",
+      "description": "汇川云创（成都）信息技术有限公司，成立于2016年，位于成都市，是一家专注于汇川云创领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 185,
+      "company": "沐光通信（北京）咨询有限公司",
+      "brand": "沐光通信",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "审计",
+        "咨询"
+      ],
+      "owners": [
+        "尤天佑"
+      ],
+      "logo_url": null,
+      "color": "#DB2777",
+      "region": "华北",
+      "description": "沐光通信（北京）咨询有限公司，成立于2001年，位于北京市，是一家专注于沐光通信领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 186,
+      "company": "星辰系统（上海）科技有限公司",
+      "brand": "星辰系统",
+      "office_code": "SHA",
+      "office_city": "上海",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "韩慧敏"
+      ],
+      "logo_url": null,
+      "color": "#DB2777",
+      "region": "华东",
+      "description": "星辰系统（上海）科技有限公司，成立于2001年，位于上海市，是一家专注于星辰系统领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 187,
+      "company": "曜石互联（北京）咨询有限公司",
+      "brand": "曜石互联",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "审计",
+        "税务"
+      ],
+      "owners": [
+        "林慧敏",
+        "杨建华"
+      ],
+      "logo_url": null,
+      "color": "#DB2777",
+      "region": "华北",
+      "website": "",
+      "description": "曜石互联（北京）咨询有限公司，成立于2004年，位于北京市，是一家专注于曜石互联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。"
+    },
+    {
+      "id": 188,
+      "company": "澜庭智联（上海）有限公司",
+      "brand": "澜庭智联",
+      "office_code": "SHA",
+      "office_city": "上海",
+      "departments": [
+        "审计",
+        "咨询"
+      ],
+      "owners": [
+        "卫若曦"
+      ],
+      "logo_url": null,
+      "color": "#CA8A04",
+      "region": "华东",
+      "description": "澜庭智联（上海）有限公司，成立于2023年，位于上海市，是一家专注于澜庭智联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 189,
+      "company": "极光网络（武汉）咨询有限公司",
+      "brand": "极光网络",
+      "office_code": "WHA",
+      "office_city": "武汉",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "郑静怡",
+        "蒋文博"
+      ],
+      "logo_url": null,
+      "color": "#16A34A",
+      "region": "华南",
+      "description": "极光网络（武汉）咨询有限公司，成立于2015年，位于武汉市，是一家专注于极光网络领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 190,
+      "company": "极光互联（深圳）咨询有限公司",
+      "brand": "极光互联",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "税务",
+        "咨询"
+      ],
+      "owners": [
+        "钱子墨"
+      ],
+      "logo_url": null,
+      "color": "#7C3AED",
+      "region": "华南",
+      "description": "极光互联（深圳）咨询有限公司，成立于2023年，位于深圳市，是一家专注于极光互联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 191,
+      "company": "天穹科技（深圳）科技有限公司",
+      "brand": "天穹科技",
+      "office_code": "SZH",
+      "office_city": "深圳",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "郑思远"
+      ],
+      "logo_url": null,
+      "color": "#DB2777",
+      "region": "华南",
+      "description": "天穹科技（深圳）科技有限公司，成立于2023年，位于深圳市，是一家专注于天穹科技领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 192,
+      "company": "岚图智联（苏州）咨询有限公司",
+      "brand": "岚图智联",
+      "office_code": "SUZ",
+      "office_city": "苏州",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "尤思远",
+        "冯若曦"
+      ],
+      "logo_url": null,
+      "color": "#CA8A04",
+      "region": "华东",
+      "description": "岚图智联（苏州）咨询有限公司，成立于2002年，位于苏州市，是一家专注于岚图智联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 193,
+      "company": "澜庭云创（成都）有限公司",
+      "brand": "澜庭云创",
+      "office_code": "CDU",
+      "office_city": "成都",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "朱国强"
+      ],
+      "logo_url": null,
+      "color": "#16A34A",
+      "region": "华西",
+      "description": "澜庭云创（成都）有限公司，成立于2021年，位于成都市，是一家专注于澜庭云创领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 194,
+      "company": "峻岭信息（苏州）信息技术有限公司",
+      "brand": "峻岭信息",
+      "office_code": "SUZ",
+      "office_city": "苏州",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "孙子墨"
+      ],
+      "logo_url": null,
+      "color": "#C026D3",
+      "region": "华东",
+      "description": "峻岭信息（苏州）信息技术有限公司，成立于2008年，位于苏州市，是一家专注于峻岭信息领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 195,
+      "company": "极光信息（成都）信息技术有限公司",
+      "brand": "极光信息",
+      "office_code": "CDU",
+      "office_city": "成都",
+      "departments": [
+        "审计",
+        "咨询"
+      ],
+      "owners": [
+        "沈俊杰"
+      ],
+      "logo_url": null,
+      "color": "#9333EA",
+      "region": "华西",
+      "description": "极光信息（成都）信息技术有限公司，成立于2022年，位于成都市，是一家专注于极光信息领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 196,
+      "company": "澄川数据（南京）科技有限公司",
+      "brand": "澄川数据",
+      "office_code": "NJI",
+      "office_city": "南京",
+      "departments": [
+        "咨询",
+        "税务"
+      ],
+      "owners": [
+        "吴建华"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华东",
+      "description": "澄川数据（南京）科技有限公司，成立于2014年，位于南京市，是一家专注于澄川数据领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 197,
+      "company": "澜庭网络（北京）科技有限公司",
+      "brand": "澜庭网络",
+      "office_code": "BJI",
+      "office_city": "北京",
+      "departments": [
+        "咨询",
+        "审计"
+      ],
+      "owners": [
+        "冯雅静"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华北",
+      "description": "澜庭网络（北京）科技有限公司，成立于2014年，位于北京市，是一家专注于澜庭网络领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 198,
+      "company": "灵犀数据（西安）有限公司",
+      "brand": "灵犀数据",
+      "office_code": "XAN",
+      "office_city": "西安",
+      "departments": [
+        "税务",
+        "审计"
+      ],
+      "owners": [
+        "周静怡"
+      ],
+      "logo_url": null,
+      "color": "#475569",
+      "region": "华北",
+      "description": "灵犀数据（西安）有限公司，成立于2002年，位于西安市，是一家专注于灵犀数据领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 199,
+      "company": "曜阳智联（成都）有限公司",
+      "brand": "曜阳智联",
+      "office_code": "CDU",
+      "office_city": "成都",
+      "departments": [
+        "税务",
+        "咨询"
+      ],
+      "owners": [
+        "韩静怡",
+        "吴志强"
+      ],
+      "logo_url": null,
+      "color": "#9333EA",
+      "region": "华西",
+      "description": "曜阳智联（成都）有限公司，成立于2003年，位于成都市，是一家专注于曜阳智联领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 200,
+      "company": "极光数据（成都）咨询有限公司",
+      "brand": "极光数据",
+      "office_code": "CDU",
+      "office_city": "成都",
+      "departments": [
+        "咨询"
+      ],
+      "owners": [
+        "尤诗涵",
+        "韩诗涵"
+      ],
+      "logo_url": null,
+      "color": "#0D9488",
+      "region": "华西",
+      "description": "极光数据（成都）咨询有限公司，成立于2018年，位于成都市，是一家专注于极光数据领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 201,
+      "company": "澜庭数字（厦门）咨询有限公司",
+      "brand": "澜庭数字",
+      "office_code": "XME",
+      "office_city": "厦门",
+      "departments": [
+        "审计",
+        "咨询"
+      ],
+      "owners": [
+        "钱思远",
+        "吴静怡"
+      ],
+      "logo_url": null,
+      "color": "#16A34A",
+      "region": "华南",
+      "description": "澜庭数字（厦门）咨询有限公司，成立于2013年，位于厦门市，是一家专注于澜庭数字领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    },
+    {
+      "id": 202,
+      "company": "望舒软件（西安）咨询有限公司",
+      "brand": "望舒软件",
+      "office_code": "XAN",
+      "office_city": "西安",
+      "departments": [
+        "税务"
+      ],
+      "owners": [
+        "蒋国强",
+        "郑天佑"
+      ],
+      "logo_url": null,
+      "color": "#9333EA",
+      "region": "华北",
+      "description": "望舒软件（西安）咨询有限公司，成立于2010年，位于西安市，是一家专注于望舒软件领域的虚构演示企业。本条目由开源演示数据生成器创建，与任何真实机构无关。",
+      "website": ""
+    }
+  ],
+  "regions": [
+    "华东",
+    "华北",
+    "华南",
+    "华西",
+    "台湾"
+  ],
+  "title_en": "CLIENT LOGO WALL",
+  "theme": "classic",
+  "bg_pattern": "none",
+  "footer_text": "连接  ·  协作  ·  共创价值"
+}
