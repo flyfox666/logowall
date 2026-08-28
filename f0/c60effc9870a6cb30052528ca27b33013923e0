@@ -1,0 +1,79 @@
+opensource/local/server/app.py
+  s_1a87ea9757211f::t_c7090b2399c156 1165
+  s_1a87ea9757211f::t_43a373c03a8f40 709
+  s_1a87ea9757211f::t_eff2ed0e460352 1139
+  s_1a87ea9757211f::t_b684ab8ed7a2bc 1089-1101,1104-1107,1109,1112-1119
+  s_1a87ea9757211f::t_26fb2aad880e7b 739-740
+  s_1a87ea9757211f::t_c3ac616f390f45 399-430,436,447
+opensource/local/index.html
+  s_1a87ea9757211f::t_6398a1b5544efd 1150-1154
+  s_1a87ea9757211f::t_4a1d887c869452 1210
+  s_1a87ea9757211f::t_a75a1698d74bfd 1054
+  s_1a87ea9757211f::t_5856509a980766 1714-1718
+  s_1a87ea9757211f::t_f1afe983f05ce9 571-574
+  s_1a87ea9757211f::t_93c7c954497bf3 1906-1908
+  s_1a87ea9757211f::t_e815eed6a0dbfd 1198-1199
+  s_1a87ea9757211f::t_b7890ca03a7626 2600,2602
+  s_1a87ea9757211f::t_65d3bc98bc2501 1854-1858,1862
+  s_1a87ea9757211f::t_ea39f9bf88d831 1240-1241
+  s_1a87ea9757211f::t_63a1e610665222 1700-1713,1719-1758,1760-1762,1764-1766,1768-1801
+  s_1a87ea9757211f::t_a20493a133a870 2267
+  s_1a87ea9757211f::t_74b73933415c3d 2749-2751
+  s_1a87ea9757211f::t_85f9499a51e7ce 1608-1613,1648-1649,1652-1662,1665-1668,1673-1676,1679-1681,1683,1685-1694,1802-1818,1824-1826
+  s_1a87ea9757211f::t_ce91cdd4e81295 970-982
+  s_1a87ea9757211f::t_8e4ea9d31bf576 1926
+  s_1a87ea9757211f::t_bda9a6d9f810eb 378-459
+  s_1a87ea9757211f::t_06fbaedba4e990 461-470
+  s_1a87ea9757211f::t_929722de3a70c0 968,984-986,988
+  s_1a87ea9757211f::t_459eab33608b32 1252
+  s_1a87ea9757211f::t_c48e6ea6c848aa 1650-1651
+  s_1a87ea9757211f::t_79a1846d6410d0 1819-1823
+  s_1a87ea9757211f::t_2039c869b7e800 1280
+  s_1a87ea9757211f::t_b912d005b9924f 2046-2055
+  s_1a87ea9757211f::t_df5df26d3d07a3 1100
+  s_1a87ea9757211f::t_9370c1fbcd3042 2366,2370
+  s_1a87ea9757211f::t_3be849c12fbcda 1759,1763,1767
+  s_1a87ea9757211f::t_120f551c9bc432 983
+  s_1a87ea9757211f::t_a0979dc1df44d8 1827
+opensource/local/server/templates/admin.html
+  s_1a87ea9757211f::t_feaaf322d01e4e 465-467
+  s_1a87ea9757211f::t_538782c2b68152 857
+  s_1a87ea9757211f::t_3dc7939f4113d2 408
+  s_1a87ea9757211f::t_dc4cfc990b0f13 869
+  s_1a87ea9757211f::t_a11c1e1e96a7b2 1212
+  s_1a87ea9757211f::t_929474aa74692d 737
+  s_1a87ea9757211f::t_3b8434f260de52 1230
+  s_1a87ea9757211f::t_1e40403ea79c70 725
+  s_1a87ea9757211f::t_8f6f9803dae886 1408
+  s_1a87ea9757211f::t_6c3a78bf3563fc 1152
+  s_1a87ea9757211f::t_3761f988897893 464
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.2",
+  "base_commit_sha": "f0c60effc9870a6cb30052528ca27b33013923e0",
+  "prompts": {},
+  "sessions": {
+    "s_1a87ea9757211f": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6a8fced320a5e0fae534c1b5",
+        "model": "Doubao-Seed-Evolving__dev"
+      },
+      "human_author": "leonwu <flyfox666@gmail.com>",
+      "custom_attributes": {
+        "tool_type": "agent",
+        "tool_id": "Edit",
+        "operation_id": "6a919bbf1419df75f19b22f1",
+        "external_session_id": "6a8fced320a5e0fae534c1b5",
+        "source_scene": "unknown",
+        "client_type": "ide",
+        "edit_kind": "file_edit",
+        "session_id": "6a8fced320a5e0fae534c1b5",
+        "tool_use_id": "6a919bbf1419df75f19b22f1",
+        "runtime_client": "trae-tob-git-ai",
+        "dedupe_key": "6a8fced320a5e0fae534c1b5:6a919bbf1419df75f19b22f1:afterEdit:791d7570"
+      }
+    }
+  }
+}
