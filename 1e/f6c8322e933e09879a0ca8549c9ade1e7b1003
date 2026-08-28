@@ -1,0 +1,32 @@
+.gitignore
+  s_1a87ea9757211f::t_1183b787fbb6b9 10-12
+  s_1a87ea9757211f::t_30ea9435da5f38 13-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.2",
+  "base_commit_sha": "1ef6c8322e933e09879a0ca8549c9ade1e7b1003",
+  "prompts": {},
+  "sessions": {
+    "s_1a87ea9757211f": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6a8fced320a5e0fae534c1b5",
+        "model": "Doubao-Seed-Evolving__dev"
+      },
+      "human_author": "leonwu <flyfox666@gmail.com>",
+      "custom_attributes": {
+        "runtime_client": "trae-tob-git-ai",
+        "display_model_name": "Doubao-Seed-Evolving",
+        "tool_use_id": "6a919f681419df75f19b238b",
+        "tool_name": "Edit",
+        "external_session_id": "6a8fced320a5e0fae534c1b5",
+        "source_scene": "agent",
+        "client_type": "ide",
+        "session_id": "6a8fced320a5e0fae534c1b5",
+        "operation_id": "6a919f681419df75f19b238b",
+        "edit_kind": "file_edit"
+      }
+    }
+  }
+}
