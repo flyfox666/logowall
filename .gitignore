@@ -1,6 +1,12 @@
 # posdemo 为内部演示环境（含真实数据与原始资料），不同步到 GitHub
 posdemo/
 
+# 运行时用户账户文件（可能含真实凭据，任何 DATA_DIR 场景都不提交）
+users.json
+
+# 公众号文章素材（本地使用，不上传）
+公众号文章*.html
+
 # 系统文件
 .DS_Store
 Thumbs.db
