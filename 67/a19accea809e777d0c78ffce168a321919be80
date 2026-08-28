@@ -1,0 +1,35 @@
+README.md
+  s_1a87ea9757211f::t_49106ed0123c3f 147-148,150-164,168
+  s_1a87ea9757211f::t_d7167641cb8309 43-51
+  s_1a87ea9757211f::t_c09b2b81749aa8 3
+README.zh-CN.md
+  s_1a87ea9757211f::t_7d875cedc48544 33,37,41-46,66,80,85,109,131-132,134-147,149,187-188,203,206,215,220,229-233
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.2",
+  "base_commit_sha": "67a19accea809e777d0c78ffce168a321919be80",
+  "prompts": {},
+  "sessions": {
+    "s_1a87ea9757211f": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6a8fced320a5e0fae534c1b5",
+        "model": "Doubao-Seed-Evolving__dev"
+      },
+      "human_author": "leonwu <flyfox666@gmail.com>",
+      "custom_attributes": {
+        "runtime_client": "trae-tob-git-ai",
+        "edit_kind": "file_edit",
+        "tool_use_id": "6a91a3e71419df75f19b2410",
+        "client_type": "ide",
+        "session_id": "6a8fced320a5e0fae534c1b5",
+        "source_scene": "agent",
+        "tool_name": "Write",
+        "display_model_name": "Doubao-Seed-Evolving",
+        "external_session_id": "6a8fced320a5e0fae534c1b5",
+        "operation_id": "6a91a3e71419df75f19b2410"
+      }
+    }
+  }
+}
