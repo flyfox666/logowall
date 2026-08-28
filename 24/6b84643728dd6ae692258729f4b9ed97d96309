@@ -1,0 +1,34 @@
+LICENSE
+  s_1a87ea9757211f::t_200846a49cf02e 1-21
+README.md
+  s_1a87ea9757211f::t_d7b1b72b1d8546 249
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.2",
+  "base_commit_sha": "246b84643728dd6ae692258729f4b9ed97d96309",
+  "prompts": {},
+  "sessions": {
+    "s_1a87ea9757211f": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6a8fced320a5e0fae534c1b5",
+        "model": "glm-5.3__dev"
+      },
+      "human_author": "leonwu <flyfox666@gmail.com>",
+      "custom_attributes": {
+        "tool_type": "agent",
+        "tool_use_id": "6a90d93b1419df75f19b1f14",
+        "runtime_client": "trae-tob-git-ai",
+        "source_scene": "unknown",
+        "edit_kind": "file_edit",
+        "external_session_id": "6a8fced320a5e0fae534c1b5",
+        "tool_id": "Edit",
+        "session_id": "6a8fced320a5e0fae534c1b5",
+        "dedupe_key": "6a8fced320a5e0fae534c1b5:6a90d93b1419df75f19b1f14:afterEdit:01f5cf80",
+        "client_type": "ide",
+        "operation_id": "6a90d93b1419df75f19b1f14"
+      }
+    }
+  }
+}
