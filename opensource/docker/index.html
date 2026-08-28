@@ -427,14 +427,21 @@
         .card:hover::before { transform: scaleX(1); }
 
         .logo-area {
-            height: 80px;
+            height: 96px;
             display: flex; align-items: center; justify-content: center;
-            margin-bottom: 14px;
+            margin-bottom: 10px;
+            padding: 8px 6px;
         }
         .logo-area img {
-            max-width: 100%; max-height: 80px; object-fit: contain;
+            max-width: 100%; max-height: 80px;
+            width: auto; height: auto;
+            object-fit: contain;
             border-radius: 6px;
+            transition: transform 0.2s ease;
+            image-rendering: -webkit-optimize-contrast;
+            position: relative; z-index: 1;
         }
+        .card:hover .logo-area img { transform: scale(1.06); }
         .logo-fallback {
             width: 60px; height: 60px; border-radius: 14px;
             display: flex; align-items: center; justify-content: center;
@@ -550,6 +557,59 @@
             transition: all 0.25s; white-space: nowrap;
         }
         .poster-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(27,31,58,0.25); }
+
+        /* ======================== MULTI-SELECT MODE ======================== */
+        .select-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 18px;
+            background: var(--surface, #fff); color: var(--text, #1B1F3A);
+            border: 1.5px solid var(--border, #E2E8F0); border-radius: 22px;
+            font-size: 13px; font-weight: 600; cursor: pointer;
+            transition: all 0.25s; white-space: nowrap;
+        }
+        .select-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(27,31,58,0.15); }
+        .select-btn.active {
+            background: linear-gradient(135deg, var(--primary), #2a2e52);
+            color: #fff; border-color: transparent;
+        }
+        .card .card-check {
+            display: none; position: absolute; top: 10px; right: 10px;
+            width: 22px; height: 22px; border-radius: 50%;
+            border: 2px solid var(--border, #cbd5e1); background: rgba(255,255,255,0.92);
+            z-index: 5; pointer-events: none;
+        }
+        body.select-mode .card { position: relative; }
+        body.select-mode .card .card-check { display: block; }
+        body.select-mode .card.selected .card-check {
+            background: var(--primary); border-color: var(--primary);
+        }
+        body.select-mode .card.selected .card-check::after {
+            content: '✓'; position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 13px; font-weight: 700;
+        }
+        body.select-mode .card.selected { outline: 2.5px solid var(--primary); outline-offset: 1px; }
+        .select-bar {
+            position: fixed; left: 50%; bottom: 28px; z-index: 300;
+            transform: translateX(-50%) translateY(90px);
+            display: flex; align-items: center; gap: 14px;
+            background: var(--surface, #fff); color: var(--text, #1B1F3A);
+            border: 1px solid var(--border, #E2E8F0); border-radius: 30px;
+            padding: 10px 18px; box-shadow: 0 10px 40px rgba(15,18,35,0.22);
+            transition: transform 0.3s ease; white-space: nowrap;
+        }
+        .select-bar.show { transform: translateX(-50%) translateY(0); }
+        .select-bar .sel-count { font-size: 15px; font-weight: 800; color: var(--primary); }
+        .select-bar .sb-btn {
+            border: none; border-radius: 18px; padding: 7px 16px;
+            font-size: 12.5px; font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        .select-bar .sb-primary { background: linear-gradient(135deg, var(--primary), #2a2e52); color: #fff; }
+        .select-bar .sb-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(27,31,58,0.3); }
+        .select-bar .sb-ghost { background: transparent; color: var(--text-light, #64748B); border: 1px solid var(--border, #E2E8F0); }
+        .select-bar .sb-ghost:hover { color: var(--text, #1B1F3A); }
+        html[data-dark="true"] .select-btn { background: var(--card-bg); color: var(--text); border-color: var(--border); }
+        html[data-dark="true"] .select-bar { background: var(--surface); color: var(--text); border-color: var(--border); box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
 
         /* ======================== DETAIL MODAL ======================== */
         .detail-overlay {
@@ -671,6 +731,17 @@
             transition: border-color 0.2s, box-shadow 0.2s;
         }
         .pf-row select:focus, .pf-row input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 8%, transparent); }
+        .pf-row-checks { display: flex; flex-direction: column; gap: 8px; }
+        .pf-checks { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+        .pf-check {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 13px; font-weight: 500; color: var(--text);
+            cursor: pointer; user-select: none; margin: 0;
+        }
+        .pf-check input[type="checkbox"] {
+            width: 16px; height: 16px; margin: 0; accent-color: var(--accent);
+            cursor: pointer; flex-shrink: 0;
+        }
         .pf-hint { font-size: 12px; color: var(--text-light); background: var(--bg); border-radius: 10px; padding: 10px 12px; }
         .pf-actions { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
         .pf-actions button {
@@ -683,14 +754,31 @@
         .pf-btn-outline:hover { border-color: var(--primary); color: var(--primary); }
         .poster-preview {
             flex: 1; background: #eef1f7; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            position: relative; min-height: 360px; padding: 14px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            position: relative; min-height: 360px; padding: 14px 14px 56px;
         }
         .poster-preview canvas {
-            max-width: 100%; max-height: 62vh; width: auto; height: auto;
+            max-width: 100%; max-height: 56vh; width: auto; height: auto;
             box-shadow: 0 8px 30px rgba(0,0,0,0.15); border-radius: 4px;
             background: #fff;
         }
+        .poster-pager {
+            position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+            display: flex; align-items: center; gap: 12px;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(6px);
+            padding: 6px 10px; border-radius: 999px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.18); z-index: 5;
+        }
+        .pager-btn {
+            width: 30px; height: 30px; border: none; border-radius: 50%;
+            background: var(--accent); color: #fff; font-size: 18px; line-height: 1;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s, transform 0.15s;
+        }
+        .pager-btn:hover { background: #b08a3a; }
+        .pager-btn:active { transform: scale(0.92); }
+        .pager-btn:disabled { background: #cfcfcf; cursor: not-allowed; }
+        .pager-info { font-size: 13px; font-weight: 600; color: var(--text); min-width: 56px; text-align: center; }
         .poster-loading {
             position: absolute; inset: 0;
             background: rgba(238,241,247,0.85);
@@ -792,6 +880,10 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>
         </button>
         <span class="result-count"><span data-i18n="show_before">显示</span> <strong id="visible-count">0</strong> <span data-i18n="show_after">家</span></span>
+        <button class="select-btn" id="select-btn" onclick="toggleSelectMode()" title="自由勾选客户后导出海报" data-i18n-title="select_title">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <span data-i18n="select_mode">多选</span>
+        </button>
         <button class="poster-btn" onclick="openPosterModal()" title="将当前筛选结果导出为活动海报" data-i18n-title="export_poster_title">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
             <span data-i18n="export_poster">导出海报</span>
@@ -872,12 +964,32 @@
                     </select>
                 </div>
                 <div class="pf-row">
+                    <label data-i18n="poster_quality">清晰度</label>
+                    <select id="poster-quality">
+                        <option value="1" data-i18n="quality_std">标准（1×，适合屏幕预览）</option>
+                        <option value="2" selected data-i18n="quality_hd">高清（2×，推荐打印/分享）</option>
+                        <option value="3" data-i18n="quality_uhd">超清（3×，大尺寸印刷）</option>
+                    </select>
+                </div>
+                <div class="pf-row">
                     <label data-i18n="poster_main">主标题</label>
                     <input type="text" id="poster-title" maxlength="40">
                 </div>
                 <div class="pf-row">
                     <label data-i18n="poster_sub">副标题</label>
                     <input type="text" id="poster-subtitle" maxlength="80">
+                </div>
+                <div class="pf-row pf-row-checks">
+                    <label data-i18n="poster_showinfo">卡片显示</label>
+                    <div class="pf-checks">
+                        <label class="pf-check"><input type="checkbox" id="pf-show-city" checked> <span data-i18n="pf_city">城市 / 区域</span></label>
+                        <label class="pf-check"><input type="checkbox" id="pf-show-dept"> <span data-i18n="pf_dept">业务线</span></label>
+                        <label class="pf-check"><input type="checkbox" id="pf-show-owner"> <span data-i18n="pf_owner">负责人</span></label>
+                    </div>
+                </div>
+                <div class="pf-row">
+                    <label data-i18n="poster_footer">页脚文字</label>
+                    <input type="text" id="poster-footer" maxlength="100">
                 </div>
                 <p class="pf-hint" id="poster-count-hint"></p>
                 <div class="pf-actions">
@@ -887,6 +999,11 @@
             </div>
             <div class="poster-preview">
                 <canvas id="poster-canvas" width="8" height="10"></canvas>
+                <div class="poster-pager" id="poster-pager" style="display:none">
+                    <button class="pager-btn" id="pager-prev" onclick="posterPrevPage()" aria-label="上一页">‹</button>
+                    <span class="pager-info" id="pager-info"></span>
+                    <button class="pager-btn" id="pager-next" onclick="posterNextPage()" aria-label="下一页">›</button>
+                </div>
                 <div class="poster-loading" id="poster-loading" style="display:none">
                     <div class="spinner"></div>
                     <p data-i18n="poster_loading">正在绘制海报，抓取 Logo 图片中...</p>
@@ -904,6 +1021,14 @@
     <span id="footer-update" style="opacity:0.7"></span>
 </footer>
 
+<div class="select-bar" id="select-bar">
+    <span class="sel-count" id="sel-count">0</span>
+    <span data-i18n="select_bar_label">家客户已选中</span>
+    <button class="sb-btn sb-primary" onclick="exportSelectedPoster()" data-i18n="export_selected">导出选中</button>
+    <button class="sb-btn sb-ghost" onclick="clearSelection()" data-i18n="clear_selection">清除</button>
+    <button class="sb-btn sb-ghost" onclick="toggleSelectMode()" data-i18n="exit_select">退出多选</button>
+</div>
+
 <script>
 // ============================================================
 // DATA STATE
@@ -914,6 +1039,8 @@ let activeRegion = 'all';
 let activeDept = 'all';
 let activeOwner = 'all';
 let searchQuery = '';
+let selectMode = false;
+const selectedIds = new Set();
 let siteTitle = '客户品牌墙';
 let siteTagline = '';
 let siteTitleEn = 'CLIENT LOGO WALL';
@@ -935,6 +1062,11 @@ const I18N = {
         all: '全部', owner_all: '全部负责人',
         show_before: '显示', show_after: '家',
         export_poster: '导出海报', export_poster_title: '将当前筛选结果导出为活动海报',
+        select_mode: '多选', select_title: '自由勾选客户后导出海报',
+        select_bar_label: '家客户已选中', export_selected: '导出选中',
+        clear_selection: '清除', exit_select: '退出多选',
+        poster_hint_sel_pre: '将导出勾选的 ', poster_hint_sel_post: ' 家客户',
+        poster_alert_none_selected: '请先勾选要导出的客户',
         theme_title: '主题与背景', theme_colors: '主题配色', theme_bg: '背景纹理',
         theme_reset: '恢复站点默认',
         collapse_header: '收起 / 展开头部', collapse_toolbar: '收起 / 展开搜索与筛选',
@@ -945,6 +1077,11 @@ const I18N = {
         footer_admin: '数据维护请前往', footer_admin_link: '管理后台',
         poster_modal_title: '导出品牌墙海报',
         poster_size: '海报尺寸', poster_main: '主标题', poster_sub: '副标题',
+        poster_quality: '清晰度', poster_showinfo: '卡片显示', poster_footer: '页脚文字',
+        quality_std: '标准（1×，适合屏幕预览）',
+        quality_hd: '高清（2×，推荐打印/分享）',
+        quality_uhd: '超清（3×，大尺寸印刷）',
+        pf_city: '城市 / 区域', pf_dept: '业务线', pf_owner: '负责人',
         size_portrait: '竖版海报 3:4（1800×2400）',
         size_screen: '现场大屏 16:9（1920×1080）',
         size_a4: 'A4 打印 300dpi（2480×3508）',
@@ -965,6 +1102,11 @@ const I18N = {
         all: 'All', owner_all: 'All owners',
         show_before: 'Showing', show_after: 'clients',
         export_poster: 'Export poster', export_poster_title: 'Export the current filtered clients as an event poster',
+        select_mode: 'Select', select_title: 'Pick clients freely, then export a poster',
+        select_bar_label: 'clients selected', export_selected: 'Export selected',
+        clear_selection: 'Clear', exit_select: 'Exit',
+        poster_hint_sel_pre: 'Will export the ', poster_hint_sel_post: ' selected clients',
+        poster_alert_none_selected: 'Please select clients to export first',
         theme_title: 'Theme & background', theme_colors: 'Theme colors', theme_bg: 'Background',
         theme_reset: 'Reset to site default',
         collapse_header: 'Collapse / expand header', collapse_toolbar: 'Collapse / expand search & filters',
@@ -975,6 +1117,11 @@ const I18N = {
         footer_admin: 'Data maintenance:', footer_admin_link: 'Admin panel',
         poster_modal_title: 'Export Logo Wall Poster',
         poster_size: 'Poster size', poster_main: 'Main title', poster_sub: 'Subtitle',
+        poster_quality: 'Quality', poster_showinfo: 'Show on card', poster_footer: 'Footer text',
+        quality_std: 'Standard (1×, screen preview)',
+        quality_hd: 'High-res (2×, recommended for print/share)',
+        quality_uhd: 'Ultra HD (3×, large format print)',
+        pf_city: 'City / Region', pf_dept: 'Business line', pf_owner: 'Owner',
         size_portrait: 'Portrait 3:4 (1800×2400)',
         size_screen: 'On-site screen 16:9 (1920×1080)',
         size_a4: 'A4 print 300dpi (2480×3508)',
@@ -1125,10 +1272,97 @@ function authHeaders() {
 
 function authLogoUrl(url) {
     if (!url) return '';
-    if (/^https?:\/\//i.test(url)) return url;
+    // External logos are routed through the same-origin imgproxy so:
+    //   1) the canvas-based padding trim can read pixels (no CORS taint), and
+    //   2) the poster exporter can draw them without cross-origin issues.
+    if (/^https?:\/\//i.test(url)) {
+        const token = localStorage.getItem('lw_token');
+        let proxy = '/api/imgproxy?url=' + encodeURIComponent(url);
+        if (token) proxy += '&token=' + encodeURIComponent(token);
+        return proxy;
+    }
     const token = localStorage.getItem('lw_token');
     const sep = url.includes('?') ? '&' : '?';
     return (url.startsWith('/') ? '' : '/') + url + (token ? sep + 'token=' + encodeURIComponent(token) : '');
+}
+
+// Trim transparent (and near-white on light cards) padding around a logo so
+// external icons with lots of empty canvas don't render tiny.
+function trimLogoDataUrl(img) {
+    try {
+        const iw = img.naturalWidth, ih = img.naturalHeight;
+        if (!iw || !ih) return null;
+        // Cap working size for performance.
+        const maxSide = 256;
+        const ratio = Math.min(1, maxSide / Math.max(iw, ih));
+        const cw = Math.max(1, Math.round(iw * ratio));
+        const ch = Math.max(1, Math.round(ih * ratio));
+        const canvas = document.createElement('canvas');
+        canvas.width = cw; canvas.height = ch;
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        ctx.drawImage(img, 0, 0, cw, ch);
+        const data = ctx.getImageData(0, 0, cw, ch).data;
+        const isBlank = (r, g, b, a) =>
+            a < 16 || (a < 64 && r > 240 && g > 240 && b > 240);
+        let minX = cw, minY = ch, maxX = -1, maxY = -1;
+        for (let y = 0; y < ch; y++) {
+            for (let x = 0; x < cw; x++) {
+                const i = (y * cw + x) * 4;
+                if (!isBlank(data[i], data[i + 1], data[i + 2], data[i + 3])) {
+                    if (x < minX) minX = x;
+                    if (x > maxX) maxX = x;
+                    if (y < minY) minY = y;
+                    if (y > maxY) maxY = y;
+                }
+            }
+        }
+        if (maxX < 0) return null; // fully blank → keep original
+        // Add a small breathing margin (~4% of content size).
+        const contentW = maxX - minX + 1, contentH = maxY - minY + 1;
+        const margin = Math.max(2, Math.round(Math.max(contentW, contentH) * 0.06));
+        let sx = Math.max(0, minX - margin);
+        let sy = Math.max(0, minY - margin);
+        let sw = Math.min(cw - sx, contentW + margin * 2);
+        let sh = Math.min(ch - sy, contentH + margin * 2);
+        // Map the trimmed crop back to original image coordinates.
+        const out = document.createElement('canvas');
+        out.width = Math.round(sw / ratio);
+        out.height = Math.round(sh / ratio);
+        out.getContext('2d').drawImage(img, sx / ratio, sy / ratio, sw / ratio, sh / ratio,
+            0, 0, out.width, out.height);
+        return out.toDataURL('image/png');
+    } catch (e) {
+        return null;
+    }
+}
+
+// Given an <img>, replace its src with a trimmed version once loaded (only for
+// external logos; local uploaded logos are assumed already tightly cropped).
+function autoTrimLogo(img) {
+    if (!img || img.dataset.trimmed) return;
+    img.dataset.trimmed = '1';
+    const doTrim = () => {
+        const trimmed = trimLogoDataUrl(img);
+        if (trimmed) {
+            img.src = trimmed;
+            // After trimmed src loads, check natural size and upscale small images
+            img.addEventListener('load', () => {
+                const w = img.naturalWidth, h = img.naturalHeight;
+                if (w > 0 && h > 0 && Math.max(w, h) < 64) {
+                    const scale = Math.max(2, Math.ceil(96 / Math.min(w, h)));
+                    const up = document.createElement('canvas');
+                    up.width = w * scale; up.height = h * scale;
+                    const uctx = up.getContext('2d');
+                    uctx.imageSmoothingEnabled = true;
+                    uctx.imageSmoothingQuality = 'high';
+                    uctx.drawImage(img, 0, 0, up.width, up.height);
+                    img.src = up.toDataURL('image/png');
+                }
+            }, { once: true });
+        }
+    };
+    if (img.complete && img.naturalWidth > 0) doTrim();
+    else img.addEventListener('load', doTrim, { once: true });
 }
 
 // ============================================================
@@ -1390,7 +1624,9 @@ function renderCard(r) {
     let logoHtml;
     if (r.logo_url) {
         const logoSrc = authLogoUrl(r.logo_url);
-        logoHtml = `<img src="${logoSrc}" alt="${r.brand}" loading="lazy"
+        const isExternal = /^https?:\/\//i.test(r.logo_url);
+        const trimAttr = isExternal ? ' onload="autoTrimLogo(this)"' : '';
+        logoHtml = `<img src="${logoSrc}" alt="${r.brand}" loading="lazy"${trimAttr} referrerpolicy="no-referrer"
             onerror="this.parentElement.innerHTML='<div class=\\'logo-fallback\\' style=\\'background:${color}\\'>${getInitials(r.brand)}</div>'">`;
     } else {
         logoHtml = `<div class="logo-fallback" style="background:${color}">${getInitials(r.brand)}</div>`;
@@ -1405,7 +1641,8 @@ function renderCard(r) {
     const tooltipOwners = (r.owners || []).join(lang === 'zh' ? '、' : ', ');
 
     return `
-        <div class="card" style="--card-color:${color}" onclick="openDetailModal(${r.id})">
+        <div class="card${selectedIds.has(r.id) ? ' selected' : ''}" style="--card-color:${color}" data-id="${r.id}" onclick="openDetailModal(${r.id})">
+            <div class="card-check"></div>
             <div class="logo-area">${logoHtml}</div>
             <div class="brand-name" title="${r.brand}">${r.brand}</div>
             ${companyFull}
@@ -1454,7 +1691,47 @@ function render() {
 // ============================================================
 // DETAIL MODAL
 // ============================================================
+// ============================================================
+// MULTI-SELECT MODE
+// ============================================================
+function toggleSelectMode() {
+    selectMode = !selectMode;
+    selectedIds.clear();
+    document.body.classList.toggle('select-mode', selectMode);
+    const btn = document.getElementById('select-btn');
+    if (btn) btn.classList.toggle('active', selectMode);
+    updateSelectBar();
+    render();
+}
+
+function toggleSelectCard(clientId) {
+    if (selectedIds.has(clientId)) selectedIds.delete(clientId);
+    else selectedIds.add(clientId);
+    const el = document.querySelector(`.card[data-id="${clientId}"]`);
+    if (el) el.classList.toggle('selected', selectedIds.has(clientId));
+    updateSelectBar();
+}
+
+function clearSelection() {
+    selectedIds.clear();
+    document.querySelectorAll('.card.selected').forEach(el => el.classList.remove('selected'));
+    updateSelectBar();
+}
+
+function updateSelectBar() {
+    const bar = document.getElementById('select-bar');
+    if (!bar) return;
+    document.getElementById('sel-count').textContent = selectedIds.size;
+    bar.classList.toggle('show', selectMode);
+}
+
+function exportSelectedPoster() {
+    if (selectedIds.size === 0) { alert(t('poster_alert_none_selected')); return; }
+    openPosterModal();
+}
+
 function openDetailModal(clientId) {
+    if (selectMode) { toggleSelectCard(clientId); return; }
     const record = allRecords.find(r => r.id === clientId);
     if (!record) return;
     const overlay = document.getElementById('detail-overlay');
@@ -1653,27 +1930,46 @@ const POSTER_SIZES = {
     a4:       { w: 2480, h: 3508 },
 };
 const POSTER_FONT = '"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif';
+const POSTER_SERIF = '"Songti SC","STSong","SimSun","Noto Serif CJK SC","Source Han Serif SC",serif';
 let posterRecords = [];
 let posterSeq = 0;
+let posterPages = [];      // array of { records, imgs }
+let posterCurrentPage = 0;
+let posterOpts = null;     // shared render options across pages
+let posterSizeKey = 'portrait';
 
 function posterLogoSrc(r) {
     if (!r.logo_url) return null;
+    const token = localStorage.getItem('lw_token');
+    const suffix = token ? (r.logo_url.includes('?') ? '&' : '?') + 'token=' + encodeURIComponent(token) : '';
     if (/^https?:\/\//i.test(r.logo_url)) {
-        return '/api/imgproxy?url=' + encodeURIComponent(r.logo_url);
+        return '/api/imgproxy?url=' + encodeURIComponent(r.logo_url) + (token ? '&token=' + encodeURIComponent(token) : '');
     }
-    return '/' + r.logo_url.replace(/^\/+/, '');
+    return '/' + r.logo_url.replace(/^\/+/, '') + suffix;
 }
 
 function openPosterModal() {
-    posterRecords = getFiltered();
+    const useSelection = selectMode && selectedIds.size > 0;
+    posterRecords = useSelection
+        ? allRecords.filter(r => selectedIds.has(r.id))
+        : getFiltered();
+    posterCurrentPage = 0;
+    posterPages = [];
     if (posterRecords.length === 0) {
         alert(t('poster_alert_empty'));
         return;
     }
     document.getElementById('poster-title').value = document.getElementById('site-title').textContent;
     document.getElementById('poster-subtitle').value = document.getElementById('tagline').textContent;
-    document.getElementById('poster-count-hint').textContent =
-        t('poster_hint_pre') + posterRecords.length + t('poster_hint_post');
+    // Default footer: 站点名 · N 家客户 · 日期
+    const dateStr = new Date().toLocaleDateString(lang === 'zh' ? 'zh-CN' : 'en-US',
+        { year: 'numeric', month: 'long', day: 'numeric' });
+    document.getElementById('poster-footer').value =
+        document.getElementById('site-title').textContent + '  ·  ' +
+        posterRecords.length + ' ' + t('clients_word') + '  ·  ' + dateStr;
+    document.getElementById('poster-count-hint').textContent = useSelection
+        ? t('poster_hint_sel_pre') + posterRecords.length + t('poster_hint_sel_post')
+        : t('poster_hint_pre') + posterRecords.length + t('poster_hint_post');
     document.getElementById('poster-overlay').classList.add('show');
     renderPoster();
 }
@@ -1686,12 +1982,16 @@ document.getElementById('poster-overlay').addEventListener('click', (e) => {
     if (e.target === e.currentTarget) closePosterModal();
 });
 
-['poster-size', 'poster-title', 'poster-subtitle'].forEach(id => {
+// Live re-render on any control change (size, quality, titles, checkboxes, footer)
+['poster-size', 'poster-quality', 'poster-title', 'poster-subtitle', 'poster-footer',
+ 'pf-show-city', 'pf-show-dept', 'pf-show-owner'].forEach(id => {
+    const el = document.getElementById(id);
+    const evt = (el.tagName === 'SELECT' || el.type === 'checkbox') ? 'change' : 'input';
     let timer = null;
-    document.getElementById(id).addEventListener('input', () => {
+    el.addEventListener(evt, () => {
         if (!document.getElementById('poster-overlay').classList.contains('show')) return;
         clearTimeout(timer);
-        timer = setTimeout(renderPoster, 500);
+        timer = setTimeout(renderPoster, el.type === 'checkbox' ? 50 : 400);
     });
 });
 
@@ -1705,24 +2005,184 @@ function loadPosterImage(src) {
     });
 }
 
+// Compute how many logos comfortably fit on one page so they don't shrink too
+// small. Thresholds are tuned per orientation and how many info lines are shown.
+function posterPerPage(isScreen, infoLines) {
+    if (isScreen) {
+        // 16:9 is short vertically — fewer rows, cap more aggressively.
+        return [36, 30, 24, 18][infoLines] || 18;
+    }
+    // portrait / A4 (roughly 3:4) — more vertical room.
+    return [64, 54, 42, 32][infoLines] || 32;
+}
+
+// Shared logo-grid geometry for one poster page. Pagination and drawing both
+// use this so a full page always tiles the grid exactly (cols × rows slots,
+// no empty holes); only the last page may be partially filled.
+function posterBestGrid(W, H, isScreen, hasSubtitle, infoLines, n) {
+    n = Math.max(1, n);
+    const titleSize = Math.round(W * 0.046);
+    const titleY = Math.round(H * (isScreen ? 0.12 : 0.095));
+    const diamondY = titleY + titleSize * 0.95;
+    const dSize = Math.max(6, Math.round(W * 0.007));
+    let blockBottom = diamondY + dSize / 2;
+    if (hasSubtitle) {
+        const subSize = Math.round(W * (isScreen ? 0.015 : 0.018));
+        const subY = diamondY + dSize * 1.8 + subSize * 0.8;
+        blockBottom = subY + subSize / 2;
+    }
+    const labelSizeZh = Math.round(W * 0.0165);
+    const labelGap = Math.round(H * (isScreen ? 0.085 : 0.055));
+    const labelY = blockBottom + labelGap + labelSizeZh / 2;
+    const gridTop = labelY + Math.round(H * (isScreen ? 0.025 : 0.04));
+    const footerH = Math.round(H * 0.075);
+    const gridBottom = H - footerH - Math.round(H * 0.012);
+    const padX = Math.round(W * 0.075);
+    const areaW = W - padX * 2;
+    const areaH = gridBottom - gridTop;
+    // Cards get taller when more info lines are shown, so logo + brand + meta all fit.
+    // cardAspect = width/height; more lines → smaller ratio → taller cards.
+    const cardAspect = infoLines === 0 ? 1.08
+                     : infoLines === 1 ? 0.92
+                     : infoLines === 2 ? 0.80
+                     :                   0.72;
+    let best = null;
+    for (let c = 1; c <= n; c++) {
+        const rows = Math.ceil(n / c);
+        let cw = areaW / c;
+        let ch = areaH / rows;
+        if (ch > cw / cardAspect) ch = cw / cardAspect;
+        else cw = ch * cardAspect;
+        if (!best || cw > best.cw) best = { cols: c, rows, cw, ch };
+    }
+    const gridW = best.cols * best.cw;
+    const gridH = best.rows * best.ch;
+    return {
+        best,
+        capacity: best.cols * best.rows,
+        offX: padX + (areaW - gridW) / 2,
+        offY: gridTop + (areaH - gridH) / 2,
+        gap: Math.min(best.cw, best.ch) * 0.12,
+        cardW: best.cw - Math.min(best.cw, best.ch) * 0.12,
+        cardH: best.ch - Math.min(best.cw, best.ch) * 0.12,
+        footerH,
+    };
+}
+
 async function renderPoster() {
     const seq = ++posterSeq;
-    const sizeKey = document.getElementById('poster-size').value;
-    const { w: W, h: H } = POSTER_SIZES[sizeKey] || POSTER_SIZES.portrait;
+    posterSizeKey = document.getElementById('poster-size').value;
+    const base = POSTER_SIZES[posterSizeKey] || POSTER_SIZES.portrait;
+    // Quality multiplier: canvas renders at base × scale for crisp high-res output
+    const scale = Math.max(1, parseInt(document.getElementById('poster-quality').value, 10) || 1);
     const title = document.getElementById('poster-title').value.trim() || '客户品牌墙';
     const subtitle = document.getElementById('poster-subtitle').value.trim();
-    const records = posterRecords;
+    const footerText = document.getElementById('poster-footer').value.trim();
+    posterOpts = {
+        scale,
+        showCity:  document.getElementById('pf-show-city').checked,
+        showDept:  document.getElementById('pf-show-dept').checked,
+        showOwner: document.getElementById('pf-show-owner').checked,
+        footer: footerText,
+    };
+    const isScreen = (posterSizeKey === 'screen');
+    const infoLines = (posterOpts.showCity ? 1 : 0) + (posterOpts.showDept ? 1 : 0) + (posterOpts.showOwner ? 1 : 0);
+    const perPage = posterPerPage(isScreen, infoLines);
+
+    // The optimal grid for `perPage` cards may tile cols × rows > perPage slots,
+    // which would leave empty holes on every page. Pack each page up to the
+    // grid's true capacity instead, so earlier pages are always completely
+    // full and only the last page carries the remainder.
+    let capacity = perPage;
+    for (let k = 0; k < 3; k++) {
+        const cap = posterBestGrid(base.w, base.h, isScreen, !!subtitle, infoLines, capacity).capacity;
+        if (cap === capacity) break;
+        capacity = cap;
+    }
+
+    // Split records into pages.
+    posterPages = [];
+    for (let i = 0; i < posterRecords.length; i += capacity) {
+        posterPages.push({ records: posterRecords.slice(i, i + capacity), imgs: [] });
+    }
+    if (posterPages.length === 0) posterPages.push({ records: [], imgs: [] });
+    posterCurrentPage = Math.min(posterCurrentPage, posterPages.length - 1);
+
+    const W = base.w * scale, H = base.h * scale;
     const canvas = document.getElementById('poster-canvas');
     canvas.width = W;
     canvas.height = H;
     const ctx = canvas.getContext('2d');
+    // Scale the drawing context so all coordinates are in base (logical) pixels,
+    // while the canvas backing store is base × scale → crisp high-res export.
+    ctx.setTransform(scale, 0, 0, scale, 0, 0);
+    const BW = base.w, BH = base.h; // logical base dimensions used for layout
     const loading = document.getElementById('poster-loading');
     loading.style.display = 'flex';
 
-    const imgs = await Promise.all(records.map(r => loadPosterImage(posterLogoSrc(r))));
+    // Preload images for ALL pages so paging is instant.
+    const allImgs = await Promise.all(
+        posterRecords.map(r => loadPosterImage(posterLogoSrc(r)))
+    );
     if (seq !== posterSeq) return;
+    posterPages.forEach((p, idx) => {
+        const start = idx * capacity;
+        p.imgs = allImgs.slice(start, start + p.records.length);
+    });
     loading.style.display = 'none';
-    drawPoster(ctx, W, H, title, subtitle, records, imgs);
+    drawPosterPage(BW, BH, title, subtitle);
+}
+
+function drawPosterPage(BW, BH, title, subtitle) {
+    const canvas = document.getElementById('poster-canvas');
+    const ctx = canvas.getContext('2d');
+    const page = posterPages[posterCurrentPage];
+    const total = posterPages.length;
+    // Page indicator is appended to the editable footer when multi-page.
+    const opts = Object.assign({}, posterOpts);
+    if (total > 1) {
+        const indicator = (lang === 'zh' ? '第 ' : 'Page ') + (posterCurrentPage + 1) +
+                          (lang === 'zh' ? ' / ' : ' / ') + total + (lang === 'zh' ? ' 页' : '');
+        opts.footer = (opts.footer ? opts.footer + '   ' : '') + indicator;
+    }
+    drawPoster(ctx, BW, BH, title, subtitle, page.records, page.imgs, opts);
+    updatePosterPager();
+}
+
+function updatePosterPager() {
+    const pager = document.getElementById('poster-pager');
+    const info = document.getElementById('pager-info');
+    const prev = document.getElementById('pager-prev');
+    const next = document.getElementById('pager-next');
+    const total = posterPages.length;
+    if (total <= 1) {
+        pager.style.display = 'none';
+        return;
+    }
+    pager.style.display = 'flex';
+    info.textContent = (posterCurrentPage + 1) + ' / ' + total;
+    prev.disabled = (posterCurrentPage === 0);
+    next.disabled = (posterCurrentPage === total - 1);
+}
+
+function posterPrevPage() {
+    if (posterCurrentPage > 0) {
+        posterCurrentPage--;
+        const title = document.getElementById('poster-title').value.trim() || '客户品牌墙';
+        const subtitle = document.getElementById('poster-subtitle').value.trim();
+        const base = POSTER_SIZES[posterSizeKey] || POSTER_SIZES.portrait;
+        drawPosterPage(base.w, base.h, title, subtitle);
+    }
+}
+
+function posterNextPage() {
+    if (posterCurrentPage < posterPages.length - 1) {
+        posterCurrentPage++;
+        const title = document.getElementById('poster-title').value.trim() || '客户品牌墙';
+        const subtitle = document.getElementById('poster-subtitle').value.trim();
+        const base = POSTER_SIZES[posterSizeKey] || POSTER_SIZES.portrait;
+        drawPosterPage(base.w, base.h, title, subtitle);
+    }
 }
 
 function roundedRect(ctx, x, y, w, h, r) {
@@ -1732,7 +2192,7 @@ function roundedRect(ctx, x, y, w, h, r) {
     ctx.arcTo(x + w, y, x + w, y + h, r);
     ctx.arcTo(x + w, y + h, x, y + h, r);
     ctx.arcTo(x, y + h, x, y, r);
-    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
     ctx.closePath();
 }
 
@@ -1745,66 +2205,198 @@ function fitText(ctx, text, maxWidth) {
     return t + '…';
 }
 
-function drawPoster(ctx, W, H, title, subtitle, records, imgs) {
-    const isScreen = W > H;
-    ctx.fillStyle = '#f4f6fb';
-    ctx.fillRect(0, 0, W, H);
+function drawCornerFrame(ctx, x, y, len, thick, r, color) {
+    ctx.save();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = thick;
+    ctx.lineCap = 'round';
+    // top-left
+    ctx.beginPath();
+    ctx.arc(x + r, y + r, r, Math.PI, Math.PI * 1.5);
+    ctx.lineTo(x + r + len, y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(x + r, y + r, r, Math.PI * 1.5, Math.PI);
+    ctx.moveTo(x, y + r);
+    ctx.lineTo(x, y + r + len);
+    ctx.stroke();
+    ctx.restore();
+}
 
-    const cssVars = getComputedStyle(document.documentElement);
-    const cPrimary = (cssVars.getPropertyValue('--primary') || '').trim() || '#1b1f3a';
-    const cPrimaryLight = (cssVars.getPropertyValue('--primary-light') || '').trim() || '#252b4d';
-    const cAccent = (cssVars.getPropertyValue('--accent') || '').trim() || '#c2933e';
-    const headerH = Math.round(H * (isScreen ? 0.20 : 0.14));
-    const grad = ctx.createLinearGradient(0, 0, W, headerH);
-    grad.addColorStop(0, cPrimary);
-    grad.addColorStop(1, cPrimaryLight);
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, W, headerH);
-    ctx.fillStyle = cAccent;
-    ctx.fillRect(0, headerH, W, Math.max(4, Math.round(H * 0.0035)));
+function drawAllCorners(ctx, W, H, margin, len, thick, r, color) {
+    drawCornerFrame(ctx, margin, margin, len, thick, r, color);
+    // top-right
+    ctx.save();
+    ctx.translate(W - margin, margin);
+    ctx.scale(-1, 1);
+    drawCornerFrame(ctx, 0, 0, len, thick, r, color);
+    ctx.restore();
+    // bottom-left
+    ctx.save();
+    ctx.translate(margin, H - margin);
+    ctx.scale(1, -1);
+    drawCornerFrame(ctx, 0, 0, len, thick, r, color);
+    ctx.restore();
+    // bottom-right
+    ctx.save();
+    ctx.translate(W - margin, H - margin);
+    ctx.scale(-1, -1);
+    drawCornerFrame(ctx, 0, 0, len, thick, r, color);
+    ctx.restore();
+}
 
+function drawSpacedText(ctx, text, x, y, spacing) {
+    if (!spacing || spacing <= 0 || text.length <= 1) {
+        ctx.fillText(text, x, y);
+        return;
+    }
+    const chars = Array.from(text);
+    const widths = chars.map(c => ctx.measureText(c).width);
+    const total = widths.reduce((a, b) => a + b, 0) + spacing * (chars.length - 1);
+    let cx = x - total / 2;
+    ctx.textAlign = 'left';
+    chars.forEach((c, i) => {
+        ctx.fillText(c, cx, y);
+        cx += widths[i] + spacing;
+    });
+    ctx.textAlign = 'center';
+}
+
+function measureSpaced(ctx, text, spacing) {
+    if (!spacing || spacing <= 0 || text.length <= 1) return ctx.measureText(text).width;
+    const chars = Array.from(text);
+    return chars.reduce((a, c) => a + ctx.measureText(c).width, 0) + spacing * (chars.length - 1);
+}
+
+function fitSpaced(ctx, text, maxWidth, spacing) {
+    if (measureSpaced(ctx, text, spacing) <= maxWidth) return text;
+    let t = text;
+    while (t.length > 1 && measureSpaced(ctx, t + '…', spacing) > maxWidth) {
+        t = t.slice(0, -1);
+    }
+    return t + '…';
+}
+
+function drawSectionLabel(ctx, cx, y, labelZh, labelEn, W, color, font) {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    const titleSize = Math.round(Math.min(headerH * 0.34, W * 0.05));
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '800 ' + titleSize + 'px ' + POSTER_FONT;
-    ctx.fillText(title, W / 2, headerH * (subtitle ? 0.40 : 0.52));
+    const lineLen = W * 0.13;
+    const gap = Math.round(W * 0.018);
+    const sizeZh = Math.round(W * 0.0165);
+    const sizeEn = Math.round(W * 0.0115);
+    ctx.fillStyle = color;
+    ctx.font = '600 ' + sizeZh + 'px ' + font;
+    const wZh = ctx.measureText(labelZh).width;
+    ctx.font = '500 ' + sizeEn + 'px ' + POSTER_FONT;
+    const wEn = ctx.measureText(labelEn).width;
+    const blockW = wZh + gap * 0.7 + wEn;
+    const startX = cx - blockW / 2;
+    const lineY = y;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = Math.max(1, Math.round(W * 0.0012));
+    ctx.beginPath();
+    ctx.moveTo(startX - lineLen, lineY);
+    ctx.lineTo(startX - gap * 0.4, lineY);
+    ctx.stroke();
+    ctx.font = '600 ' + sizeZh + 'px ' + font;
+    ctx.fillStyle = color;
+    ctx.fillText(labelZh, startX + wZh / 2, lineY);
+    ctx.font = '500 ' + sizeEn + 'px ' + POSTER_FONT;
+    const enX = startX + wZh + gap * 0.7 + wEn / 2;
+    ctx.fillText(labelEn, enX, lineY);
+    ctx.beginPath();
+    ctx.moveTo(startX + blockW + gap * 0.4, lineY);
+    ctx.lineTo(startX + blockW + lineLen, lineY);
+    ctx.stroke();
+}
+
+function drawPoster(ctx, W, H, title, subtitle, records, imgs, opts) {
+    opts = opts || {};
+    const S = opts.scale || 1;
+    const showCity  = opts.showCity  !== false;
+    const showDept  = !!opts.showDept;
+    const showOwner = !!opts.showOwner;
+    // Count how many info lines the card carries (drives logo box / name sizing)
+    const infoLines = (showCity ? 1 : 0) + (showDept ? 1 : 0) + (showOwner ? 1 : 0);
+    // Premium warm-cream business palette (independent of app theme)
+    const C_BG      = '#F6EEE2';
+    const C_BG2     = '#FBF6EE';
+    const C_INK     = '#43301F';
+    const C_GOLD    = '#B8904E';
+    const C_GOLD_S  = '#9A7A42';
+    const C_CARD    = '#FFFFFF';
+    const C_CARD_SH = 'rgba(80,55,20,0.10)';
+    const C_NAME    = '#43301F';
+    const C_CITY    = '#A8927A';
+    const C_FOOTER  = '#B8904E';
+
+    // Background: soft warm vertical gradient
+    const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+    bgGrad.addColorStop(0, C_BG2);
+    bgGrad.addColorStop(0.5, C_BG);
+    bgGrad.addColorStop(1, C_BG2);
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Four corner gold frame
+    const isScreen = W > H;
+    const margin = Math.round(W * 0.028);
+    const cornerLen = Math.round(W * 0.075);
+    const cornerThick = Math.max(2, Math.round(W * 0.0022));
+    const cornerR = Math.round(W * 0.012);
+    drawAllCorners(ctx, W, H, margin, cornerLen, cornerThick, cornerR, C_GOLD);
+
+    // ---- Title block ----
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const titleSize = Math.round(W * 0.046);
+    ctx.fillStyle = C_INK;
+    ctx.font = '700 ' + titleSize + 'px ' + POSTER_SERIF;
+    const titleY = Math.round(H * (isScreen ? 0.12 : 0.095));
+    ctx.fillText(fitText(ctx, title, W * 0.78), W / 2, titleY);
+
+    // Diamond separator
+    const diamondY = titleY + titleSize * 0.95;
+    const dSize = Math.max(6, Math.round(W * 0.007));
+    ctx.save();
+    ctx.fillStyle = C_GOLD;
+    ctx.translate(W / 2, diamondY);
+    ctx.rotate(Math.PI / 4);
+    ctx.fillRect(-dSize / 2, -dSize / 2, dSize, dSize);
+    ctx.restore();
+
+    // Subtitle (letter-spaced, gold)
+    let blockBottom = diamondY + dSize / 2;
     if (subtitle) {
-        ctx.font = '400 ' + Math.round(titleSize * 0.42) + 'px ' + POSTER_FONT;
-        ctx.fillStyle = 'rgba(255,255,255,0.78)';
-        ctx.fillText(fitText(ctx, subtitle, W * 0.9), W / 2, headerH * 0.74);
+        const subSize = Math.round(W * (isScreen ? 0.015 : 0.018));
+        ctx.fillStyle = C_GOLD_S;
+        ctx.font = '400 ' + subSize + 'px ' + POSTER_FONT;
+        const subY = diamondY + dSize * 1.8 + subSize * 0.8;
+        // Lighter tracking for landscape (mixed EN/CN), stronger for portrait
+        const spacing = Math.round(subSize * (isScreen ? 0.12 : 0.35));
+        drawSpacedText(ctx, fitSpaced(ctx, subtitle, W * (isScreen ? 0.72 : 0.62), spacing), W / 2, subY, spacing);
+        blockBottom = subY + subSize / 2;
     }
 
-    const footerH = Math.round(H * 0.045);
-    ctx.font = '400 ' + Math.round(footerH * 0.34) + 'px ' + POSTER_FONT;
-    ctx.fillStyle = '#8a94a6';
-    const dateStr = new Date().toLocaleDateString(lang === 'zh' ? 'zh-CN' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    ctx.fillText(document.getElementById('site-title').textContent + ' · ' + records.length + ' ' + t('clients_word') + ' · ' + dateStr, W / 2, H - footerH / 2);
+    // ---- Section label: 战略合作伙伴 / STRATEGIC PARTNERS ----
+    // Position dynamically below the title/subtitle block with a clear gap
+    const labelSizeZh = Math.round(W * 0.0165);
+    const labelGap = Math.round(H * (isScreen ? 0.085 : 0.055));
+    const labelY = blockBottom + labelGap + labelSizeZh / 2;
+    drawSectionLabel(ctx, W / 2, labelY,
+        lang === 'zh' ? '战略合作伙伴' : 'STRATEGIC PARTNERS',
+        lang === 'zh' ? 'STRATEGIC PARTNERS' : 'TRUSTED BY',
+        W, C_GOLD, POSTER_FONT);
 
-    const padX = Math.round(W * 0.035);
-    const top = headerH + Math.round(H * 0.022);
-    const bottom = H - footerH - Math.round(H * 0.008);
-    const areaW = W - padX * 2;
-    const areaH = bottom - top;
+    // ---- Logo grid ----
+    // Geometry shared with pagination (posterBestGrid) so full pages tile
+    // exactly with no empty slots.
     const n = records.length;
-    const cardAspect = 1.14;
-
-    let best = null;
-    for (let c = 1; c <= n; c++) {
-        const rows = Math.ceil(n / c);
-        let cw = areaW / c;
-        let ch = areaH / rows;
-        if (ch > cw * cardAspect) ch = cw * cardAspect;
-        else cw = ch / cardAspect;
-        if (!best || cw > best.cw) best = { cols: c, rows, cw, ch };
-    }
-    const gridW = best.cols * best.cw;
-    const gridH = best.rows * best.ch;
-    const offX = padX + (areaW - gridW) / 2;
-    const offY = top + (areaH - gridH) / 2;
-    const gap = Math.min(best.cw, best.ch) * 0.10;
-    const cardW = best.cw - gap;
-    const cardH = best.ch - gap;
+    const grid = posterBestGrid(W, H, isScreen, !!subtitle, infoLines, n);
+    const best = grid.best;
+    const offX = grid.offX, offY = grid.offY;
+    const gap = grid.gap, cardW = grid.cardW, cardH = grid.cardH;
+    const footerH = grid.footerH;
 
     records.forEach((r, i) => {
         const col = i % best.cols;
@@ -1812,68 +2404,147 @@ function drawPoster(ctx, W, H, title, subtitle, records, imgs) {
         const x = offX + col * best.cw + gap / 2;
         const y = offY + row * best.ch + gap / 2;
 
+        // Card: white rounded with soft warm shadow (blur/offset scaled for high-res)
         ctx.save();
-        ctx.shadowColor = 'rgba(26,26,46,0.10)';
-        ctx.shadowBlur = cardH * 0.06;
-        ctx.shadowOffsetY = cardH * 0.02;
-        ctx.fillStyle = '#ffffff';
-        roundedRect(ctx, x, y, cardW, cardH, cardW * 0.08);
+        ctx.shadowColor = C_CARD_SH;
+        ctx.shadowBlur = cardH * 0.07 * S;
+        ctx.shadowOffsetY = cardH * 0.025 * S;
+        ctx.fillStyle = C_CARD;
+        roundedRect(ctx, x, y, cardW, cardH, cardW * 0.07);
         ctx.fill();
         ctx.restore();
 
-        const logoBoxH = cardH * 0.62;
-        const pad = cardW * 0.10;
-        const boxX = x + pad, boxY = y + pad * 0.6;
-        const boxW = cardW - pad * 2, boxH = logoBoxH - pad * 0.6;
+        // Logo box shrinks as more info lines are shown, leaving room for brand + meta.
+        const logoRatio = infoLines === 0 ? 0.60
+                        : infoLines === 1 ? 0.52
+                        : infoLines === 2 ? 0.46
+                        :                   0.42;
+        const logoBoxH = cardH * logoRatio;
+        const pad = cardW * 0.12;
+        const boxX = x + pad, boxY = y + pad * 0.7;
+        const boxW = cardW - pad * 2, boxH = logoBoxH - pad * 0.7;
         const img = imgs[i];
         if (img && img.naturalWidth > 0) {
-            const scale = Math.min(boxW / img.naturalWidth, boxH / img.naturalHeight);
-            const iw = img.naturalWidth * scale;
-            const ih = img.naturalHeight * scale;
+            const logoScale = Math.min(boxW / img.naturalWidth, boxH / img.naturalHeight);
+            const iw = img.naturalWidth * logoScale;
+            const ih = img.naturalHeight * logoScale;
             ctx.drawImage(img, boxX + (boxW - iw) / 2, boxY + (boxH - ih) / 2, iw, ih);
         } else {
-            const s = Math.min(boxW, boxH) * 0.92;
+            const s = Math.min(boxW, boxH) * 0.62;
             const fx = boxX + (boxW - s) / 2;
             const fy = boxY + (boxH - s) / 2;
-            ctx.fillStyle = r.color || '#4F46E5';
-            roundedRect(ctx, fx, fy, s, s, s * 0.18);
+            ctx.fillStyle = r.color || C_GOLD;
+            roundedRect(ctx, fx, fy, s, s, s * 0.22);
             ctx.fill();
             ctx.fillStyle = '#ffffff';
-            ctx.font = '700 ' + Math.round(s * 0.34) + 'px ' + POSTER_FONT;
+            ctx.font = '700 ' + Math.round(s * 0.36) + 'px ' + POSTER_SERIF;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
             ctx.fillText(getInitials(r.brand), fx + s / 2, fy + s * 0.53);
         }
 
-        const nameY = y + cardH * 0.79;
-        let nameSize = Math.min(cardH * 0.115, cardW * 0.16);
-        ctx.fillStyle = '#2d3748';
+        // Brand name sits just below the logo; its vertical start adapts to info line count.
+        const nameY = y + logoBoxH + cardH * (0.045 + infoLines * 0.012);
+        const nameSize = Math.min(cardH * (0.105 - infoLines * 0.006), cardW * 0.14);
+        ctx.fillStyle = C_NAME;
         ctx.font = '600 ' + Math.round(nameSize) + 'px ' + POSTER_FONT;
-        ctx.fillText(fitText(ctx, r.brand || r.company || '', cardW * 0.9), x + cardW / 2, nameY);
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(fitText(ctx, r.brand || r.company || '', cardW * 0.88), x + cardW / 2, nameY);
 
-        if (cardH >= 110 && r.office_city) {
-            ctx.fillStyle = '#a0aec0';
-            ctx.font = '400 ' + Math.round(cardH * 0.075) + 'px ' + POSTER_FONT;
-            ctx.fillText(fitText(ctx, r.office_city, cardW * 0.85), x + cardW / 2, y + cardH * 0.915);
+        // ---- Optional info lines (city/region · business line · owner), user-toggled ----
+        const lines = [];
+        if (showCity) {
+            const cityPart = [r.region, r.office_city].filter(Boolean).join(' · ');
+            if (cityPart) lines.push(cityPart);
+        }
+        if (showDept && r.departments && r.departments.length) {
+            lines.push(r.departments.join(' / '));
+        }
+        if (showOwner && r.owners && r.owners.length) {
+            lines.push((lang === 'zh' ? '负责人：' : 'Owner: ') + r.owners.join('、'));
+        }
+        // Show info even on modest cards; font auto-scales so it stays legible.
+        if (lines.length) {
+            const infoSize = Math.max(7, Math.round(cardH * (0.058 - infoLines * 0.004)));
+            const lineGap = infoSize * 1.30;
+            const blockH = lines.length * lineGap;
+            const availH = (y + cardH) - (nameY + nameSize * 0.6) - cardH * 0.02;
+            const startY = nameY + nameSize * 0.8 + Math.max(0, (availH - blockH) / 2) + lineGap / 2;
+            ctx.font = '400 ' + infoSize + 'px ' + POSTER_FONT;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            lines.forEach((txt, idx) => {
+                ctx.fillStyle = idx === 0 ? C_CITY : 'rgba(67,48,31,0.55)';
+                ctx.fillText(fitText(ctx, txt, cardW * 0.88), x + cardW / 2, startY + idx * lineGap);
+            });
         }
     });
+
+    // ---- Footer: gold line + editable slogan-style text ----
+    const footY = H - footerH / 2;
+    ctx.strokeStyle = C_GOLD;
+    ctx.lineWidth = Math.max(1, Math.round(W * 0.0012 * S));
+    const fLineLen = W * 0.16;
+    const fGap = Math.round(W * 0.02);
+    ctx.font = '500 ' + Math.round(W * 0.014) + 'px ' + POSTER_FONT;
+    ctx.fillStyle = C_FOOTER;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    // Footer text is fully user-editable; fall back to a sensible default if emptied.
+    const footMain = (opts.footer && opts.footer.trim())
+        ? opts.footer.trim()
+        : (document.getElementById('site-title').textContent + '  ·  ' + records.length + ' ' + t('clients_word'));
+    const fw = ctx.measureText(footMain).width;
+    ctx.beginPath();
+    ctx.moveTo(W / 2 - fw / 2 - fGap - fLineLen, footY);
+    ctx.lineTo(W / 2 - fw / 2 - fGap, footY);
+    ctx.moveTo(W / 2 + fw / 2 + fGap, footY);
+    ctx.lineTo(W / 2 + fw / 2 + fGap + fLineLen, footY);
+    ctx.stroke();
+    ctx.fillText(footMain, W / 2, footY);
 }
 
 function downloadPoster() {
-    const canvas = document.getElementById('poster-canvas');
-    const sizeKey = document.getElementById('poster-size').value;
-    try {
-        canvas.toBlob(blob => {
-            if (!blob) { alert(t('poster_fail')); return; }
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = (lang === 'zh' ? '品牌墙海报-' : 'logo-wall-poster-') + sizeKey + '-' + new Date().toISOString().slice(0, 10) + '.png';
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            setTimeout(() => URL.revokeObjectURL(a.href), 5000);
-        }, 'image/png');
-    } catch (e) {
-        alert(t('poster_fail2') + ' ' + e.message);
-    }
+    if (!posterPages.length) { alert(t('poster_fail')); return; }
+    const base = POSTER_SIZES[posterSizeKey] || POSTER_SIZES.portrait;
+    const scale = posterOpts.scale || 1;
+    const title = document.getElementById('poster-title').value.trim() || '客户品牌墙';
+    const subtitle = document.getElementById('poster-subtitle').value.trim();
+    const dateStr = new Date().toISOString().slice(0, 10);
+    const baseName = (lang === 'zh' ? '品牌墙海报-' : 'logo-wall-poster-') + posterSizeKey + '-' + dateStr;
+
+    // Render each page into an offscreen canvas at full export resolution,
+    // then trigger a download per page.
+    const total = posterPages.length;
+    posterPages.forEach((page, idx) => {
+        const off = document.createElement('canvas');
+        off.width = base.w * scale;
+        off.height = base.h * scale;
+        const octx = off.getContext('2d');
+        octx.setTransform(scale, 0, 0, scale, 0, 0);
+        const opts = Object.assign({}, posterOpts);
+        if (total > 1) {
+            const indicator = (lang === 'zh' ? '第 ' : 'Page ') + (idx + 1) +
+                              ' / ' + total + (lang === 'zh' ? ' 页' : '');
+            opts.footer = (opts.footer ? opts.footer + '   ' : '') + indicator;
+        }
+        drawPoster(octx, base.w, base.h, title, subtitle, page.records, page.imgs, opts);
+        try {
+            off.toBlob(blob => {
+                if (!blob) return;
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = baseName + (total > 1 ? ('-p' + (idx + 1) + 'of' + total) : '') + '.png';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                setTimeout(() => URL.revokeObjectURL(a.href), 8000);
+            }, 'image/png');
+        } catch (e) {
+            alert(t('poster_fail2') + ' ' + e.message);
+        }
+    });
 }
 
 // ============================================================

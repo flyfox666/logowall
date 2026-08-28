@@ -31,4 +31,26 @@ echo "========================================================"
 
 export ADMIN_TOKEN="${ADMIN_TOKEN:-admin123}"
 export PORT="${PORT:-8080}"
+
+# Auto-release the configured port if it is already in use
+echo "Checking port ${PORT}..."
+_killed=""
+if command -v lsof >/dev/null 2>&1; then
+    for _pid in $(lsof -ti tcp:"${PORT}" -sTCP:LISTEN 2>/dev/null); do
+        echo "  Port ${PORT} is held by PID ${_pid}, terminating..."
+        kill -9 "${_pid}" 2>/dev/null && _killed="1"
+    done
+elif command -v fuser >/dev/null 2>&1; then
+    if fuser "${PORT}"/tcp >/dev/null 2>&1; then
+        echo "  Port ${PORT} is in use, terminating..."
+        fuser -k "${PORT}"/tcp >/dev/null 2>&1 && _killed="1"
+    fi
+fi
+if [ -n "$_killed" ]; then
+    sleep 1
+    echo "  Port ${PORT} released."
+else
+    echo "  Port ${PORT} is free."
+fi
+
 python3 server/app.py

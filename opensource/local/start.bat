@@ -32,6 +32,21 @@ if exist "config.env" (
 if not defined PORT set PORT=8080
 if not defined ADMIN_TOKEN set ADMIN_TOKEN=admin123
 
+REM Auto-release the configured port if it is already in use
+echo Checking port %PORT%...
+set "_KILLED="
+for /f "tokens=5" %%p in ('netstat -ano ^| findstr "LISTENING" ^| findstr ":%PORT% "') do (
+    echo   Port %PORT% is held by PID %%p, terminating...
+    taskkill /F /PID %%p >nul 2>&1
+    if not errorlevel 1 set "_KILLED=1"
+)
+if defined _KILLED (
+    timeout /t 1 /nobreak >nul
+    echo   Port %PORT% released.
+) else (
+    echo   Port %PORT% is free.
+)
+
 echo.
 echo ========================================================
 echo   Starting on port %PORT%... (addresses will show below)
