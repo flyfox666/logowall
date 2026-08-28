@@ -12,3 +12,6 @@ Thumbs.db
 # Local runtime artifacts
 *.log
 *.tmp
+
+# Runtime user accounts (may contain real credentials)
+users.json
