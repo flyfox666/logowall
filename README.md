@@ -1,6 +1,6 @@
 # Logo Wall · 客户品牌墙
 
-**English** | [简体中文](opensource/README.zh-CN.md)
+**English** | [简体中文](README.zh-CN.md)
 
 A self-hosted client logo wall with an admin panel, one-click poster export,
 full data backup, multi-user login and theme customization. Built for teams
@@ -40,9 +40,15 @@ or in a browser.
 
 ## Features
 
-- **Brand wall** — responsive grid grouped by office, business line, region
-  and owner, with live search and filters (region → city → business line →
-  owner).
+- **Brand wall** — responsive grid grouped by office, business line, region,
+  owner and cooperation year, with live search. Filters combine freely across
+  dimensions (multiple selections within a dimension use OR; different
+  dimensions use AND), and a one-click "Clear filters" button resets them.
+  Owners are presented as a searchable multi-select dropdown so the toolbar
+  stays compact even with dozens of people.
+- **Cooperation date** — every client can carry a start/cooperation date. It
+  shows on the brand-wall cards, is printed on exported posters, can be used
+  as a year-based filter, and round-trips through Excel import/export.
 - **Admin panel** (`/admin`) — CRUD for clients, Excel import / export, logo
   discovery (Clearbit / Google favicon / DuckDuckGo), logo upload and a
   shared logo library.
@@ -138,17 +144,28 @@ team, or scheduled off-site backups.
 Skip manual entry — prepare your client list in Excel and import it in one go
 from the admin toolbar ("Import Excel").
 
-| Column | Required | Content |
-|---|---|---|
-| 1 | Yes | Company name (also used as the initial brand) |
-| 2 | No | Office code (e.g. `SHA` — city / region are derived automatically) |
-| 3 | No | Business lines (comma-separated) |
-| 4 | No | Owners (comma-separated) |
+The exported file has these columns (column order does not matter on import —
+columns are matched by header name, with common aliases accepted):
 
+| Header | Required | Content |
+|---|---|---|
+| `租客/买方` (company / client / brand) | Yes | Company name (also used as the initial brand) |
+| `办公室（城市）` (office / city code) | No | Office code (e.g. `SHA` — city / region are derived automatically) |
+| `区域` (region) | No | Region (usually derived from the office code) |
+| `申报部门（合并）` (business line / dept) | No | Business lines (semicolon/comma-separated) |
+| `业务负责人（合并）` (owner) | No | Owners (semicolon/comma-separated) |
+| `合作时间` (cooperation / start / deal date) | No | Cooperation date; normalized to `YYYY-MM-DD` when possible |
+
+- Import recognizes headers by **name**, not position, and accepts several
+  common aliases (e.g. "公司", "客户", "公司" for the company column;
+  "开始合作时间", "成交时间", "cooperation_date" for the date). A positional
+  fallback is used when a header is unrecognized.
+- Dates are tolerant of multiple formats (Excel date serials, `2024/1/2`,
+  `2024-01-02`, `2024年1月2日`, etc.) and normalized to `YYYY-MM-DD`.
 - Logos are auto-matched from the built-in brand keyword library during
   import; unmatched clients can be completed afterwards.
 - "Export Excel" produces the same layout, so an exported file can be edited
-  and re-imported as a round-trip format.
+  and re-imported as a reliable round-trip format.
 - The import is also scriptable: `POST /api/import-excel` with Bearer-token
   auth.
 

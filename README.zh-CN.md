@@ -30,16 +30,20 @@
 
 | 品牌墙 | 海报导出 |
 |---|---|
-| ![前台](docs/screenshots/front.png) | ![海报](docs/screenshots/poster-export.png) |
+| ![前台](opensource/docs/screenshots/front.png) | ![海报](opensource/docs/screenshots/poster-export.png) |
 
 | 管理后台 |
 |---|
-| ![管理后台](docs/screenshots/admin.png) |
+| ![管理后台](opensource/docs/screenshots/admin.png) |
 
 ## 功能
 
-- **品牌墙前台** — 响应式客户网格，按分公司、业务线、区域、负责人分组展示，
-  支持实时搜索与多级筛选（区域 → 城市 → 业务线 → 负责人）。
+- **品牌墙前台** — 响应式客户网格，按分公司、业务线、区域、负责人、合作年份
+  分组展示，支持实时搜索。筛选维度可**自由组合**：同一维度内多选为「或」
+  （OR），不同维度之间为「与」（AND），并提供一键「清除筛选」。负责人采用
+  **可搜索的多选下拉框**，即便几十人也不会让工具栏臃肿。
+- **合作时间** — 每个客户可记录开始/成交合作时间。它会显示在品牌墙卡片上、
+  打印到导出的海报中、可按「合作年份」筛选，并能通过 Excel 导入导出完整往返。
 - **管理后台**（`/admin`）— 客户新增 / 编辑 / 删除、Excel 导入导出、Logo 自动
   抓取（Clearbit / Google favicon / DuckDuckGo）、Logo 上传与公共 Logo 库。
 - **海报导出** — 把当前筛选结果一键导出为 PNG 海报（竖版 3:4 / 大屏 16:9 /
@@ -59,7 +63,7 @@
 ### 本地运行（Python 3.9+）
 
 ```bash
-cd local
+cd opensource/local
 # Windows
 start.bat
 # macOS / Linux
@@ -73,12 +77,12 @@ start.bat
 ### Docker 运行
 
 ```bash
-cd docker
+cd opensource/docker
 docker compose up -d --build
 ```
 
 客户数据与上传的 Logo 持久化在 `logo-wall-data` 卷中。公网部署（Cloudflare
-Tunnel）见 [docker/README.zh-CN.md](docker/README.zh-CN.md)。
+Tunnel）见 [opensource/docker/README.zh-CN.md](opensource/docker/README.zh-CN.md)。
 
 ## 架构：代码与数据分离
 
@@ -102,7 +106,7 @@ DATA_DIR=/srv/logo-wall-b ./start.sh
 ```
 
 Docker 同理：把宿主机任意目录挂载到 `/data` 并设置 `DATA_DIR=/data`
-（见 `docker/docker-compose.yml`）。
+（见 `opensource/docker/docker-compose.yml`）。
 
 `DATA_DIR` 为空时应用会自动初始化：创建空的 `data.json`，并在首次运行时生成
 默认管理员（`admin / admin123`）。
@@ -124,15 +128,25 @@ Docker 同理：把宿主机任意目录挂载到 `/data` 并设置 `DATA_DIR=/d
 无需逐条录入——在 Excel 里整理好客户清单，管理后台工具栏点「导入Excel」
 一次性导入。
 
-| 列 | 必填 | 内容 |
-|---|---|---|
-| 1 | 是 | 公司名称（初始同时作为品牌名） |
-| 2 | 否 | 办公室代码（如 `SHA`，城市 / 区域自动推导） |
-| 3 | 否 | 业务线（逗号分隔） |
-| 4 | 否 | 负责人（逗号分隔） |
+导出文件包含以下列（**导入时按表头名称识别，列的先后顺序无关**，并兼容常见
+别名）：
 
+| 表头 | 必填 | 内容 |
+|---|---|---|
+| `租客/买方`（公司 / 客户 / 品牌） | 是 | 公司名称（初始同时作为品牌名） |
+| `办公室（城市）`（办公室 / 城市代码） | 否 | 办公室代码（如 `SHA`，城市 / 区域自动推导） |
+| `区域` | 否 | 区域（通常由办公室代码推导） |
+| `申报部门（合并）`（业务线 / 部门） | 否 | 业务线（分号/逗号分隔） |
+| `业务负责人（合并）`（负责人） | 否 | 负责人（分号/逗号分隔） |
+| `合作时间`（开始合作时间 / 成交时间） | 否 | 合作日期，尽量规范化为 `YYYY-MM-DD` |
+
+- 导入按表头**名称**而非位置识别列，并接受多种常见叫法（例如公司列兼容
+  「公司」「客户」「品牌」；日期列兼容「开始合作时间」「成交时间」
+  `cooperation_date`）；表头无法识别时回退到按位置读取。
+- 日期兼容多种格式（Excel 日期序列号、`2024/1/2`、`2024-01-02`、
+  `2024年1月2日` 等），统一规范化为 `YYYY-MM-DD`。
 - 导入时会自动从内置品牌关键词库匹配 Logo，未匹配的客户可后续补配。
-- 「导出Excel」生成同样格式的文件，编辑后再导入，形成往返闭环。
+- 「导出Excel」生成同样格式的文件，编辑后再导入，形成可靠的往返闭环。
 - 也可脚本调用：`POST /api/import-excel`（Bearer 令牌认证）。
 
 ## Logo 获取与匹配
@@ -170,8 +184,8 @@ Docker 同理：把宿主机任意目录挂载到 `/data` 并设置 `DATA_DIR=/d
 | `LOG_LEVEL` | `info`     | info / warning / error / debug |
 
 比环境变量更简单的方式：
-- **本地**：把 `local/config.env.example` 复制为 `local/config.env`，直接改
-  `PORT` / `ADMIN_TOKEN`。
+- **本地**：把 `opensource/local/config.env.example` 复制为
+  `opensource/local/config.env`，直接改 `PORT` / `ADMIN_TOKEN`。
 - **Docker**：在 `docker-compose.yml` 旁创建 `.env`，写入 `PORT=8081` 等。
 
 ## 新业务线接入指南
@@ -186,10 +200,10 @@ Docker 同理：把宿主机任意目录挂载到 `/data` 并设置 `DATA_DIR=/d
 
 ```bash
 # 本地
-git clone <this-repo> && cd logo-wall/local && ./start.sh
+git clone <this-repo> && cd opensource/local && ./start.sh
 
 # Docker
-cd docker && cp .env.example .env && docker compose up -d --build
+cd opensource/docker && cp .env.example .env && docker compose up -d --build
 ```
 
 一套代码服务多个环境：把 `DATA_DIR` 分别指向各团队自己的目录即可。移交现成
@@ -198,12 +212,12 @@ cd docker && cp .env.example .env && docker compose up -d --build
 
 ## 演示数据生成器
 
-内置的 `data.json` 为纯虚构数据。`tools/anonymize.py` 可把任意一份
+内置的 `data.json` 为纯虚构数据。`opensource/tools/anonymize.py` 可把任意一份
 data.json 洗牌成全新的虚构数据——公司名、品牌、负责人、分公司/城市/区域、
 业务线、Logo 与网址全部替换为虚构值：
 
 ```bash
-python tools/anonymize.py --src local/data.json --out local/data.json
+python opensource/tools/anonymize.py --src opensource/local/data.json --out opensource/local/data.json
 ```
 
 城市、区域与业务线按合理权重重新洗牌（确定性随机、带种子 —— 每次输出
@@ -212,10 +226,11 @@ python tools/anonymize.py --src local/data.json --out local/data.json
 ## 目录结构
 
 ```
-local/    直接用 Python 运行（自动创建虚拟环境）
-docker/   Docker Compose 部署（数据持久化卷）
-tools/    anonymize.py —— 演示数据生成器
-docs/     截图
+opensource/   开源项目（本仓库跟踪的全部内容）
+├── local/    直接用 Python 运行（自动创建虚拟环境）
+├── docker/   Docker Compose 部署（数据持久化卷）
+├── tools/    anonymize.py —— 演示数据生成器
+└── docs/     截图
 ```
 
 ## 开源协议
