@@ -246,4 +246,4 @@ opensource/   The open-source project (everything tracked in this repository)
 
 ## License
 
-MIT — see [LICENSE](opensource/LICENSE).
+MIT — see [LICENSE](LICENSE).
