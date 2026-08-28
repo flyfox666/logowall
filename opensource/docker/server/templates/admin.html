@@ -405,6 +405,7 @@ tr:hover { background: #f7fafc; }
                         <th class="sortable" data-sort="office_city" data-i18n="th_office">办公室<span class="sort-arrow"></span></th>
                         <th class="sortable" data-sort="departments" data-i18n="th_dept">业务线<span class="sort-arrow"></span></th>
                         <th class="sortable" data-sort="owners" data-i18n="th_owner">负责人<span class="sort-arrow"></span></th>
+                        <th class="sortable" data-sort="cooperation_date" data-i18n="th_coop_date">合作时间<span class="sort-arrow"></span></th>
                         <th style="text-align:right" data-i18n="th_action">操作</th>
                     </tr>
                 </thead>
@@ -459,6 +460,10 @@ tr:hover { background: #f7fafc; }
             <div class="form-group">
                 <label data-i18n="f_owners">业务负责人（多个用分号分隔）</label>
                 <input type="text" id="f-owners" placeholder="如：张三2026；李四2025" data-i18n-placeholder="f_owners_ph">
+            </div>
+            <div class="form-group">
+                <label data-i18n="f_coop_date">合作时间（可选）</label>
+                <input type="date" id="f-coop-date" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text);font-family:inherit;font-size:13px">
             </div>
             <div class="form-group">
                 <label data-i18n="f_description">公司简介（可选）</label>
@@ -717,7 +722,7 @@ const I18N = {
         logo_all: 'Logo：全部', logo_set: 'Logo：已配', logo_missing: 'Logo：未配',
         total_pre: '共', total_post: '条',
         th_client: '客户名称', th_region: '区域', th_office: '办公室',
-        th_dept: '业务线', th_owner: '负责人', th_action: '操作',
+        th_dept: '业务线', th_owner: '负责人', th_coop_date: '合作时间', th_action: '操作',
         no_match: '没有匹配的客户',
         per_page_pre: '每页', per_page_post: '条',
         prev_page: '上一页', next_page: '下一页',
@@ -729,6 +734,7 @@ const I18N = {
         f_website_ph: '如：www.example.com',
         f_depts: '业务线（多个用分号分隔）', f_depts_ph: '如：OOSG；OPLS',
         f_owners: '业务负责人（多个用分号分隔）', f_owners_ph: '如：张三2026；李四2025',
+        f_coop_date: '合作时间（可选）',
         f_description: '公司简介（可选）', f_description_ph: '输入公司简介，将在前台点击卡片时展示',
         f_logo: '品牌Logo', f_logo_tip1: '支持三种方式设置Logo：',
         f_logo_tip2: '1. 输入图片URL；2. 自动抓取；3. 本地上传',
@@ -848,7 +854,7 @@ const I18N = {
         logo_all: 'Logo: all', logo_set: 'Logo: set', logo_missing: 'Logo: missing',
         total_pre: '', total_post: 'records',
         th_client: 'Client', th_region: 'Region', th_office: 'Office',
-        th_dept: 'Business line', th_owner: 'Owner', th_action: 'Actions',
+        th_dept: 'Business line', th_owner: 'Owner', th_coop_date: 'Coop. date', th_action: 'Actions',
         no_match: 'No matching clients',
         per_page_pre: 'Per page', per_page_post: '',
         prev_page: 'Prev', next_page: 'Next',
@@ -860,6 +866,7 @@ const I18N = {
         f_website_ph: 'e.g. www.example.com',
         f_depts: 'Business lines (semicolon-separated)', f_depts_ph: 'e.g. OOSG;OPLS',
         f_owners: 'Owners (semicolon-separated)', f_owners_ph: 'e.g. John;Jane',
+        f_coop_date: 'Cooperation date (optional)',
         f_description: 'Company profile (optional)', f_description_ph: 'Enter company profile, shown when clicking the card on front page',
         f_logo: 'Brand logo', f_logo_tip1: 'Set a logo in one of three ways:',
         f_logo_tip2: '1. Paste image URL; 2. Auto-discover; 3. Upload',
@@ -1142,6 +1149,7 @@ function renderRow(r) {
         <td>${r.office_city} <span style="color:var(--text-muted)">(${r.office_code})</span></td>
         <td>${depts}</td>
         <td class="owners-cell">${owners || '-'}</td>
+        <td class="owners-cell">${r.cooperation_date || '-'}</td>
         <td class="actions-cell">
             <button class="btn btn-outline btn-sm" onclick="window._assignClientId=${r.id};openLogoLibrary()">Logo</button>
             <button class="btn btn-outline btn-sm" onclick="openEditModal(${r.id})">${t('edit')}</button>
@@ -1201,6 +1209,7 @@ function openAddModal() {
     document.getElementById('f-office').value = 'SHA';
     document.getElementById('f-depts').value = '';
     document.getElementById('f-owners').value = '';
+    document.getElementById('f-coop-date').value = '';
     document.getElementById('f-website').value = '';
     document.getElementById('f-description').value = '';
     document.getElementById('f-logo-url').value = '';
@@ -1218,6 +1227,7 @@ async function openEditModal(id) {
     document.getElementById('f-office').value = r.office_code || 'SHA';
     document.getElementById('f-depts').value = (r.departments || []).join('；');
     document.getElementById('f-owners').value = (r.owners || []).join('；');
+    document.getElementById('f-coop-date').value = (r.cooperation_date || '').length >= 10 ? r.cooperation_date.slice(0, 10) : (r.cooperation_date || '');
     document.getElementById('f-website').value = r.website || '';
     document.getElementById('f-description').value = r.description || '';
     document.getElementById('f-logo-url').value = r.logo_url || '';
@@ -1395,6 +1405,7 @@ async function saveClient() {
         office_code: document.getElementById('f-office').value,
         departments: document.getElementById('f-depts').value,
         owners: document.getElementById('f-owners').value,
+        cooperation_date: document.getElementById('f-coop-date').value || null,
         logo_url: currentLogoUrl || null,
         website: document.getElementById('f-website').value.trim(),
         description: document.getElementById('f-description').value.trim() || null,

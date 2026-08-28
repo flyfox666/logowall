@@ -396,11 +396,44 @@ def check_auth(authorization: Optional[str] = Header(None)):
 
 
 # ---- Models ---------------------------------------------------------------
+def normalize_date(v) -> str:
+    """Normalize a cooperation date to YYYY-MM-DD when possible.
+
+    Accepts datetime/date objects, pandas Timestamps, or strings.
+    Partial values like '2024' or '2024-03' are kept as-is.
+    Empty/invalid values become ''.
+    """
+    if v is None:
+        return ''
+    # pandas Timestamp / datetime / date
+    if hasattr(v, 'strftime'):
+        try:
+            return v.strftime('%Y-%m-%d')
+        except Exception:
+            pass
+    s = str(v).strip()
+    if not s or s.lower() in ('nan', 'nat', 'none', 'null'):
+        return ''
+    # Already a plausible YYYY-MM-DD / YYYY-MM / YYYY
+    import re
+    if re.match(r'^\d{4}(-\d{2}){0,2}$', s):
+        return s
+    # Try common parsable forms
+    from datetime import datetime
+    for fmt in ('%Y/%m/%d', '%Y.%m.%d', '%Y年%m月%d日', '%Y-%m-%d', '%Y/%m', '%Y.%m'):
+        try:
+            return datetime.strptime(s, fmt).strftime('%Y-%m-%d' if fmt.endswith('%d') or fmt.endswith('日') else '%Y-%m')
+        except ValueError:
+            continue
+    return s
+
+
 class ClientIn(BaseModel):
     company: str
     office_code: str = ''
     departments: str = ''       # semicolon-separated in API for simplicity
     owners: str = ''            # semicolon-separated
+    cooperation_date: Optional[str] = None
     logo_url: Optional[str] = None
     website: Optional[str] = None
     description: Optional[str] = None
@@ -411,6 +444,7 @@ class ClientUpdate(BaseModel):
     office_code: Optional[str] = None
     departments: Optional[str] = None
     owners: Optional[str] = None
+    cooperation_date: Optional[str] = None
     logo_url: Optional[str] = None
     website: Optional[str] = None
     description: Optional[str] = None
@@ -672,6 +706,7 @@ def create_client(client: ClientIn, authorization: Optional[str] = Header(None))
         'region': get_region(office_code),
         'departments': clean_dept(client.departments),
         'owners': clean_owner(client.owners),
+        'cooperation_date': normalize_date(client.cooperation_date),
         'logo_url': client.logo_url,
         'website': client.website or '',
         'description': client.description or '',
@@ -701,6 +736,8 @@ def update_client(client_id: int, update: ClientUpdate, authorization: Optional[
                 r['departments'] = clean_dept(update.departments)
             if update.owners is not None:
                 r['owners'] = clean_owner(update.owners)
+            if update.cooperation_date is not None:
+                r['cooperation_date'] = normalize_date(update.cooperation_date)
             if update.logo_url is not None:
                 r['logo_url'] = update.logo_url
             if update.website is not None:
@@ -1049,16 +1086,37 @@ async def import_excel(
     data = load_data()
     added = 0
     logo_matched = 0
+
+    cols = {str(c).strip(): i for i, c in enumerate(df.columns)}
+
+    def pick(row, names, idx):
+        for name in names:
+            if name in cols and cols[name] < len(row):
+                v = row[cols[name]]
+                if not pd.isna(v):
+                    return v
+        if idx < len(row) and not pd.isna(row[idx]):
+            return row[idx]
+        return None
+
     for _, row in df.iterrows():
         vals = list(row)
-        if not vals or pd.isna(vals[0]):
+        if not vals:
             continue
-        company = str(vals[0]).strip()
+        company_raw = pick(vals, ['租客/买方', '公司', 'company', '客户', '品牌'], 0)
+        if company_raw is None:
+            continue
+        company = str(company_raw).strip()
         if not company:
             continue
-        office_code = str(vals[1]).strip().upper() if len(vals) > 1 and pd.notna(vals[1]) else ''
-        depts = clean_dept(str(vals[2])) if len(vals) > 2 and pd.notna(vals[2]) else []
-        owners = clean_owner(str(vals[3])) if len(vals) > 3 and pd.notna(vals[3]) else []
+        office_raw = pick(vals, ['办公室（城市）', '办公室', 'office_code', '城市代码'], 1)
+        office_code = str(office_raw).strip().upper() if office_raw is not None else ''
+        dept_raw = pick(vals, ['申报部门（合并）', '部门', '业务线', 'departments'], 2)
+        depts = clean_dept(str(dept_raw)) if dept_raw is not None else []
+        owner_raw = pick(vals, ['业务负责人（合并）', '负责人', 'owners'], 3)
+        owners = clean_owner(str(owner_raw)) if owner_raw is not None else []
+        coop_raw = pick(vals, ['合作时间', '开始合作时间', '成交时间', 'cooperation_date'], 4)
+        cooperation_date = normalize_date(coop_raw) if coop_raw is not None else ''
 
         # Auto-match logo from keyword DB
         logo_url = None
@@ -1078,6 +1136,7 @@ async def import_excel(
             'region': get_region(office_code),
             'departments': depts,
             'owners': owners,
+            'cooperation_date': cooperation_date,
             'logo_url': logo_url,
             'website': '',
             'color': color_from_name(company),
@@ -1103,6 +1162,7 @@ def export_excel(authorization: Optional[str] = Header(None)):
             '区域': r.get('region') or get_region(r.get('office_code', '')),
             '申报部门（合并）': '；'.join(depts),
             '业务负责人（合并）': '；'.join(owners),
+            '合作时间': r.get('cooperation_date', '') or '',
         })
     df = pd.DataFrame(rows)
     buf = io.BytesIO()

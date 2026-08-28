@@ -375,7 +375,99 @@
         }
         .filter-select:hover { border-color: var(--primary); color: var(--primary); }
         .filter-select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 10%, transparent); }
+
+        /* Multi-select searchable dropdown (owner filter) */
+        .ms-dropdown { position: relative; }
+        .ms-trigger {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 7px 14px; border: 1.5px solid var(--border);
+            border-radius: 20px; background: var(--surface);
+            font-size: 13px; color: var(--text-light);
+            cursor: pointer; transition: all 0.25s; white-space: nowrap;
+            max-width: 220px;
+        }
+        .ms-trigger:hover { border-color: var(--primary); color: var(--primary); }
+        .ms-trigger.open {
+            border-color: var(--primary); color: var(--primary);
+            box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 10%, transparent);
+        }
+        .ms-trigger.has-selection {
+            background: var(--primary); color: #fff; border-color: var(--primary);
+            box-shadow: 0 2px 8px color-mix(in srgb, var(--primary) 25%, transparent);
+        }
+        .ms-trigger-text {
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .ms-chevron { transition: transform 0.2s; flex-shrink: 0; }
+        .ms-trigger.open .ms-chevron { transform: rotate(180deg); }
+        .ms-panel {
+            position: absolute; top: calc(100% + 6px); left: 0; z-index: 200;
+            width: 260px; max-height: 320px; display: none;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; box-shadow: 0 12px 32px rgba(0,0,0,0.16);
+            overflow: hidden; flex-direction: column;
+        }
+        .ms-panel.open { display: flex; }
+        .ms-search {
+            position: relative; padding: 10px 10px 8px;
+            border-bottom: 1px solid var(--border);
+        }
+        .ms-search svg {
+            position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
+            color: var(--text-muted); pointer-events: none;
+        }
+        .ms-search input {
+            width: 100%; padding: 7px 12px 7px 34px;
+            border: 1px solid var(--border); border-radius: 8px;
+            font-size: 13px; outline: none; background: var(--bg); color: var(--text);
+            transition: border-color 0.2s;
+        }
+        .ms-search input:focus { border-color: var(--primary); }
+        .ms-options {
+            overflow-y: auto; padding: 6px;
+            display: flex; flex-direction: column; gap: 2px;
+        }
+        .ms-option {
+            display: flex; align-items: center; gap: 9px;
+            padding: 7px 10px; border-radius: 8px;
+            font-size: 13px; color: var(--text-light);
+            cursor: pointer; transition: background 0.15s; user-select: none;
+        }
+        .ms-option:hover { background: color-mix(in srgb, var(--primary) 7%, transparent); }
+        .ms-option.selected { color: var(--primary); font-weight: 600; }
+        .ms-option .ms-check {
+            width: 15px; height: 15px; border: 1.5px solid var(--border);
+            border-radius: 4px; flex-shrink: 0; display: flex;
+            align-items: center; justify-content: center;
+            transition: all 0.15s;
+        }
+        .ms-option.selected .ms-check {
+            background: var(--primary); border-color: var(--primary);
+        }
+        .ms-option.selected .ms-check::after {
+            content: ''; width: 4px; height: 8px;
+            border: solid #fff; border-width: 0 2px 2px 0;
+            transform: rotate(45deg) translate(-1px, -1px);
+        }
+        .ms-option .ms-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .ms-option .ms-count {
+            font-size: 11px; color: var(--text-muted);
+            background: var(--bg); padding: 1px 7px; border-radius: 10px;
+        }
+        .ms-option.selected .ms-count { color: var(--primary); }
+        .ms-empty { padding: 18px; text-align: center; font-size: 12px; color: var(--text-muted); }
+
         .toolbar-spacer { flex: 1; }
+        .clear-filters-btn {
+            padding: 7px 14px; border: 1.5px solid var(--border);
+            border-radius: 20px; background: transparent;
+            font-size: 12.5px; color: var(--text-light); cursor: pointer;
+            transition: all 0.25s; white-space: nowrap;
+        }
+        .clear-filters-btn:hover {
+            border-color: #ef4444; color: #ef4444;
+            background: color-mix(in srgb, #ef4444 6%, transparent);
+        }
         .upload-btn {
             display: inline-flex; align-items: center; gap: 6px;
             padding: 9px 18px; background: var(--primary); color: #fff;
@@ -475,6 +567,10 @@
         }
         .meta-owners .owner-label {
             color: var(--text-muted); margin-right: 2px; font-weight: 600;
+        }
+        .meta-coop {
+            font-size: 11px; color: var(--text-muted); line-height: 1.5;
+            text-align: center;
         }
         .dept-tags { display: flex; gap: 5px; justify-content: center; flex-wrap: wrap; }
         .dept-tag {
@@ -869,12 +965,27 @@
             <span class="filter-label" data-i18n="dept">业务线</span>
             <button class="filter-btn active" data-filter="dept" data-value="all" data-i18n="all">全部</button>
         </div>
-        <div class="filter-group">
+        <div class="filter-group" id="owner-group">
             <span class="filter-label" data-i18n="owner">负责人</span>
-            <select id="owner-filter" class="filter-select">
-                <option value="all" data-i18n="owner_all">全部负责人</option>
-            </select>
+            <div class="ms-dropdown" id="owner-dropdown">
+                <button type="button" class="ms-trigger" id="owner-trigger" onclick="toggleOwnerDropdown(event)">
+                    <span class="ms-trigger-text" id="owner-trigger-text" data-i18n="all">全部</span>
+                    <svg class="ms-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="ms-panel" id="owner-panel">
+                    <div class="ms-search">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        <input type="text" id="owner-search" data-i18n-placeholder="owner_search_ph" placeholder="搜索负责人..." oninput="filterOwnerOptions(this.value)">
+                    </div>
+                    <div class="ms-options" id="owner-options"></div>
+                </div>
+            </div>
         </div>
+        <div class="filter-group" id="year-group">
+            <span class="filter-label" data-i18n="coop_year">合作年份</span>
+            <button class="filter-btn active" data-filter="year" data-value="all" data-i18n="all">全部</button>
+        </div>
+        <button class="clear-filters-btn" id="clear-filters-btn" onclick="clearAllFilters()" hidden data-i18n="clear_filters">清除筛选</button>
         <div class="toolbar-spacer"></div>
         <button class="collapse-toggle-btn" onclick="toggleToolbar()" title="收起 / 展开搜索与筛选" aria-label="收起或展开搜索与筛选" data-i18n-title="collapse_toolbar">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>
@@ -940,6 +1051,7 @@
         </div>
         <div class="detail-description" id="detail-description"></div>
         <div class="detail-footer">
+            <div class="detail-owners" id="detail-coop"></div>
             <div class="detail-owners" id="detail-owners"></div>
             <a class="detail-website" id="detail-website" target="_blank" rel="noopener"></a>
         </div>
@@ -985,6 +1097,7 @@
                         <label class="pf-check"><input type="checkbox" id="pf-show-city" checked> <span data-i18n="pf_city">城市 / 区域</span></label>
                         <label class="pf-check"><input type="checkbox" id="pf-show-dept"> <span data-i18n="pf_dept">业务线</span></label>
                         <label class="pf-check"><input type="checkbox" id="pf-show-owner"> <span data-i18n="pf_owner">负责人</span></label>
+                        <label class="pf-check"><input type="checkbox" id="pf-show-coop"> <span data-i18n="pf_coop">合作时间</span></label>
                     </div>
                 </div>
                 <div class="pf-row">
@@ -1034,10 +1147,11 @@
 // DATA STATE
 // ============================================================
 let allRecords = [];
-let activeOffice = 'all';
-let activeRegion = 'all';
-let activeDept = 'all';
-let activeOwner = 'all';
+let activeOffice = new Set();
+let activeRegion = new Set();
+let activeDept = new Set();
+let activeOwner = new Set();
+let activeYear = new Set();
 let searchQuery = '';
 let selectMode = false;
 const selectedIds = new Set();
@@ -1081,7 +1195,8 @@ const I18N = {
         quality_std: '标准（1×，适合屏幕预览）',
         quality_hd: '高清（2×，推荐打印/分享）',
         quality_uhd: '超清（3×，大尺寸印刷）',
-        pf_city: '城市 / 区域', pf_dept: '业务线', pf_owner: '负责人',
+        pf_city: '城市 / 区域', pf_dept: '业务线', pf_owner: '负责人', pf_coop: '合作时间',
+        coop_year: '合作年份', coop_since: '合作于 ', clear_filters: '清除筛选',
         size_portrait: '竖版海报 3:4（1800×2400）',
         size_screen: '现场大屏 16:9（1920×1080）',
         size_a4: 'A4 打印 300dpi（2480×3508）',
@@ -1092,6 +1207,7 @@ const I18N = {
         poster_fail: '导出失败，请重试', poster_fail2: '导出失败：',
         clients_word: '家客户',
         owner_label: '负责人', owner_title: (o) => '负责人：' + o,
+        owner_search_ph: '搜索负责人...', owner_empty: '没有匹配的负责人',
         dark_mode: '夜间模式', dark_mode_title: '日间 / 夜间模式',
         login: '登录', logout: '退出',
         signed_in_as: (n) => '当前登录：' + n,
@@ -1121,7 +1237,8 @@ const I18N = {
         quality_std: 'Standard (1×, screen preview)',
         quality_hd: 'High-res (2×, recommended for print/share)',
         quality_uhd: 'Ultra HD (3×, large format print)',
-        pf_city: 'City / Region', pf_dept: 'Business line', pf_owner: 'Owner',
+        pf_city: 'City / Region', pf_dept: 'Business line', pf_owner: 'Owner', pf_coop: 'Since',
+        coop_year: 'Year', coop_since: 'Since ', clear_filters: 'Clear',
         size_portrait: 'Portrait 3:4 (1800×2400)',
         size_screen: 'On-site screen 16:9 (1920×1080)',
         size_a4: 'A4 print 300dpi (2480×3508)',
@@ -1132,6 +1249,7 @@ const I18N = {
         poster_fail: 'Export failed, please retry', poster_fail2: 'Export failed:',
         clients_word: 'clients',
         owner_label: 'Owner', owner_title: (o) => 'Owners: ' + o,
+        owner_search_ph: 'Search owners...', owner_empty: 'No matching owners',
         dark_mode: 'Dark mode', dark_mode_title: 'Day / Night mode',
         login: 'Sign in', logout: 'Sign out',
         signed_in_as: (n) => 'Signed in as: ' + n,
@@ -1159,6 +1277,7 @@ function applyLang() {
     updateAuthButton();
     applySiteTexts();
     if (typeof buildThemePop === 'function') buildThemePop();
+    if (typeof updateOwnerTrigger === 'function') updateOwnerTrigger();
     render();
 }
 
@@ -1345,7 +1464,10 @@ function autoTrimLogo(img) {
         const trimmed = trimLogoDataUrl(img);
         if (trimmed) {
             img.src = trimmed;
-            // After trimmed src loads, check natural size and upscale small images
+            // After trimmed src loads, check natural size. Favicons are often
+            // 16/32px and render tiny; upscale the canvas-backed image so its
+            // natural dimensions are comfortable (≥96px on the short side),
+            // letting normal CSS max-height handle display sizing.
             img.addEventListener('load', () => {
                 const w = img.naturalWidth, h = img.naturalHeight;
                 if (w > 0 && h > 0 && Math.max(w, h) < 64) {
@@ -1480,14 +1602,15 @@ const REGION_MAP = {
 };
 function getRegionFromCode(code) { return REGION_MAP[code] || '其他'; }
 
-document.getElementById('owner-filter').addEventListener('change', (e) => {
-    activeOwner = e.target.value;
-    render();
-});
-
 // ============================================================
 // FILTERS
 // ============================================================
+function coopYear(r) {
+    const d = r.cooperation_date || '';
+    const m = /^(\d{4})/.exec(d);
+    return m ? m[1] : '';
+}
+
 function buildFilters(offices, departments, owners, regions) {
     const officeGroup = document.getElementById('office-group');
     officeGroup.querySelectorAll('.filter-btn[data-value]:not([data-value="all"])').forEach(b => b.remove());
@@ -1522,43 +1645,184 @@ function buildFilters(offices, departments, owners, regions) {
         deptGroup.appendChild(btn);
     });
 
-    const ownerSelect = document.getElementById('owner-filter');
-    ownerSelect.innerHTML = '<option value="all" data-i18n="owner_all">' + t('owner_all') + '</option>';
-    (owners || []).forEach(owner => {
-        const opt = document.createElement('option');
-        opt.value = owner;
-        opt.textContent = owner;
-        ownerSelect.appendChild(opt);
-    });
-    ownerSelect.value = 'all';
+    const ownerGroup = document.getElementById('owner-group');
+    ownerGroup.querySelectorAll('.filter-btn[data-value]:not([data-value="all"])').forEach(b => b.remove());
+    buildOwnerOptions(owners);
+    updateOwnerTrigger();
 
+    const yearGroup = document.getElementById('year-group');
+    yearGroup.querySelectorAll('.filter-btn[data-value]:not([data-value="all"])').forEach(b => b.remove());
+    const years = [...new Set(allRecords.map(coopYear).filter(Boolean))].sort().reverse();
+    years.forEach(year => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn';
+        btn.dataset.filter = 'year';
+        btn.dataset.value = year;
+        btn.textContent = year;
+        yearGroup.appendChild(btn);
+    });
+
+    bindFilterButtons();
+}
+
+function bindFilterButtons() {
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.onclick = () => {
             const filterType = btn.dataset.filter;
             const value = btn.dataset.value;
+            const setRef = {
+                office: activeOffice, region: activeRegion,
+                dept: activeDept, owner: activeOwner, year: activeYear
+            }[filterType];
             const group = btn.closest('.filter-group');
             if (value === 'all') {
-                group.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                if (filterType === 'office') activeOffice = 'all';
-                if (filterType === 'region') activeRegion = 'all';
-                if (filterType === 'dept') activeDept = 'all';
-            } else if (btn.classList.contains('active')) {
-                btn.classList.remove('active');
-                group.querySelector('.filter-btn[data-value="all"]').classList.add('active');
-                if (filterType === 'office') activeOffice = 'all';
-                if (filterType === 'region') activeRegion = 'all';
-                if (filterType === 'dept') activeDept = 'all';
+                setRef.clear();
+            } else if (setRef.has(value)) {
+                setRef.delete(value);
             } else {
-                group.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                if (filterType === 'office') activeOffice = value;
-                if (filterType === 'region') activeRegion = value;
-                if (filterType === 'dept') activeDept = value;
+                setRef.add(value);
             }
+            // Update active states for this group
+            group.querySelectorAll('.filter-btn').forEach(b => {
+                const v = b.dataset.value;
+                if (v === 'all') {
+                    b.classList.toggle('active', setRef.size === 0);
+                } else {
+                    b.classList.toggle('active', setRef.has(v));
+                }
+            });
+            updateClearFiltersBtn();
             render();
         };
     });
+}
+
+// ---- Owner multi-select searchable dropdown ----
+let allOwnerNames = [];
+function buildOwnerOptions(owners) {
+    allOwnerNames = owners || [];
+    renderOwnerOptions(allOwnerNames);
+}
+
+function ownerCount(name) {
+    return allRecords.reduce((n, r) => n + ((r.owners || []).includes(name) ? 1 : 0), 0);
+}
+
+function renderOwnerOptions(list) {
+    const box = document.getElementById('owner-options');
+    if (!list.length) {
+        box.innerHTML = '';
+        const empty = document.createElement('div');
+        empty.className = 'ms-empty';
+        empty.textContent = t('owner_empty');
+        box.appendChild(empty);
+        return;
+    }
+    box.innerHTML = list.map(name => {
+        const sel = activeOwner.has(name) ? ' selected' : '';
+        const cnt = ownerCount(name);
+        return `<div class="ms-option${sel}" data-owner="${name.replace(/"/g, '&quot;')}" onclick="toggleOwnerOption('${name.replace(/'/g, "\\'")}')">
+            <span class="ms-check"></span>
+            <span class="ms-name">${name}</span>
+            <span class="ms-count">${cnt}</span>
+        </div>`;
+    }).join('');
+}
+
+function toggleOwnerOption(name) {
+    if (activeOwner.has(name)) activeOwner.delete(name);
+    else activeOwner.add(name);
+    const searchEl = document.getElementById('owner-search');
+    renderOwnerOptions(filterOwnerList(searchEl ? searchEl.value : ''));
+    updateOwnerTrigger();
+    updateClearFiltersBtn();
+    render();
+}
+
+function filterOwnerList(q) {
+    const kw = (q || '').trim().toLowerCase();
+    if (!kw) return allOwnerNames;
+    return allOwnerNames.filter(n => n.toLowerCase().includes(kw));
+}
+
+function filterOwnerOptions(q) {
+    renderOwnerOptions(filterOwnerList(q));
+}
+
+function updateOwnerTrigger() {
+    const trigger = document.getElementById('owner-trigger');
+    const textEl = document.getElementById('owner-trigger-text');
+    if (!trigger || !textEl) return;
+    const n = activeOwner.size;
+    if (n === 0) {
+        textEl.textContent = t('all');
+        textEl.setAttribute('data-i18n', 'all');
+        trigger.classList.remove('has-selection');
+    } else if (n === 1) {
+        textEl.textContent = [...activeOwner][0];
+        textEl.removeAttribute('data-i18n');
+        trigger.classList.add('has-selection');
+    } else {
+        textEl.textContent = (lang === 'zh' ? '已选 ' : 'Selected ') + n;
+        textEl.removeAttribute('data-i18n');
+        trigger.classList.add('has-selection');
+    }
+}
+
+function toggleOwnerDropdown(e) {
+    e.stopPropagation();
+    const dd = document.getElementById('owner-dropdown');
+    const panel = document.getElementById('owner-panel');
+    const trigger = document.getElementById('owner-trigger');
+    const open = panel.classList.toggle('open');
+    trigger.classList.toggle('open', open);
+    if (open) {
+        const searchEl = document.getElementById('owner-search');
+        searchEl.value = '';
+        renderOwnerOptions(allOwnerNames);
+        setTimeout(() => searchEl.focus(), 30);
+    }
+}
+
+function closeOwnerDropdown() {
+    const panel = document.getElementById('owner-panel');
+    const trigger = document.getElementById('owner-trigger');
+    if (panel) panel.classList.remove('open');
+    if (trigger) trigger.classList.remove('open');
+}
+
+document.addEventListener('click', (e) => {
+    const dd = document.getElementById('owner-dropdown');
+    if (dd && !dd.contains(e.target)) closeOwnerDropdown();
+});
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeOwnerDropdown();
+});
+
+function updateClearFiltersBtn() {
+    const btn = document.getElementById('clear-filters-btn');
+    if (!btn) return;
+    const any = activeOffice.size + activeRegion.size + activeDept.size + activeOwner.size + activeYear.size > 0;
+    btn.hidden = !any;
+}
+
+function clearAllFilters() {
+    activeOffice.clear(); activeRegion.clear(); activeDept.clear();
+    activeOwner.clear(); activeYear.clear();
+    document.querySelectorAll('.filter-group').forEach(group => {
+        group.querySelectorAll('.filter-btn').forEach(b => {
+            b.classList.toggle('active', b.dataset.value === 'all');
+        });
+    });
+    document.getElementById('search').value = '';
+    searchQuery = '';
+    closeOwnerDropdown();
+    updateOwnerTrigger();
+    const searchEl = document.getElementById('owner-search');
+    if (searchEl) searchEl.value = '';
+    renderOwnerOptions(allOwnerNames);
+    updateClearFiltersBtn();
+    render();
 }
 
 // ============================================================
@@ -1587,13 +1851,15 @@ function revealCardsStaggered() {
 // ============================================================
 function getFiltered() {
     return allRecords.filter(r => {
-        if (activeOffice !== 'all' && r.office_city !== activeOffice) return false;
-        if (activeRegion !== 'all' && (r.region || getRegionFromCode(r.office_code)) !== activeRegion) return false;
-        if (activeDept !== 'all' && !(r.departments || []).includes(activeDept)) return false;
-        if (activeOwner !== 'all' && !(r.owners || []).includes(activeOwner)) return false;
+        if (activeOffice.size > 0 && !activeOffice.has(r.office_city)) return false;
+        if (activeRegion.size > 0 && !activeRegion.has(r.region || getRegionFromCode(r.office_code))) return false;
+        if (activeDept.size > 0 && !(r.departments || []).some(d => activeDept.has(d))) return false;
+        if (activeOwner.size > 0 && !(r.owners || []).some(o => activeOwner.has(o))) return false;
+        if (activeYear.size > 0 && !activeYear.has(coopYear(r))) return false;
         if (searchQuery) {
             const haystack = [
                 r.company, r.brand, r.office_city, r.office_code, r.region,
+                r.cooperation_date,
                 (r.owners || []).join(' '), (r.departments || []).join(' ')
             ].join(' ').toLowerCase();
             if (!haystack.includes(searchQuery)) return false;
@@ -1637,6 +1903,9 @@ function renderCard(r) {
         ? `<div class="company-full" title="${fullCompany}">${fullCompany}</div>` : '';
     const ownersHtml = owners
         ? `<div class="meta-owners" title="${t('owner_title')(owners)}"><span class="owner-label">${t('owner_label')}</span>${owners}</div>` : '';
+    const coopDate = r.cooperation_date || '';
+    const coopDateHtml = coopDate
+        ? `<div class="meta-coop" title="${t('coop_since')}${coopDate}">${t('coop_since')}${coopDate}</div>` : '';
 
     const tooltipOwners = (r.owners || []).join(lang === 'zh' ? '、' : ', ');
 
@@ -1654,6 +1923,7 @@ function renderCard(r) {
                 </div>
                 <div class="dept-tags">${deptTags}</div>
                 ${ownersHtml}
+                ${coopDateHtml}
             </div>
             <div class="card-tooltip">
                 <div class="tip-company">${r.brand || r.company}</div>
@@ -1771,6 +2041,16 @@ function openDetailModal(clientId) {
     } else {
         ownersEl.textContent = '';
         ownersEl.style.display = 'none';
+    }
+
+    const coopEl = document.getElementById('detail-coop');
+    if (record.cooperation_date) {
+        coopEl.textContent = record.cooperation_date;
+        coopEl.setAttribute('data-label', lang === 'zh' ? '合作时间：' : 'Since: ');
+        coopEl.style.display = 'block';
+    } else {
+        coopEl.textContent = '';
+        coopEl.style.display = 'none';
     }
 
     const websiteEl = document.getElementById('detail-website');
@@ -1984,7 +2264,7 @@ document.getElementById('poster-overlay').addEventListener('click', (e) => {
 
 // Live re-render on any control change (size, quality, titles, checkboxes, footer)
 ['poster-size', 'poster-quality', 'poster-title', 'poster-subtitle', 'poster-footer',
- 'pf-show-city', 'pf-show-dept', 'pf-show-owner'].forEach(id => {
+ 'pf-show-city', 'pf-show-dept', 'pf-show-owner', 'pf-show-coop'].forEach(id => {
     const el = document.getElementById(id);
     const evt = (el.tagName === 'SELECT' || el.type === 'checkbox') ? 'change' : 'input';
     let timer = null;
@@ -2083,10 +2363,11 @@ async function renderPoster() {
         showCity:  document.getElementById('pf-show-city').checked,
         showDept:  document.getElementById('pf-show-dept').checked,
         showOwner: document.getElementById('pf-show-owner').checked,
+        showCoop:  document.getElementById('pf-show-coop').checked,
         footer: footerText,
     };
     const isScreen = (posterSizeKey === 'screen');
-    const infoLines = (posterOpts.showCity ? 1 : 0) + (posterOpts.showDept ? 1 : 0) + (posterOpts.showOwner ? 1 : 0);
+    const infoLines = (posterOpts.showCity ? 1 : 0) + (posterOpts.showDept ? 1 : 0) + (posterOpts.showOwner ? 1 : 0) + (posterOpts.showCoop ? 1 : 0);
     const perPage = posterPerPage(isScreen, infoLines);
 
     // The optimal grid for `perPage` cards may tile cols × rows > perPage slots,
@@ -2316,8 +2597,9 @@ function drawPoster(ctx, W, H, title, subtitle, records, imgs, opts) {
     const showCity  = opts.showCity  !== false;
     const showDept  = !!opts.showDept;
     const showOwner = !!opts.showOwner;
+    const showCoop  = !!opts.showCoop;
     // Count how many info lines the card carries (drives logo box / name sizing)
-    const infoLines = (showCity ? 1 : 0) + (showDept ? 1 : 0) + (showOwner ? 1 : 0);
+    const infoLines = (showCity ? 1 : 0) + (showDept ? 1 : 0) + (showOwner ? 1 : 0) + (showCoop ? 1 : 0);
     // Premium warm-cream business palette (independent of app theme)
     const C_BG      = '#F6EEE2';
     const C_BG2     = '#FBF6EE';
@@ -2463,6 +2745,9 @@ function drawPoster(ctx, W, H, title, subtitle, records, imgs, opts) {
         }
         if (showOwner && r.owners && r.owners.length) {
             lines.push((lang === 'zh' ? '负责人：' : 'Owner: ') + r.owners.join('、'));
+        }
+        if (showCoop && r.cooperation_date) {
+            lines.push((lang === 'zh' ? '合作 ' : 'Since ') + r.cooperation_date);
         }
         // Show info even on modest cards; font auto-scales so it stays legible.
         if (lines.length) {
