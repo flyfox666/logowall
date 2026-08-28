@@ -1,0 +1,32 @@
+.gitignore
+  s_1a87ea9757211f::t_fe9d9cb59900f2 8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.2",
+  "base_commit_sha": "486fbf6d79a92ac97c30a8f19d31ce80cf409113",
+  "prompts": {},
+  "sessions": {
+    "s_1a87ea9757211f": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6a8fced320a5e0fae534c1b5",
+        "model": "glm-5.3__dev"
+      },
+      "human_author": "leonwu <flyfox666@gmail.com>",
+      "custom_attributes": {
+        "external_session_id": "6a8fced320a5e0fae534c1b5",
+        "tool_id": "Edit",
+        "session_id": "6a8fced320a5e0fae534c1b5",
+        "operation_id": "6a90daae1419df75f19b1f63",
+        "dedupe_key": "6a8fced320a5e0fae534c1b5:6a90daae1419df75f19b1f63:afterEdit:15676937",
+        "source_scene": "unknown",
+        "client_type": "ide",
+        "edit_kind": "file_edit",
+        "tool_type": "agent",
+        "runtime_client": "trae-tob-git-ai",
+        "tool_use_id": "6a90daae1419df75f19b1f63"
+      }
+    }
+  }
+}
