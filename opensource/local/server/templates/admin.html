@@ -686,14 +686,22 @@ let sortDir = ''; // 'asc' or 'desc' or ''
 // Cache-bust local logo files so replaced/updated images show immediately;
 // external URLs (e.g. DuckDuckGo icons) must stay as-is because they
 // return a placeholder when given an unexpected query string.
-// Local files are served behind auth, so <img> tags (which can't send
-// headers) must carry the token as a query parameter.
+// Local files are served behind auth; <img> requests are authorised by the
+// HttpOnly session cookie set at login, so no token goes into URLs.
 function logoImgUrl(url) {
     if (!url) return '';
     if (/^https?:\/\//i.test(url)) return url;
-    let u = '/' + url.replace(/^\/+/, '') + '?t=' + Date.now();
-    if (token) u += '&token=' + encodeURIComponent(token);
-    return u;
+    return '/' + url.replace(/^\/+/, '') + '?t=' + Date.now();
+}
+
+// ---- HTML escaping (all data is untrusted when building markup) ----
+function esc(v) {
+    return String(v == null ? '' : v)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function safeColor(c) {
+    return /^#[0-9a-fA-F]{3,8}$/.test(c || '') ? c : '#4F46E5';
 }
 
 // ---- i18n ----
@@ -786,7 +794,9 @@ const I18N = {
         confirm_backup_export: '将导出全部数据（客户数据 + Logo 图片 + 用户账户）为 zip 备份文件，是否继续？',
         backup_export_ok: '备份已导出',
         backup_export_fail: '备份导出失败',
-        confirm_backup_import: '导入备份将用备份文件中的数据覆盖现有客户数据与用户账户，Logo 文件合并覆盖，是否继续？',
+        confirm_backup_import: '导入备份将用备份文件中的数据覆盖现有客户数据，Logo 文件合并覆盖（导入前会自动在服务器 backups/ 目录保存当前数据快照），是否继续？',
+        confirm_backup_users: '是否同时恢复备份中的用户账户？\n\n「确定」= 用备份中的账户替换现有账户（当前登录可能失效）\n「取消」= 保留现有账户，仅恢复客户数据与 Logo',
+        weak_password_banner: '当前账户仍在使用弱密码/默认密码，请立即在「用户管理」中修改。',
         backup_import_ok: (n, m) => `备份导入成功：${n} 条记录，${m} 个Logo`,
         backup_import_fail: '备份导入失败：',
         loading: '加载中...',
@@ -826,7 +836,7 @@ const I18N = {
         role_admin_short: '管理员',
         need_username: '请填写用户名',
         need_password: '请填写密码',
-        password_short: '密码至少4个字符',
+        password_short: '密码至少8个字符',
         confirm_delete_user: (u) => `确定删除用户 "${u}"？`,
         actions: '操作',
     },
@@ -919,7 +929,9 @@ const I18N = {
         confirm_backup_export: 'Export the full dataset (clients + logo images + user accounts) as a zip backup?',
         backup_export_ok: 'Backup exported',
         backup_export_fail: 'Backup export failed',
-        confirm_backup_import: 'Importing a backup will replace existing client data and user accounts; logo files are merged. Continue?',
+        confirm_backup_import: 'Importing a backup will replace existing client data; logo files are merged (a snapshot of the current data is saved to backups/ on the server first). Continue?',
+        confirm_backup_users: 'Also restore the user accounts from the backup?\n\nOK = replace current accounts with the ones in the backup (you may be logged out)\nCancel = keep current accounts, restore clients and logos only',
+        weak_password_banner: 'This account still uses a weak/default password. Change it in User Management now.',
         backup_import_ok: (n, m) => `Backup imported: ${n} records, ${m} logos`,
         backup_import_fail: 'Backup import failed: ',
         loading: 'Loading...',
@@ -959,7 +971,7 @@ const I18N = {
         role_admin_short: 'Admin',
         need_username: 'Please enter username',
         need_password: 'Please enter password',
-        password_short: 'Password must be at least 4 characters',
+        password_short: 'Password must be at least 8 characters',
         confirm_delete_user: (u) => `Delete user "${u}"?`,
         actions: 'Actions',
     },
@@ -997,14 +1009,24 @@ function toggleLang() {
 }
 
 // ---- Auth ----
-function logout() {
+async function logout() {
     localStorage.removeItem('lw_token');
     localStorage.removeItem('lw_user');
     token = '';
+    try { await fetch(API + '/auth/logout', { method: 'POST' }); } catch (e) {}
     window.location.href = '/login?redirect=admin';
+}
+function showWeakPasswordBanner() {
+    if (localStorage.getItem('lw_password_weak') !== '1') return;
+    const bar = document.createElement('div');
+    bar.id = 'weak-pw-banner';
+    bar.style.cssText = 'background:#fff5f5;color:#c53030;border-bottom:1px solid #feb2b2;padding:10px 16px;font-size:13px;text-align:center';
+    bar.textContent = t('weak_password_banner');
+    document.body.prepend(bar);
 }
 function showApp() {
     document.getElementById('app-view').style.display = 'block';
+    showWeakPasswordBanner();
     applyLang();
     const psSel = document.getElementById('page-size');
     if (![...psSel.options].some(o => o.value === String(pageSize))) pageSize = 15;
@@ -1131,29 +1153,32 @@ function showMissingLogos() {
 
 function renderRow(r) {
     const logoSrc = logoImgUrl(r.logo_url);
+    const color = safeColor(r.color);
+    const initials = esc((r.brand || '?').substring(0, 2));
+    const id = Number(r.id) || 0;
     const logo = r.logo_url
-        ? `<img src="${logoSrc}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-           <div class="logo-fallback-sm" style="background:${r.color};display:none">${(r.brand||'?').substring(0,2)}</div>`
-        : `<div class="logo-fallback-sm" style="background:${r.color}">${(r.brand||'?').substring(0,2)}</div>
+        ? `<img src="${esc(logoSrc)}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+           <div class="logo-fallback-sm" style="background:${color};display:none">${initials}</div>`
+        : `<div class="logo-fallback-sm" style="background:${color}">${initials}</div>
            <div class="logo-missing-badge">${t('missing_badge')}</div>`;
-    const depts = (r.departments || []).map(d => `<span class="tag tag-${d}">${d}</span>`).join('');
+    const depts = (r.departments || []).map(d => `<span class="tag tag-${esc(d)}">${esc(d)}</span>`).join('');
     const owners = (r.owners || []).join(lang === 'zh' ? '、' : ', ');
     const region = r.region || '-';
     return `<tr>
         <td class="logo-cell">${logo}</td>
         <td class="company-cell">
-            <div>${r.brand || r.company}</div>
-            <div class="full">${r.company}</div>
+            <div>${esc(r.brand || r.company)}</div>
+            <div class="full">${esc(r.company)}</div>
         </td>
-        <td><span class="tag" style="background:rgba(113,128,150,0.12);color:#4a5568">${region}</span></td>
-        <td>${r.office_city} <span style="color:var(--text-muted)">(${r.office_code})</span></td>
+        <td><span class="tag" style="background:rgba(113,128,150,0.12);color:#4a5568">${esc(region)}</span></td>
+        <td>${esc(r.office_city)} <span style="color:var(--text-muted)">(${esc(r.office_code)})</span></td>
         <td>${depts}</td>
-        <td class="owners-cell">${owners || '-'}</td>
-        <td class="owners-cell">${r.cooperation_date || '-'}</td>
+        <td class="owners-cell">${esc(owners || '-')}</td>
+        <td class="owners-cell">${esc(r.cooperation_date || '-')}</td>
         <td class="actions-cell">
-            <button class="btn btn-outline btn-sm" onclick="window._assignClientId=${r.id};openLogoLibrary()">Logo</button>
-            <button class="btn btn-outline btn-sm" onclick="openEditModal(${r.id})">${t('edit')}</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteClient(${r.id})">${t('delete')}</button>
+            <button class="btn btn-outline btn-sm" onclick="window._assignClientId=${id};openLogoLibrary()">Logo</button>
+            <button class="btn btn-outline btn-sm" onclick="openEditModal(${id})">${t('edit')}</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteClient(${id})">${t('delete')}</button>
         </td>
     </tr>`;
 }
@@ -1258,7 +1283,7 @@ const PATTERN_OPTIONS = [
 function metaLabel(m) { return (lang === 'zh') ? m.label : (m.label_en || m.label); }
 
 async function openSettings() {
-    const d = await fetch('/data.json?t=' + Date.now(), { headers: authHeaders() }).then(r => r.json());
+    const d = await fetch('/data.json', { cache: 'no-cache', headers: authHeaders() }).then(r => r.json());
     document.getElementById('s-title').value = d.title || '';
     document.getElementById('s-title-en').value = d.title_en || '';
     document.getElementById('s-tagline').value = d.tagline || '';
@@ -1352,14 +1377,14 @@ async function discoverLogo() {
             results.innerHTML = '<div style="font-size:12px;color:var(--text-muted)">' + t('discover_empty') + '</div>';
         } else {
             results.innerHTML = items.map((item, i) => `
-                <div class="discover-item" onclick="selectDiscoverLogo('${item.url.replace(/'/g, "\\'")}', this)">
-                    <img src="${item.url}" alt="" onerror="this.parentElement.style.display='none'">
-                    <div class="src">${item.source}</div>
+                <div class="discover-item" data-url="${esc(item.url)}" onclick="selectDiscoverLogo(this.dataset.url, this)">
+                    <img src="${esc(item.url)}" alt="" referrerpolicy="no-referrer" onerror="this.parentElement.style.display='none'">
+                    <div class="src">${esc(item.source)}</div>
                 </div>
             `).join('');
         }
     } catch (e) {
-        results.innerHTML = '<div style="font-size:12px;color:var(--danger)">' + t('search_fail') + e.message + '</div>';
+        results.innerHTML = '<div style="font-size:12px;color:var(--danger)">' + esc(t('search_fail') + e.message) + '</div>';
     } finally {
         spinner.style.display = 'none';
     }
@@ -1501,14 +1526,21 @@ document.getElementById('backup-file').addEventListener('change', async e => {
     const file = e.target.files[0];
     if (!file) return;
     if (!confirm(t('confirm_backup_import'))) { e.target.value = ''; return; }
+    const restoreUsers = confirm(t('confirm_backup_users'));
     const form = new FormData();
     form.append('file', file);
+    form.append('restore_users', restoreUsers ? 'true' : 'false');
     try {
         const r = await fetch(API + '/backup/import', {
             method: 'POST', headers: { Authorization: 'Bearer ' + token },
             body: form
         }).then(r => r.json());
-        if (r.ok) { toast(t('backup_import_ok')(r.records, r.logos), 'success'); loadClients(); }
+        if (r.ok) {
+            toast(t('backup_import_ok')(r.records, r.logos), 'success');
+            // Restored accounts may not include the current session
+            if (r.users) { setTimeout(() => window.location.reload(), 1200); }
+            else loadClients();
+        }
         else toast(t('backup_import_fail') + (r.detail || ''), 'error');
     } catch (err) {
         toast(t('backup_import_fail') + err.message, 'error');
@@ -1548,7 +1580,7 @@ async function loadLogoLibrary() {
         document.getElementById('lib-count').textContent = allLogos.length;
         renderLogoGrid(allLogos);
     } catch (e) {
-        grid.innerHTML = '<div class="logo-grid-empty">' + t('load_fail') + e.message + '</div>';
+        grid.innerHTML = '<div class="logo-grid-empty">' + esc(t('load_fail') + e.message) + '</div>';
     }
 }
 
@@ -1560,12 +1592,12 @@ function renderLogoGrid(logos) {
     }
     grid.innerHTML = logos.map(item => {
         const usedText = item.used_by.length > 0
-            ? '<div class="logo-used">' + t('used_by') + item.used_by.join(', ').substring(0, 20) + '</div>' : '';
-        return `<div class="logo-grid-item" onclick="openLogoEdit('${item.filename}')">
-            <img src="${logoImgUrl(item.url)}" alt="" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2264%22 height=%2264%22><rect fill=%22%23eee%22 width=%2264%22 height=%2264%22/><text x=%2232%22 y=%2236%22 text-anchor=%22middle%22 font-size=%2210%22 fill=%22%23999%22>N/A</text></svg>'">
-            <div class="logo-name">${item.filename}</div>
+            ? '<div class="logo-used">' + esc(t('used_by') + item.used_by.join(', ').substring(0, 20)) + '</div>' : '';
+        return `<div class="logo-grid-item" data-file="${esc(item.filename)}" onclick="openLogoEdit(this.dataset.file)">
+            <img src="${esc(logoImgUrl(item.url))}" alt="" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2264%22 height=%2264%22><rect fill=%22%23eee%22 width=%2264%22 height=%2264%22/><text x=%2232%22 y=%2236%22 text-anchor=%22middle%22 font-size=%2210%22 fill=%22%23999%22>N/A</text></svg>'">
+            <div class="logo-name">${esc(item.filename)}</div>
             ${usedText}
-            <button class="logo-delete" onclick="event.stopPropagation();deleteLibLogo('${item.filename}')" title="${t('delete')}">&times;</button>
+            <button class="logo-delete" onclick="event.stopPropagation();deleteLibLogo(this.parentElement.dataset.file)" title="${t('delete')}">&times;</button>
         </div>`;
     }).join('');
 }
@@ -1584,7 +1616,7 @@ function filterLogoGrid() {
 async function openLogoEdit(filename) {
     editingLogo = filename;
     try {
-        const r = await fetch(API + '/logo/info/' + filename, { headers: authHeaders() }).then(r => r.json());
+        const r = await fetch(API + '/logo/info/' + encodeURIComponent(filename), { headers: authHeaders() }).then(r => r.json());
         document.getElementById('edit-logo-img').src = logoImgUrl(r.url);
         document.getElementById('edit-logo-name').textContent = r.filename;
         document.getElementById('edit-logo-size').textContent = formatSize(r.size);
@@ -1593,7 +1625,7 @@ async function openLogoEdit(filename) {
         const clientsEl = document.getElementById('edit-logo-clients');
         if (r.used_by.length > 0) {
             clientsEl.innerHTML = '<div style="margin-bottom:4px;font-weight:500">' + t('used_by_label') + '</div>' +
-                r.used_by.map(c => `<span class="client-tag">${c.brand}</span>`).join('');
+                r.used_by.map(c => `<span class="client-tag">${esc(c.brand)}</span>`).join('');
         } else {
             clientsEl.innerHTML = '<div style="color:var(--text-muted)">' + t('no_client_uses') + '</div>';
         }
@@ -1811,17 +1843,17 @@ async function loadUsers() {
                 const roleLabel = u.role === 'admin' ? t('role_admin_short') : t('role_viewer_short');
                 const roleColor = u.role === 'admin' ? 'var(--accent)' : 'var(--success)';
                 return '<tr style="border-top:1px solid var(--border)">' +
-                    '<td style="padding:10px 14px"><strong>' + u.username + '</strong></td>' +
-                    '<td style="padding:10px 14px;color:var(--text-light)">' + (u.display_name || '-') + '</td>' +
+                    '<td style="padding:10px 14px"><strong>' + esc(u.username) + '</strong></td>' +
+                    '<td style="padding:10px 14px;color:var(--text-light)">' + esc(u.display_name || '-') + '</td>' +
                     '<td style="padding:10px 14px"><span style="color:' + roleColor + ';font-weight:500">' + roleLabel + '</span></td>' +
                     '<td style="padding:10px 14px;text-align:right">' +
-                    '<button class="btn btn-outline btn-sm" onclick="editUser(\'' + u.username + '\')">' + t('edit') + '</button> ' +
-                    '<button class="btn btn-danger btn-sm" onclick="deleteUser(\'' + u.username + '\')">' + t('delete') + '</button>' +
+                    '<button class="btn btn-outline btn-sm" data-user="' + esc(u.username) + '" onclick="editUser(this.dataset.user)">' + t('edit') + '</button> ' +
+                    '<button class="btn btn-danger btn-sm" data-user="' + esc(u.username) + '" onclick="deleteUser(this.dataset.user)">' + t('delete') + '</button>' +
                     '</td></tr>';
             }).join('') +
             '</tbody></table>';
     } catch (e) {
-        list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--danger)">' + t('load_fail') + e.message + '</div>';
+        list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--danger)">' + esc(t('load_fail') + e.message) + '</div>';
     }
 }
 
@@ -1869,7 +1901,7 @@ async function saveUser() {
 
     if (!username) { toast(t('need_username'), 'error'); return; }
     if (mode === 'add' && !password) { toast(t('need_password'), 'error'); return; }
-    if (password && password.length < 4) { toast(t('password_short'), 'error'); return; }
+    if (password && password.length < 8) { toast(t('password_short'), 'error'); return; }
 
     try {
         let r;
@@ -1893,6 +1925,19 @@ async function saveUser() {
         }
         const d = await r.json();
         if (r.ok) {
+            // Editing your own password/role/username revokes the old session;
+            // the server hands back a fresh token for the current admin.
+            if (d.token) {
+                token = d.token;
+                localStorage.setItem('lw_token', d.token);
+                if (d.user) localStorage.setItem('lw_user', JSON.stringify(d.user));
+                if (password) {
+                    localStorage.removeItem('lw_password_weak');
+                    const banner = document.getElementById('weak-pw-banner');
+                    if (banner) banner.remove();
+                }
+                await fetch(API + '/auth/check', { headers: authHeaders() });
+            }
             toast(t('saved'), 'success');
             hideUserForm();
             loadUsers();

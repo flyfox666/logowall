@@ -327,6 +327,9 @@ async function handleLogin(e) {
             // Store token and user info
             localStorage.setItem('lw_token', data.token);
             localStorage.setItem('lw_user', JSON.stringify(data.user));
+            // Admin panel shows a "change your password" banner while this is set
+            if (data.password_weak) localStorage.setItem('lw_password_weak', '1');
+            else localStorage.removeItem('lw_password_weak');
 
             // Redirect
             const redirect = getRedirectTarget();

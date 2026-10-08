@@ -1323,11 +1323,12 @@ function updateAuthButton() {
     }
 }
 
-function handleLoginClick() {
+async function handleLoginClick() {
     const token = localStorage.getItem('lw_token');
     if (token) {
         localStorage.removeItem('lw_token');
         localStorage.removeItem('lw_user');
+        try { await fetch('/api/auth/logout', { method: 'POST' }); } catch (e) {}
     }
     window.location.href = '/login?redirect=display';
 }
@@ -1389,20 +1390,38 @@ function authHeaders() {
     return token ? { 'Authorization': 'Bearer ' + token } : {};
 }
 
+// <img> requests are authorised by the HttpOnly session cookie the server
+// sets on login / auth check, so tokens never appear in URLs or logs.
 function authLogoUrl(url) {
     if (!url) return '';
     // External logos are routed through the same-origin imgproxy so:
     //   1) the canvas-based padding trim can read pixels (no CORS taint), and
     //   2) the poster exporter can draw them without cross-origin issues.
     if (/^https?:\/\//i.test(url)) {
-        const token = localStorage.getItem('lw_token');
-        let proxy = '/api/imgproxy?url=' + encodeURIComponent(url);
-        if (token) proxy += '&token=' + encodeURIComponent(token);
-        return proxy;
+        return '/api/imgproxy?url=' + encodeURIComponent(url);
     }
-    const token = localStorage.getItem('lw_token');
-    const sep = url.includes('?') ? '&' : '?';
-    return (url.startsWith('/') ? '' : '/') + url + (token ? sep + 'token=' + encodeURIComponent(token) : '');
+    return (url.startsWith('/') ? '' : '/') + url;
+}
+
+// ---- HTML escaping (all data is untrusted when building markup) ----
+function esc(v) {
+    return String(v == null ? '' : v)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function safeColor(c) {
+    return /^#[0-9a-fA-F]{3,8}$/.test(c || '') ? c : '#4F46E5';
+}
+function logoFallbackHtml(r, color) {
+    return `<div class="logo-fallback" style="background:${color}">${esc(getInitials(r.brand))}</div>`;
+}
+// onerror handler for logo <img>: swap in the initials badge
+function logoFallback(img) {
+    const div = document.createElement('div');
+    div.className = 'logo-fallback';
+    div.style.background = safeColor(img.dataset.color);
+    div.textContent = img.dataset.initials || '?';
+    img.replaceWith(div);
 }
 
 // Trim transparent (and near-white on light cards) padding around a logo so
@@ -1492,7 +1511,8 @@ function autoTrimLogo(img) {
 // ============================================================
 async function loadData() {
     try {
-        const resp = await fetch('data.json?t=' + Date.now(), {
+        const resp = await fetch('/data.json', {
+            cache: 'no-cache',
             headers: authHeaders()
         });
         if (resp.status === 401 || resp.status === 403) {
@@ -1721,9 +1741,9 @@ function renderOwnerOptions(list) {
     box.innerHTML = list.map(name => {
         const sel = activeOwner.has(name) ? ' selected' : '';
         const cnt = ownerCount(name);
-        return `<div class="ms-option${sel}" data-owner="${name.replace(/"/g, '&quot;')}" onclick="toggleOwnerOption('${name.replace(/'/g, "\\'")}')">
+        return `<div class="ms-option${sel}" data-owner="${esc(name)}" onclick="toggleOwnerOption(this.dataset.owner)">
             <span class="ms-check"></span>
-            <span class="ms-name">${name}</span>
+            <span class="ms-name">${esc(name)}</span>
             <span class="ms-count">${cnt}</span>
         </div>`;
     }).join('');
@@ -1879,57 +1899,61 @@ function getInitials(name) {
     return clean.substring(0, 2).toUpperCase();
 }
 
+function logoImgHtml(r, color, extraAttrs) {
+    return `<img src="${esc(authLogoUrl(r.logo_url))}" alt="${esc(r.brand)}"${extraAttrs || ''}
+            data-color="${esc(color)}" data-initials="${esc(getInitials(r.brand))}" onerror="logoFallback(this)">`;
+}
+
 function renderCard(r) {
     const deptTags = (r.departments || []).map(d =>
-        `<span class="dept-tag ${d}">${d}</span>`
+        `<span class="dept-tag ${esc(d)}">${esc(d)}</span>`
     ).join('');
 
     const owners = (r.owners || []).join(lang === 'zh' ? '、' : ', ');
-    const color = r.color || '#4F46E5';
+    const color = safeColor(r.color);
+    const id = Number(r.id) || 0;
 
     let logoHtml;
     if (r.logo_url) {
-        const logoSrc = authLogoUrl(r.logo_url);
         const isExternal = /^https?:\/\//i.test(r.logo_url);
         const trimAttr = isExternal ? ' onload="autoTrimLogo(this)"' : '';
-        logoHtml = `<img src="${logoSrc}" alt="${r.brand}" loading="lazy"${trimAttr} referrerpolicy="no-referrer"
-            onerror="this.parentElement.innerHTML='<div class=\\'logo-fallback\\' style=\\'background:${color}\\'>${getInitials(r.brand)}</div>'">`;
+        logoHtml = logoImgHtml(r, color, ` loading="lazy"${trimAttr} referrerpolicy="no-referrer"`);
     } else {
-        logoHtml = `<div class="logo-fallback" style="background:${color}">${getInitials(r.brand)}</div>`;
+        logoHtml = logoFallbackHtml(r, color);
     }
 
     const fullCompany = r.company || '';
     const companyFull = (fullCompany && fullCompany !== r.brand)
-        ? `<div class="company-full" title="${fullCompany}">${fullCompany}</div>` : '';
+        ? `<div class="company-full" title="${esc(fullCompany)}">${esc(fullCompany)}</div>` : '';
     const ownersHtml = owners
-        ? `<div class="meta-owners" title="${t('owner_title')(owners)}"><span class="owner-label">${t('owner_label')}</span>${owners}</div>` : '';
+        ? `<div class="meta-owners" title="${esc(t('owner_title')(owners))}"><span class="owner-label">${t('owner_label')}</span>${esc(owners)}</div>` : '';
     const coopDate = r.cooperation_date || '';
     const coopDateHtml = coopDate
-        ? `<div class="meta-coop" title="${t('coop_since')}${coopDate}">${t('coop_since')}${coopDate}</div>` : '';
+        ? `<div class="meta-coop" title="${esc(t('coop_since') + coopDate)}">${esc(t('coop_since') + coopDate)}</div>` : '';
 
     const tooltipOwners = (r.owners || []).join(lang === 'zh' ? '、' : ', ');
 
     return `
-        <div class="card${selectedIds.has(r.id) ? ' selected' : ''}" style="--card-color:${color}" data-id="${r.id}" onclick="openDetailModal(${r.id})">
+        <div class="card${selectedIds.has(r.id) ? ' selected' : ''}" style="--card-color:${color}" data-id="${id}" onclick="openDetailModal(${id})">
             <div class="card-check"></div>
             <div class="logo-area">${logoHtml}</div>
-            <div class="brand-name" title="${r.brand}">${r.brand}</div>
+            <div class="brand-name" title="${esc(r.brand)}">${esc(r.brand)}</div>
             ${companyFull}
             <div class="card-meta">
                 <div class="meta-row meta-office">
-                    <span class="city">${r.office_city}</span>
+                    <span class="city">${esc(r.office_city)}</span>
                     <span>·</span>
-                    <span>${r.office_code}</span>
+                    <span>${esc(r.office_code)}</span>
                 </div>
                 <div class="dept-tags">${deptTags}</div>
                 ${ownersHtml}
                 ${coopDateHtml}
             </div>
             <div class="card-tooltip">
-                <div class="tip-company">${r.brand || r.company}</div>
-                ${fullCompany && fullCompany !== r.brand ? '<div class="tip-company" style="font-weight:400;font-size:11px;color:rgba(255,255,255,0.7)">' + fullCompany + '</div>' : ''}
-                <div>${r.office_city} (${r.office_code})</div>
-                <div class="tip-owners">${tooltipOwners}</div>
+                <div class="tip-company">${esc(r.brand || r.company)}</div>
+                ${fullCompany && fullCompany !== r.brand ? '<div class="tip-company" style="font-weight:400;font-size:11px;color:rgba(255,255,255,0.7)">' + esc(fullCompany) + '</div>' : ''}
+                <div>${esc(r.office_city)} (${esc(r.office_code)})</div>
+                <div class="tip-owners">${esc(tooltipOwners)}</div>
             </div>
         </div>
     `;
@@ -2005,14 +2029,13 @@ function openDetailModal(clientId) {
     const record = allRecords.find(r => r.id === clientId);
     if (!record) return;
     const overlay = document.getElementById('detail-overlay');
-    const color = record.color || '#4F46E5';
+    const color = safeColor(record.color);
 
     const logoEl = document.getElementById('detail-logo');
     if (record.logo_url) {
-        const logoSrc = authLogoUrl(record.logo_url);
-        logoEl.innerHTML = `<img src="${logoSrc}" alt="${record.brand}" onerror="this.parentElement.innerHTML='<div class=\\'logo-fallback\\' style=\\'background:${color}\\'>${getInitials(record.brand)}</div>'">`;
+        logoEl.innerHTML = logoImgHtml(record, color);
     } else {
-        logoEl.innerHTML = `<div class="logo-fallback" style="background:${color}">${getInitials(record.brand)}</div>`;
+        logoEl.innerHTML = logoFallbackHtml(record, color);
     }
 
     document.getElementById('detail-brand').textContent = record.brand || record.company;
@@ -2020,7 +2043,7 @@ function openDetailModal(clientId) {
     document.getElementById('detail-city').textContent = `${record.office_city} (${record.office_code})`;
 
     const deptsEl = document.getElementById('detail-depts');
-    deptsEl.innerHTML = (record.departments || []).map(d => `<span class="dept-tag ${d}">${d}</span>`).join('');
+    deptsEl.innerHTML = (record.departments || []).map(d => `<span class="dept-tag ${esc(d)}">${esc(d)}</span>`).join('');
 
     const descEl = document.getElementById('detail-description');
     if (record.description) {
@@ -2058,7 +2081,8 @@ function openDetailModal(clientId) {
         let url = record.website;
         if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
         websiteEl.href = url;
-        websiteEl.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>${record.website}`;
+        websiteEl.rel = 'noopener noreferrer';
+        websiteEl.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>${esc(record.website)}`;
         websiteEl.style.display = 'flex';
     } else {
         websiteEl.href = '';
@@ -2220,12 +2244,7 @@ let posterSizeKey = 'portrait';
 
 function posterLogoSrc(r) {
     if (!r.logo_url) return null;
-    const token = localStorage.getItem('lw_token');
-    const suffix = token ? (r.logo_url.includes('?') ? '&' : '?') + 'token=' + encodeURIComponent(token) : '';
-    if (/^https?:\/\//i.test(r.logo_url)) {
-        return '/api/imgproxy?url=' + encodeURIComponent(r.logo_url) + (token ? '&token=' + encodeURIComponent(token) : '');
-    }
-    return '/' + r.logo_url.replace(/^\/+/, '') + suffix;
+    return authLogoUrl(r.logo_url.replace(/^\/+/, ''));
 }
 
 function openPosterModal() {
