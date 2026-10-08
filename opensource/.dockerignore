@@ -1,0 +1,15 @@
+**/.venv
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+docs/
+tools/
+docker/server/
+docker/index.html
+docker/data.json
+local/logos/
+local/users.json
+local/config.env
+local/.jwt_secret
+local/audit.log
+local/backups/
