@@ -12,6 +12,7 @@ RUN pip install --no-cache-dir -r /app/server/requirements.txt
 # Copy application code
 COPY local/server/ /app/server/
 COPY local/index.html /app/index.html
+COPY local/static/ /app/static/
 # Seed data, copied into the volume on first start by entrypoint.sh
 COPY local/data.json /app/seed/data.json
 

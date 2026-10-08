@@ -263,3 +263,18 @@ def test_audit_log_records_writes_and_logins(ctx):
     paths = [(e['path'], e['status'], e['user']) for e in entries]
     assert ('/api/clients', 200, 'admin') in paths
     assert ('/api/auth/login', 401, 'admin') in paths
+
+
+@pytest.mark.parametrize('asset', ['wall.js', 'wall.css', 'admin.js', 'admin.css', 'login.js', 'login.css'])
+def test_page_assets_are_public_and_revalidated(ctx, asset):
+    ctx.client.cookies.clear()
+    r = ctx.client.get('/static/' + asset)
+    assert r.status_code == 200 and len(r.content) > 1000
+    assert r.headers['cache-control'] == 'no-cache'
+    assert 'etag' in r.headers
+
+
+@pytest.mark.parametrize('page,asset', [('/', 'wall'), ('/admin', 'admin'), ('/login', 'login')])
+def test_pages_reference_their_assets(ctx, page, asset):
+    html = ctx.client.get(page).text
+    assert f'/static/{asset}.js' in html and f'/static/{asset}.css' in html

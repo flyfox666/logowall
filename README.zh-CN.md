@@ -310,6 +310,7 @@ python opensource/tools/anonymize.py --src opensource/local/data.json --out open
 opensource/            开源项目
 ├── local/             应用本体（唯一源码）
 │   ├── index.html     品牌墙页面
+│   ├── static/        品牌墙、管理后台、登录页的 CSS / JS
 │   ├── server/
 │   │   ├── app.py     FastAPI 路由
 │   │   ├── logowall/  配置、认证、存储、备份、Excel、图片、外发请求、审计

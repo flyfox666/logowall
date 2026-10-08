@@ -353,6 +353,7 @@ distribution (deterministic, seeded — same output every run).
 opensource/            The open-source project
 ├── local/             The application (single source of truth)
 │   ├── index.html     Brand wall page
+│   ├── static/        CSS / JS for the wall, admin and login pages
 │   ├── server/
 │   │   ├── app.py     FastAPI routes
 │   │   ├── logowall/  config, auth, storage, backup, excel, images, netfetch, audit

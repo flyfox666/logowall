@@ -180,6 +180,10 @@ async def auth_and_headers(request: Request, call_next):
     response.headers.setdefault('Referrer-Policy', 'same-origin')
     if path.startswith('/logos/') or path == '/api/imgproxy':
         response.headers['Content-Security-Policy'] = IMAGE_CSP
+    elif path.startswith('/static/'):
+        # Always revalidate (cheap 304 via ETag) so an upgrade never pairs
+        # fresh HTML with stale cached JS/CSS.
+        response.headers['Cache-Control'] = 'no-cache'
 
     if request.method in WRITE_METHODS and path.startswith('/api/') and path != '/api/auth/login':
         user = getattr(request.state, 'user', None)
@@ -450,6 +454,8 @@ def get_data(request: Request, _user=Depends(require_reader)):
 
 
 app.mount('/logos', StaticFiles(directory=str(LOGOS_DIR)), name='logos')
+# Page assets (CSS/JS split out of the HTML pages). Public: they hold no data.
+app.mount('/static', StaticFiles(directory=str(config.BASE_DIR / 'static')), name='static')
 
 
 @app.get('/api/health')
