@@ -15,3 +15,14 @@ Thumbs.db
 
 # Runtime user accounts (may contain real credentials)
 users.json
+
+# Runtime state written into DATA_DIR (default: local/)
+config.env
+.jwt_secret
+audit.log
+audit.log.1
+backups/
+*.json.tmp
+.health
+local/logos/
+.pytest_cache/

@@ -1,6 +1,6 @@
 # Local Deployment (Python)
 
-[English](README.md) | **简体中文**
+**English** | [简体中文](README.zh-CN.md)
 
 Run directly with Python — ideal for a personal computer or an event laptop.
 
@@ -23,15 +23,16 @@ From other phones/computers on the same Wi-Fi/LAN:
 ## Configuration
 
 Simplest: copy `config.env.example` to `config.env`, edit `PORT` /
-`ADMIN_TOKEN` there and restart. Environment variables work too:
+`ADMIN_PASSWORD` etc. there and restart. Environment variables work too:
 
 | Env var | Default | Description |
 |---|---|---|
 | `PORT` | 8080 | HTTP port |
 | `HOST` | 0.0.0.0 | Bind address; use 127.0.0.1 for local-only |
-| `ADMIN_TOKEN` | admin123 | Master token for API calls (pages use account login) |
+| `ADMIN_PASSWORD` | random | Password of the first `admin` account (printed once when unset) |
+| `ADMIN_TOKEN` | *(disabled)* | Optional master token for API scripts; < 12 chars or `admin123` is refused |
 | `AUTH_ENABLED` | true | Login page toggle (admin / viewer users) |
-| `JWT_SECRET` | derived | Login session secret; set a fixed value to survive restarts |
+| `JWT_SECRET` | random | Session secret; random and stored in `DATA_DIR/.jwt_secret` when unset |
 | `JWT_EXPIRE_DAYS` | 7 | Login session lifetime (days) |
 | `DATA_DIR` | this folder | Where `data.json` / `logos/` / `users.json` live |
 | `MAX_UPLOAD_MB` | 5 | Max logo upload size |
@@ -56,8 +57,9 @@ Simplest: copy `config.env.example` to `config.env`, edit `PORT` /
 - Palette button (top-right of the wall): per-visitor theme preview that does
   not affect others; "Reset to site default" clears the preview.
 - **Login & users**: the wall greets visitors with a login page; a default
-  admin `admin / admin123` is created on first run (change the password in
-  "User management" and add read-only viewer accounts as needed). Set
+  `admin` account is created on first run with a random password printed
+  once in the terminal (or `ADMIN_PASSWORD` from `config.env`); add read-only
+  viewer accounts in "User management". Set
   `AUTH_ENABLED=false` to disable the login page.
 - **Full backup**: the admin toolbar's "Export backup / Import backup"
   buttons download or restore a single zip (clients + logo files + user

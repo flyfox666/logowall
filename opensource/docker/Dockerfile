@@ -37,4 +37,7 @@ HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
     CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8080/api/health')"
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["uvicorn", "server.app:app", "--host", "0.0.0.0", "--port", "8080", "--proxy-headers", "--forwarded-allow-ips", "*"]
+# --proxy-headers only trusts X-Forwarded-* from FORWARDED_ALLOW_IPS (uvicorn
+# reads that env var; default 127.0.0.1). Set it to your reverse proxy's
+# address so login throttling sees real client IPs.
+CMD ["uvicorn", "server.app:app", "--host", "0.0.0.0", "--port", "8080", "--proxy-headers"]

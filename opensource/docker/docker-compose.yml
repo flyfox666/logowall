@@ -17,6 +17,8 @@ services:
       # Optional: comma-separated origins allowed for cross-origin API calls
       - CORS_ORIGINS=${CORS_ORIGINS:-}
       - LOG_LEVEL=${LOG_LEVEL:-info}
+      # Address(es) of your reverse proxy whose X-Forwarded-For is trusted
+      - FORWARDED_ALLOW_IPS=${FORWARDED_ALLOW_IPS:-127.0.0.1}
     volumes:
       - logo-wall-data:/data
 

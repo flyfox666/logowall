@@ -1,0 +1,52 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.9', '3.11', '3.13']
+    defaults:
+      run:
+        working-directory: opensource/local
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: opensource/local/requirements-dev.txt
+      - run: pip install -r requirements-dev.txt
+      - run: python -m pytest tests -q
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t logo-wall:ci -f opensource/docker/Dockerfile opensource
+      - name: Start container on a root-owned volume and probe it
+        run: |
+          docker volume create lw-ci
+          # Simulate a volume created by the old root-based image
+          docker run --rm -v lw-ci:/data alpine sh -c 'mkdir -p /data/logos && echo "{\"records\":[]}" > /data/data.json'
+          docker run -d --name lw -p 8080:8080 -e ADMIN_PASSWORD=ci-admin-password -v lw-ci:/data logo-wall:ci
+          for i in $(seq 1 30); do curl -fsS localhost:8080/api/health && break; sleep 1; done
+          curl -fsS localhost:8080/api/health
+          # Entrypoint must have dropped privileges: no process may run as uid 0
+          docker top lw -o uid,cmd
+          test -z "$(docker top lw -o uid | tail -n +2 | awk '$1 == 0')" || { echo "a process runs as root"; exit 1; }
+          token=$(curl -fsS -X POST localhost:8080/api/auth/login -d username=admin -d password=ci-admin-password | python3 -c 'import sys,json;print(json.load(sys.stdin)["token"])')
+          curl -fsS -X POST localhost:8080/api/clients -H "Authorization: Bearer $token" -H 'Content-Type: application/json' -d '{"company":"CI"}'
+          test "$(curl -s -o /dev/null -w '%{http_code}' localhost:8080/data.json)" = "401"
+      - if: always()
+        run: docker logs lw || true

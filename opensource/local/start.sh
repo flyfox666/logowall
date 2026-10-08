@@ -9,15 +9,17 @@ if ! command -v python3 >/dev/null 2>&1; then
 fi
 
 if [ ! -d .venv ]; then
-    echo "First run: creating virtual environment and installing dependencies..."
+    echo "First run: creating virtual environment..."
     python3 -m venv .venv
-    . .venv/bin/activate
-    pip install -r server/requirements.txt
-else
-    . .venv/bin/activate
+fi
+. .venv/bin/activate
+# (Re)install dependencies on first run and whenever requirements.txt changes
+if [ ! -f .venv/.requirements-installed ] || [ server/requirements.txt -nt .venv/.requirements-installed ]; then
+    echo "Installing dependencies..."
+    pip install -r server/requirements.txt && touch .venv/.requirements-installed
 fi
 
-# Load config.env (PORT / ADMIN_TOKEN) if present
+# Load config.env (PORT / ADMIN_PASSWORD / ...) if present
 if [ -f config.env ]; then
     set -a
     . ./config.env
@@ -26,10 +28,9 @@ fi
 
 echo "========================================================"
 echo "  Starting server... (actual addresses will show below)"
-echo "  Config file: config.env (PORT / ADMIN_TOKEN)"
+echo "  Config file: config.env (see config.env.example)"
 echo "========================================================"
 
-export ADMIN_TOKEN="${ADMIN_TOKEN:-admin123}"
 export PORT="${PORT:-8080}"
 
 # Auto-release the configured port if it is already in use
