@@ -43,8 +43,11 @@ jobs:
           for i in $(seq 1 30); do curl -fsS localhost:8080/api/health && break; sleep 1; done
           curl -fsS localhost:8080/api/health
           # Entrypoint must have dropped privileges: no process may run as uid 0
-          docker top lw -o uid,cmd
-          test -z "$(docker top lw -o uid | tail -n +2 | awk '$1 == 0')" || { echo "a process runs as root"; exit 1; }
+          # PID 1 is uvicorn itself (entrypoint execs setpriv -> uvicorn)
+          docker top lw -o pid,uid,cmd
+          uid=$(docker exec lw awk '/^Uid:/ {print $2}' /proc/1/status)
+          echo "PID 1 uid: $uid"
+          test "$uid" = "10001" || { echo "app does not run as the unprivileged user"; exit 1; }
           token=$(curl -fsS -X POST localhost:8080/api/auth/login -d username=admin -d password=ci-admin-password | python3 -c 'import sys,json;print(json.load(sys.stdin)["token"])')
           curl -fsS -X POST localhost:8080/api/clients -H "Authorization: Bearer $token" -H 'Content-Type: application/json' -d '{"company":"CI"}'
           test "$(curl -s -o /dev/null -w '%{http_code}' localhost:8080/data.json)" = "401"
