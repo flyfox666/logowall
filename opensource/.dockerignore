@@ -4,9 +4,6 @@
 **/.pytest_cache
 docs/
 tools/
-docker/server/
-docker/index.html
-docker/data.json
 local/logos/
 local/users.json
 local/config.env
