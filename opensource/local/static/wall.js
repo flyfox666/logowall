@@ -1,1148 +1,3 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>客户品牌墙 | Client Logo Wall</title>
-    <style>
-        :root {
-            /* ===== Core Colors (refined warm palette) ===== */
-            --primary: #1b1f3a;
-            --primary-light: #252b4d;
-            --accent: #c2933e;
-            --accent-soft: #d4ab58;
-            --bg: #f5f3ee;
-            --surface: #ffffff;
-            --card-bg: #ffffff;
-            --text: #1e1e2e;
-            --text-light: #5a5a72;
-            --text-muted: #9494aa;
-            --border: #e4dfd6;
-            --shadow-sm: 0 1px 4px rgba(0,0,0,0.04);
-            --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
-            --shadow-lg: 0 12px 36px rgba(0,0,0,0.10);
-            --radius: 16px;
-            --radius-sm: 10px;
-
-            /* Department brand colors — extend throughout UI */
-            --dept-oosg: #4F46E5;
-            --dept-opls: #0891B2;
-            --dept-opcs: #D97706;
-
-            /* Spacing scale */
-            --space-xs: 4px;
-            --space-s: 8px;
-            --space-m: 12px;
-            --space-l: 20px;
-            --space-xl: 32px;
-            --space-2xl: 48px;
-
-            /* Animation easing */
-            --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
-            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        /* ===== Theme presets ===== */
-        html[data-theme="gold"] {
-            --primary: #6b4f14; --primary-light: #8a6d1f;
-            --accent: #c9a227; --accent-soft: #e3c04b;
-            --bg: #faf7ee; --surface: #fffef8; --card-bg: #fffef8;
-        }
-        html[data-theme="violet"] {
-            --primary: #4c1d95; --primary-light: #5b21b6;
-            --accent: #7c3aed; --accent-soft: #a78bfa;
-            --bg: #f7f5fc; --surface: #fdfcff; --card-bg: #fdfcff;
-        }
-        html[data-theme="orange"] {
-            --primary: #7c2d12; --primary-light: #9a3412;
-            --accent: #ea580c; --accent-soft: #fb923c;
-            --bg: #fdf8f3; --surface: #fffcf8; --card-bg: #fffcf8;
-        }
-        html[data-theme="green"] {
-            --primary: #14532d; --primary-light: #166534;
-            --accent: #16a34a; --accent-soft: #4ade80;
-            --bg: #f3faf5; --surface: #f8fdfa; --card-bg: #f8fdfa;
-        }
-
-        /* ===== Dark mode ===== */
-        html[data-dark="true"] {
-            --bg: #121420;
-            --surface: #1c2035;
-            --card-bg: #22263d;
-            --text: #dddde8;
-            --text-light: #9090a8;
-            --text-muted: #606078;
-            --border: #2c3050;
-            --shadow-sm: 0 1px 4px rgba(0,0,0,0.4);
-            --shadow-md: 0 4px 16px rgba(0,0,0,0.45);
-            --shadow-lg: 0 12px 36px rgba(0,0,0,0.55);
-        }
-        html[data-dark="true"] body { background-color: var(--bg); color: var(--text); }
-        html[data-dark="true"] .toolbar { background: var(--surface); border-color: var(--border); }
-        html[data-dark="true"] .theme-pop { background: var(--surface); border-color: var(--border); }
-        html[data-dark="true"] .theme-btn { background: var(--surface); border-color: var(--border); }
-        html[data-dark="true"] .pattern-btn { background: var(--surface); border-color: var(--border); color: var(--text-light); }
-        html[data-dark="true"] .search-box input { background: var(--card-bg); color: var(--text); border-color: var(--border); }
-        html[data-dark="true"] .search-box input:focus { background: var(--surface); }
-        html[data-dark="true"] .filter-btn { background: var(--card-bg); border-color: var(--border); color: var(--text-light); }
-        html[data-dark="true"] .filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-        html[data-dark="true"] .filter-select { background: var(--card-bg); border-color: var(--border); color: var(--text); }
-        html[data-dark="true"] .card { background: var(--card-bg); border-color: var(--border); }
-        html[data-dark="true"] .card .brand-name { color: var(--text); }
-        html[data-dark="true"] .card .company-full { color: var(--text-muted); }
-        html[data-dark="true"] .card .meta-office { color: var(--text-light); }
-        html[data-dark="true"] .card .owner-label { background: var(--primary); color: #fff; }
-        html[data-dark="true"] .poster-overlay { background: rgba(0,0,0,0.75); }
-        html[data-dark="true"] .poster-modal { background: var(--surface); color: var(--text); }
-        html[data-dark="true"] .poster-modal label { color: var(--text-light); }
-        html[data-dark="true"] .poster-modal input,
-        html[data-dark="true"] .poster-modal select { background: var(--card-bg); color: var(--text); border-color: var(--border); }
-        html[data-dark="true"] .poster-preview-area { background: var(--card-bg); border-color: var(--border); }
-        html[data-dark="true"] .empty-state p { color: var(--text-muted); }
-        html[data-dark="true"] .dark-toggle-btn { background: var(--surface); border-color: var(--border); color: var(--text-light); }
-
-        /* ===== Background patterns ===== */
-        html[data-bg="dots"] body {
-            background-image: radial-gradient(color-mix(in srgb, var(--primary) 8%, transparent) 1px, transparent 1px);
-            background-size: 22px 22px;
-        }
-        html[data-bg="grid"] body {
-            background-image:
-                linear-gradient(color-mix(in srgb, var(--primary) 6%, transparent) 1px, transparent 1px),
-                linear-gradient(90deg, color-mix(in srgb, var(--primary) 6%, transparent) 1px, transparent 1px);
-            background-size: 44px 44px;
-        }
-        html[data-bg="glow"] body {
-            background-image:
-                radial-gradient(620px 300px at 88% -60px, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 70%),
-                radial-gradient(520px 260px at 8% -70px, color-mix(in srgb, var(--primary) 22%, transparent) 0%, transparent 70%);
-            background-repeat: no-repeat;
-        }
-
-        /* ======================== THEME PICKER ======================== */
-        .theme-btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 34px; height: 34px;
-            border: 1.5px solid var(--border); border-radius: 50%;
-            background: var(--surface); color: var(--text-light);
-            cursor: pointer; transition: transform 0.2s, border-color 0.2s, color 0.2s;
-        }
-        .theme-btn:hover { border-color: var(--accent); color: var(--accent); transform: scale(1.06); }
-        .theme-pop {
-            display: none; position: absolute; right: 0; top: calc(100% + 10px);
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 14px; box-shadow: var(--shadow-lg);
-            padding: 16px 18px; width: 260px; z-index: 150;
-        }
-        .theme-pop.show { display: block; }
-        .theme-pop h4 { font-size: 12px; color: var(--text-light); margin: 4px 0 10px; letter-spacing: 0.3px; text-transform: uppercase; font-weight: 600; }
-        .theme-swatches { display: flex; gap: 10px; flex-wrap: wrap; }
-        .theme-swatch {
-            width: 32px; height: 32px; border-radius: 50%;
-            border: 2.5px solid transparent; cursor: pointer;
-            position: relative; transition: transform 0.2s, border-color 0.2s;
-        }
-        .theme-swatch:hover { transform: scale(1.15); }
-        .theme-swatch.active { border-color: var(--text); box-shadow: 0 0 0 2px #fff inset; }
-        .pattern-btns { display: flex; gap: 6px; flex-wrap: wrap; }
-        .pattern-btn {
-            padding: 5px 12px; font-size: 12px;
-            border: 1px solid var(--border); border-radius: 16px;
-            background: var(--surface); color: var(--text-light);
-            cursor: pointer; transition: all 0.2s;
-        }
-        .pattern-btn:hover { border-color: var(--accent); color: var(--accent); }
-        .dark-toggle-btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 34px; height: 34px;
-            border: 1.5px solid var(--border); border-radius: 50%;
-            background: var(--surface); color: var(--text-light);
-            cursor: pointer; transition: transform 0.2s, border-color 0.2s, color 0.2s;
-        }
-        .dark-toggle-btn:hover { border-color: var(--accent); color: var(--accent); transform: scale(1.06); }
-        .dark-toggle-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
-        .dark-switch { position: relative; display: inline-block; width: 40px; height: 22px; }
-        .dark-switch input { opacity: 0; width: 0; height: 0; }
-        .dark-slider {
-            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-            background: var(--border); border-radius: 22px; transition: 0.25s;
-        }
-        .dark-slider::before {
-            content: ''; position: absolute; height: 16px; width: 16px; left: 3px; bottom: 3px;
-            background: #fff; border-radius: 50%; transition: 0.25s;
-        }
-        .dark-switch input:checked + .dark-slider { background: var(--primary); }
-        .dark-switch input:checked + .dark-slider::before { transform: translateX(18px); }
-        .pattern-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
-        .theme-pop .reset-link {
-            display: inline-block; margin-top: 12px; font-size: 12px; color: var(--accent);
-            cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
-        }
-        .theme-pop-wrap { position: relative; }
-
-        /* ======================== COLLAPSIBLE TOOLBAR ======================== */
-        .toolbar { transition: padding 0.35s var(--ease-out-quint); }
-        .toolbar.collapsed { padding-top: 8px; padding-bottom: 8px; }
-        .toolbar.collapsed .search-box,
-        .toolbar.collapsed .filter-group { display: none; }
-        .collapse-toggle-btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 34px; height: 34px;
-            border: 1.5px solid var(--border); border-radius: 50%;
-            background: var(--surface); color: var(--text-light);
-            cursor: pointer; transition: transform 0.2s, border-color 0.2s, color 0.2s;
-            flex: none;
-        }
-        .collapse-toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
-        .collapse-toggle-btn svg { transition: transform 0.35s var(--ease-out-quint); }
-        .toolbar.collapsed .collapse-toggle-btn svg { transform: rotate(180deg); }
-
-        /* ======================== RESET & BASE ======================== */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* ======================== HEADER (redesigned) ======================== */
-        .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, #0f3460 100%);
-            color: #fff;
-            padding: 36px 48px 32px;
-            position: relative;
-            overflow: hidden;
-        }
-        /* Subtle decorative elements */
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -40%; right: -8%;
-            width: 560px; height: 560px;
-            background: radial-gradient(circle, color-mix(in srgb, var(--accent) 12%, transparent) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-        .header::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            opacity: 0.8;
-        }
-        .header-inner {
-            max-width: 1600px; margin: 0 auto;
-            position: relative; z-index: 1;
-            display: flex; justify-content: space-between; align-items: flex-start;
-            gap: 24px; flex-wrap: wrap;
-        }
-        .header-branding { max-width: 600px; }
-        .header h1 {
-            font-size: 32px; font-weight: 800; letter-spacing: 2px; line-height: 1.2;
-        }
-        .header h1 .en {
-            display: block; font-size: 13px; font-weight: 500;
-            color: rgba(255,255,255,0.5); letter-spacing: 5px;
-            margin-top: 6px; text-transform: uppercase;
-        }
-        .tagline {
-            font-size: 13px; color: rgba(255,255,255,0.55);
-            margin-top: 10px; letter-spacing: 1px; line-height: 1.5;
-        }
-        /* Stats bar redesigned */
-        .header-stats {
-            display: flex; gap: 40px; flex-shrink: 0;
-            background: rgba(255,255,255,0.07); backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 14px; padding: 18px 36px;
-        }
-        .stat-item { text-align: center; min-width: 72px; }
-        .stat-num {
-            font-size: 36px; font-weight: 800; line-height: 1;
-            font-variant-numeric: tabular-nums;
-        }
-        .stat-num.accent { color: var(--accent-soft); }
-        .stat-label {
-            font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 8px;
-            letter-spacing: 1.5px; text-transform: uppercase; font-weight: 500;
-        }
-        .stat-divider {
-            width: 1px; background: rgba(255,255,255,0.15); align-self: stretch;
-        }
-
-        /* Header collapse state */
-        .header { transition: padding 0.35s var(--ease-out-quint); }
-        .header-collapse-btn {
-            align-self: center; width: 32px; height: 32px;
-            border: none; border-radius: 50%;
-            background: rgba(255,255,255,0.12);
-            color: #fff; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            transition: background 0.2s, transform 0.2s;
-            flex: none;
-        }
-        .header-collapse-btn:hover { background: rgba(255,255,255,0.24); transform: scale(1.06); }
-        .header-collapse-btn svg { transition: transform 0.35s var(--ease-out-quint); }
-        .header-auth-wrap { display: flex; align-items: center; gap: 8px; }
-        .login-btn {
-            height: 34px; padding: 0 14px; border: none; border-radius: 17px;
-            background: rgba(255,255,255,0.12); color: #fff; cursor: pointer;
-            display: flex; align-items: center; gap: 6px;
-            font-size: 13px; font-weight: 500; white-space: nowrap;
-            transition: background 0.2s, transform 0.2s;
-            flex: none;
-        }
-        .login-btn:hover { background: rgba(255,255,255,0.24); transform: translateY(-1px); }
-        .login-btn svg { flex: none; }
-        .login-btn-user { max-width: 96px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; opacity: 0.82; font-weight: 600; }
-        .header h1, .tagline, .header-stats {
-            transition: opacity 0.3s ease, max-height 0.35s ease, margin 0.35s ease;
-        }
-        .tagline, .header-stats { max-height: 160px; overflow: hidden; }
-        .header.collapsed { padding: 12px 48px; }
-        .header.collapsed h1 { font-size: 20px; letter-spacing: 1px; }
-        .header.collapsed h1 .en { display: none; }
-        .header.collapsed .tagline,
-        .header.collapsed .header-stats { opacity: 0; max-height: 0; margin-top: 0; }
-        .header.collapsed .header-collapse-btn svg { transform: rotate(180deg); }
-
-        /* ======================== TOOLBAR / FILTER BAR ======================== */
-        .toolbar {
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            padding: 18px 48px;
-            position: sticky; top: 0; z-index: 100;
-            box-shadow: var(--shadow-sm);
-        }
-        .toolbar-inner {
-            max-width: 1600px; margin: 0 auto;
-            display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-        }
-        .search-box { position: relative; flex: 0 0 280px; }
-        .search-box input {
-            width: 100%; padding: 10px 16px 10px 40px;
-            border: 1.5px solid var(--border); border-radius: 24px;
-            font-size: 14px; outline: none;
-            transition: all 0.25s; background: var(--bg);
-        }
-        .search-box input:focus {
-            border-color: var(--accent); background: var(--surface);
-            box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 10%, transparent);
-            transform: translateY(-1px);
-        }
-        .search-box svg {
-            position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-            color: var(--text-muted); pointer-events: none;
-        }
-        .filter-group {
-            display: flex; gap: 6px; flex-wrap: wrap;
-            align-items: center; flex: 1 1 100%;
-        }
-        .filter-label {
-            font-size: 11px; color: var(--text-muted); margin-right: 10px;
-            font-weight: 600; min-width: 48px; text-align: right;
-            letter-spacing: 0.5px; text-transform: uppercase;
-        }
-        .filter-btn {
-            padding: 7px 16px; border: 1.5px solid var(--border);
-            border-radius: 20px; background: var(--surface);
-            font-size: 13px; color: var(--text-light);
-            cursor: pointer; transition: all 0.25s; white-space: nowrap;
-        }
-        .filter-btn:hover {
-            border-color: var(--primary); color: var(--primary);
-            background: color-mix(in srgb, var(--primary) 4%, transparent);
-        }
-        .filter-btn.active {
-            background: var(--primary); color: #fff; border-color: var(--primary);
-            box-shadow: 0 2px 8px color-mix(in srgb, var(--primary) 25%, transparent);
-        }
-        .filter-btn.active.dept-OOSG { background: var(--dept-oosg); border-color: var(--dept-oosg); box-shadow: 0 2px 8px color-mix(in srgb, var(--dept-oosg) 25%, transparent); }
-        .filter-btn.active.dept-OPLS { background: var(--dept-opls); border-color: var(--dept-opls); box-shadow: 0 2px 8px color-mix(in srgb, var(--dept-opls) 25%, transparent); }
-        .filter-btn.active.dept-OPCS { background: var(--dept-opcs); border-color: var(--dept-opcs); box-shadow: 0 2px 8px color-mix(in srgb, var(--dept-opcs) 25%, transparent); }
-        .filter-select {
-            padding: 7px 28px 7px 14px; border: 1.5px solid var(--border);
-            border-radius: 20px;
-            background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23718096' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 10px center;
-            -webkit-appearance: none; -moz-appearance: none; appearance: none;
-            font-size: 13px; color: var(--text-light); cursor: pointer;
-            transition: all 0.25s; max-width: 170px;
-        }
-        .filter-select:hover { border-color: var(--primary); color: var(--primary); }
-        .filter-select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 10%, transparent); }
-
-        /* Multi-select searchable dropdown (owner filter) */
-        .ms-dropdown { position: relative; }
-        .ms-trigger {
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 7px 14px; border: 1.5px solid var(--border);
-            border-radius: 20px; background: var(--surface);
-            font-size: 13px; color: var(--text-light);
-            cursor: pointer; transition: all 0.25s; white-space: nowrap;
-            max-width: 220px;
-        }
-        .ms-trigger:hover { border-color: var(--primary); color: var(--primary); }
-        .ms-trigger.open {
-            border-color: var(--primary); color: var(--primary);
-            box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary) 10%, transparent);
-        }
-        .ms-trigger.has-selection {
-            background: var(--primary); color: #fff; border-color: var(--primary);
-            box-shadow: 0 2px 8px color-mix(in srgb, var(--primary) 25%, transparent);
-        }
-        .ms-trigger-text {
-            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-        }
-        .ms-chevron { transition: transform 0.2s; flex-shrink: 0; }
-        .ms-trigger.open .ms-chevron { transform: rotate(180deg); }
-        .ms-panel {
-            position: absolute; top: calc(100% + 6px); left: 0; z-index: 200;
-            width: 260px; max-height: 320px; display: none;
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 12px; box-shadow: 0 12px 32px rgba(0,0,0,0.16);
-            overflow: hidden; flex-direction: column;
-        }
-        .ms-panel.open { display: flex; }
-        .ms-search {
-            position: relative; padding: 10px 10px 8px;
-            border-bottom: 1px solid var(--border);
-        }
-        .ms-search svg {
-            position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
-            color: var(--text-muted); pointer-events: none;
-        }
-        .ms-search input {
-            width: 100%; padding: 7px 12px 7px 34px;
-            border: 1px solid var(--border); border-radius: 8px;
-            font-size: 13px; outline: none; background: var(--bg); color: var(--text);
-            transition: border-color 0.2s;
-        }
-        .ms-search input:focus { border-color: var(--primary); }
-        .ms-options {
-            overflow-y: auto; padding: 6px;
-            display: flex; flex-direction: column; gap: 2px;
-        }
-        .ms-option {
-            display: flex; align-items: center; gap: 9px;
-            padding: 7px 10px; border-radius: 8px;
-            font-size: 13px; color: var(--text-light);
-            cursor: pointer; transition: background 0.15s; user-select: none;
-        }
-        .ms-option:hover { background: color-mix(in srgb, var(--primary) 7%, transparent); }
-        .ms-option.selected { color: var(--primary); font-weight: 600; }
-        .ms-option .ms-check {
-            width: 15px; height: 15px; border: 1.5px solid var(--border);
-            border-radius: 4px; flex-shrink: 0; display: flex;
-            align-items: center; justify-content: center;
-            transition: all 0.15s;
-        }
-        .ms-option.selected .ms-check {
-            background: var(--primary); border-color: var(--primary);
-        }
-        .ms-option.selected .ms-check::after {
-            content: ''; width: 4px; height: 8px;
-            border: solid #fff; border-width: 0 2px 2px 0;
-            transform: rotate(45deg) translate(-1px, -1px);
-        }
-        .ms-option .ms-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .ms-option .ms-count {
-            font-size: 11px; color: var(--text-muted);
-            background: var(--bg); padding: 1px 7px; border-radius: 10px;
-        }
-        .ms-option.selected .ms-count { color: var(--primary); }
-        .ms-empty { padding: 18px; text-align: center; font-size: 12px; color: var(--text-muted); }
-
-        .toolbar-spacer { flex: 1; }
-        .clear-filters-btn {
-            padding: 7px 14px; border: 1.5px solid var(--border);
-            border-radius: 20px; background: transparent;
-            font-size: 12.5px; color: var(--text-light); cursor: pointer;
-            transition: all 0.25s; white-space: nowrap;
-        }
-        .clear-filters-btn:hover {
-            border-color: #ef4444; color: #ef4444;
-            background: color-mix(in srgb, #ef4444 6%, transparent);
-        }
-        .upload-btn {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 9px 18px; background: var(--primary); color: #fff;
-            border: none; border-radius: var(--radius-sm);
-            font-size: 13px; cursor: pointer; transition: all 0.25s;
-        }
-        .upload-btn:hover { background: var(--primary-light); transform: translateY(-1px); box-shadow: var(--shadow-md); }
-        .result-count { font-size: 13px; color: var(--text-light); }
-        .result-count strong { color: var(--accent); font-weight: 700; }
-
-        /* ======================== MAIN GRID ======================== */
-        .main {
-            max-width: 1600px; margin: 0 auto;
-            padding: 32px 48px 60px;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 22px;
-        }
-
-        /* ===== Card (enhanced) ===== */
-        .card {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            padding: 22px 16px 16px;
-            text-align: center;
-            border: 1px solid var(--border);
-            transition: all 0.35s var(--ease-out-quint);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            display: flex; flex-direction: column;
-            opacity: 0; transform: translateY(16px);
-        }
-        .card.revealed { opacity: 1; transform: translateY(0); }
-        .card::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0;
-            height: 3px;
-            background: var(--card-color, var(--primary));
-            transform: scaleX(0); transform-origin: center;
-            transition: transform 0.4s var(--ease-out-expo);
-        }
-        .card:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: var(--shadow-lg);
-            border-color: transparent;
-        }
-        .card:hover::before { transform: scaleX(1); }
-
-        .logo-area {
-            height: 96px;
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 10px;
-            padding: 8px 6px;
-        }
-        .logo-area img {
-            max-width: 100%; max-height: 80px;
-            width: auto; height: auto;
-            object-fit: contain;
-            border-radius: 6px;
-            transition: transform 0.2s ease;
-            image-rendering: -webkit-optimize-contrast;
-            position: relative; z-index: 1;
-        }
-        .card:hover .logo-area img { transform: scale(1.06); }
-        .logo-fallback {
-            width: 60px; height: 60px; border-radius: 14px;
-            display: flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 20px; font-weight: 700;
-            letter-spacing: -0.5px;
-            box-shadow: 0 4px 12px color-mix(in srgb, currentColor 30%, transparent);
-        }
-        .brand-name {
-            font-size: 15px; font-weight: 700; color: var(--text);
-            margin-bottom: 8px; line-height: 1.3;
-            word-break: break-word; min-height: 20px;
-        }
-        .company-full {
-            font-size: 12px; color: var(--text-muted); margin-bottom: 10px;
-            line-height: 1.5;
-            display: -webkit-box; -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical; overflow: hidden;
-        }
-        .card-meta { display: flex; flex-direction: column; gap: 8px; margin-top: auto; }
-        .meta-row {
-            display: flex; align-items: center; justify-content: center; gap: 6px;
-            font-size: 12px; color: var(--text-light);
-        }
-        .meta-office .city { font-weight: 600; color: var(--text); }
-        .meta-owners {
-            font-size: 11px; color: var(--text-light); line-height: 1.5;
-            padding: 5px 10px; background: var(--bg); border-radius: 8px;
-            display: -webkit-box; -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical; overflow: hidden;
-            word-break: break-all;
-        }
-        .meta-owners .owner-label {
-            color: var(--text-muted); margin-right: 2px; font-weight: 600;
-        }
-        .meta-coop {
-            font-size: 11px; color: var(--text-muted); line-height: 1.5;
-            text-align: center;
-        }
-        .dept-tags { display: flex; gap: 5px; justify-content: center; flex-wrap: wrap; }
-        .dept-tag {
-            display: inline-block; padding: 2px 9px; border-radius: 10px;
-            font-size: 10px; font-weight: 600; letter-spacing: 0.5px;
-        }
-        .dept-tag.OOSG { background: rgba(79,70,229,0.1); color: var(--dept-oosg); }
-        .dept-tag.OPLS { background: rgba(8,145,178,0.1); color: var(--dept-opls); }
-        .dept-tag.OPCS { background: rgba(217,119,6,0.1); color: var(--dept-opcs); }
-
-        /* Tooltip for full info */
-        .card-tooltip {
-            display: none; position: absolute; bottom: calc(100% + 10px); left: 50%;
-            transform: translateX(-50%) translateY(6px);
-            background: var(--primary); color: #fff;
-            padding: 12px 16px; border-radius: 10px;
-            font-size: 12px; white-space: normal; max-width: 280px;
-            z-index: 50; box-shadow: var(--shadow-lg);
-            text-align: left; line-height: 1.6;
-            opacity: 0; transition: opacity 0.2s, transform 0.2s;
-        }
-        .card-tooltip::after {
-            content: ''; position: absolute; top: 100%; left: 50%;
-            transform: translateX(-50%);
-            border: 6px solid transparent; border-top-color: var(--primary);
-        }
-        .card:hover .card-tooltip {
-            display: block; opacity: 1; transform: translateX(-50%) translateY(0);
-        }
-        .card-tooltip .tip-company { font-weight: 600; margin-bottom: 4px; }
-        .card-tooltip .tip-owners { color: rgba(255,255,255,0.7); }
-
-        /* ======================== EMPTY / LOADING STATES ======================== */
-        .empty-state { text-align: center; padding: 80px 20px; color: var(--text-muted); }
-        .empty-state svg { margin-bottom: 16px; opacity: 0.4; }
-        .empty-state p { font-size: 16px; }
-        .loading { text-align: center; padding: 100px 20px; }
-        .spinner {
-            width: 40px; height: 40px;
-            border: 3px solid var(--border); border-top-color: var(--accent);
-            border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* ======================== FOOTER ======================== */
-        .footer {
-            text-align: center; padding: 24px;
-            font-size: 12px; color: var(--text-muted);
-            border-top: 1px solid var(--border);
-            letter-spacing: 0.3px;
-        }
-        .footer a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
-        .footer a:hover { color: var(--accent-soft); }
-
-        /* ======================== RESPONSIVE ======================== */
-        @media (max-width: 768px) {
-            .header { padding: 24px; }
-            .header-inner { gap: 16px; }
-            .header h1 { font-size: 24px; }
-            .header-stats { gap: 20px; padding: 14px 24px; }
-            .stat-num { font-size: 28px; }
-            .toolbar { padding: 14px 20px; }
-            .main { padding: 24px 20px 48px; }
-            .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
-            .search-box { flex: 1 1 100%; }
-        }
-        @media (max-width: 480px) {
-            .header h1 { font-size: 20px; }
-            .header-stats { flex-direction: column; gap: 12px; }
-            .stat-divider { width: auto; height: 1px; }
-        }
-
-        /* ======================== POSTER EXPORT ======================== */
-        .poster-btn {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 8px 18px;
-            background: linear-gradient(135deg, var(--primary), #2a2e52);
-            color: #fff; border: none; border-radius: 22px;
-            font-size: 13px; font-weight: 600; cursor: pointer;
-            transition: all 0.25s; white-space: nowrap;
-        }
-        .poster-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(27,31,58,0.25); }
-
-        /* ======================== MULTI-SELECT MODE ======================== */
-        .select-btn {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 8px 18px;
-            background: var(--surface, #fff); color: var(--text, #1B1F3A);
-            border: 1.5px solid var(--border, #E2E8F0); border-radius: 22px;
-            font-size: 13px; font-weight: 600; cursor: pointer;
-            transition: all 0.25s; white-space: nowrap;
-        }
-        .select-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(27,31,58,0.15); }
-        .select-btn.active {
-            background: linear-gradient(135deg, var(--primary), #2a2e52);
-            color: #fff; border-color: transparent;
-        }
-        .card .card-check {
-            display: none; position: absolute; top: 10px; right: 10px;
-            width: 22px; height: 22px; border-radius: 50%;
-            border: 2px solid var(--border, #cbd5e1); background: rgba(255,255,255,0.92);
-            z-index: 5; pointer-events: none;
-        }
-        body.select-mode .card { position: relative; }
-        body.select-mode .card .card-check { display: block; }
-        body.select-mode .card.selected .card-check {
-            background: var(--primary); border-color: var(--primary);
-        }
-        body.select-mode .card.selected .card-check::after {
-            content: '✓'; position: absolute; inset: 0;
-            display: flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 13px; font-weight: 700;
-        }
-        body.select-mode .card.selected { outline: 2.5px solid var(--primary); outline-offset: 1px; }
-        .select-bar {
-            position: fixed; left: 50%; bottom: 28px; z-index: 300;
-            transform: translateX(-50%) translateY(90px);
-            display: flex; align-items: center; gap: 14px;
-            background: var(--surface, #fff); color: var(--text, #1B1F3A);
-            border: 1px solid var(--border, #E2E8F0); border-radius: 30px;
-            padding: 10px 18px; box-shadow: 0 10px 40px rgba(15,18,35,0.22);
-            transition: transform 0.3s ease; white-space: nowrap;
-        }
-        .select-bar.show { transform: translateX(-50%) translateY(0); }
-        .select-bar .sel-count { font-size: 15px; font-weight: 800; color: var(--primary); }
-        .select-bar .sb-btn {
-            border: none; border-radius: 18px; padding: 7px 16px;
-            font-size: 12.5px; font-weight: 600; cursor: pointer; transition: all 0.2s;
-        }
-        .select-bar .sb-primary { background: linear-gradient(135deg, var(--primary), #2a2e52); color: #fff; }
-        .select-bar .sb-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(27,31,58,0.3); }
-        .select-bar .sb-ghost { background: transparent; color: var(--text-light, #64748B); border: 1px solid var(--border, #E2E8F0); }
-        .select-bar .sb-ghost:hover { color: var(--text, #1B1F3A); }
-        html[data-dark="true"] .select-btn { background: var(--card-bg); color: var(--text); border-color: var(--border); }
-        html[data-dark="true"] .select-bar { background: var(--surface); color: var(--text); border-color: var(--border); box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-
-        /* ======================== DETAIL MODAL ======================== */
-        .detail-overlay {
-            display: none; position: fixed; inset: 0;
-            background: rgba(15,18,35,0.65); z-index: 250;
-            align-items: center; justify-content: center; padding: 24px;
-            backdrop-filter: blur(6px);
-        }
-        .detail-overlay.show { display: flex; }
-        .detail-modal {
-            background: var(--surface, #fff);
-            border-radius: 20px;
-            box-shadow: 0 32px 80px rgba(0,0,0,0.35);
-            max-width: 580px; width: 100%;
-            max-height: 85vh; overflow-y: auto;
-            position: relative; padding: 36px;
-            animation: detailSlideIn 0.3s var(--ease-out-quint);
-        }
-        @keyframes detailSlideIn {
-            from { opacity: 0; transform: translateY(24px) scale(0.96); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        .detail-close {
-            position: absolute; top: 18px; right: 18px;
-            width: 34px; height: 34px; border: none;
-            background: rgba(0,0,0,0.05); border-radius: 50%;
-            font-size: 20px; color: var(--text-light); cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s;
-        }
-        .detail-close:hover { background: rgba(0,0,0,0.1); color: var(--text); }
-        .detail-header { display: flex; gap: 24px; align-items: flex-start; margin-bottom: 24px; }
-        .detail-logo {
-            width: 100px; height: 100px; border-radius: 16px;
-            background: var(--bg, #f5f6fa);
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; overflow: hidden;
-        }
-        .detail-logo img { max-width: 80%; max-height: 80%; object-fit: contain; }
-        .detail-logo .logo-fallback {
-            width: 60px; height: 60px; border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 24px; font-weight: 700;
-        }
-        .detail-info h2 {
-            font-size: 22px; font-weight: 700; color: var(--text);
-            margin: 0 0 6px; line-height: 1.3;
-        }
-        .detail-company { font-size: 13px; color: var(--text-light); margin: 0 0 10px; line-height: 1.5; }
-        .detail-meta { display: flex; gap: 8px; flex-wrap: wrap; }
-        .detail-city {
-            font-size: 12px; padding: 4px 12px;
-            background: rgba(113,128,150,0.1); color: var(--text-light);
-            border-radius: 14px; font-weight: 500;
-        }
-        .detail-depts { display: flex; gap: 4px; flex-wrap: wrap; }
-        .detail-depts .dept-tag { font-size: 11px; padding: 3px 10px; border-radius: 12px; }
-        .detail-description {
-            font-size: 14px; line-height: 1.7; color: var(--text);
-            margin-bottom: 20px; padding: 18px;
-            background: var(--bg, #f8f9fc); border-radius: 14px;
-            white-space: pre-wrap;
-        }
-        .detail-description:empty { display: none; }
-        .detail-description::before {
-            content: attr(data-label); display: block;
-            font-size: 11px; font-weight: 600; color: var(--text-muted);
-            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
-        }
-        .detail-footer {
-            display: flex; justify-content: space-between; align-items: center;
-            padding-top: 18px; border-top: 1px solid var(--border, #e5e7eb);
-        }
-        .detail-owners { font-size: 13px; color: var(--text-light); }
-        .detail-owners::before { content: attr(data-label); }
-        .detail-website {
-            font-size: 13px; color: var(--accent, #c2933e);
-            text-decoration: none; display: flex; align-items: center; gap: 4px;
-        }
-        .detail-website:hover { text-decoration: underline; }
-        .detail-website:empty { display: none; }
-
-        /* Poster overlay */
-        .poster-overlay {
-            display: none; position: fixed; inset: 0;
-            background: rgba(15,18,35,0.6); z-index: 200;
-            align-items: center; justify-content: center; padding: 24px;
-        }
-        .poster-overlay.show { display: flex; }
-        .poster-modal {
-            background: #fff; border-radius: 16px;
-            width: 100%; max-width: 1100px; max-height: 92vh;
-            display: flex; flex-direction: column;
-            box-shadow: 0 32px 80px rgba(0,0,0,0.35); overflow: hidden;
-        }
-        .poster-modal-head {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 18px 24px; border-bottom: 1px solid var(--border);
-        }
-        .poster-modal-head h3 { font-size: 16px; color: var(--primary); font-weight: 700; }
-        .poster-close {
-            width: 32px; height: 32px; border: none; background: none;
-            font-size: 22px; cursor: pointer; color: var(--text-muted);
-            border-radius: 8px; transition: background 0.2s;
-        }
-        .poster-close:hover { background: var(--bg); }
-        .poster-modal-body {
-            display: flex; gap: 24px; padding: 24px; overflow: auto; flex: 1;
-        }
-        .poster-form { flex: 0 0 260px; display: flex; flex-direction: column; gap: 16px; }
-        .pf-row label {
-            display: block; font-size: 12px; font-weight: 600;
-            color: var(--text-light); margin-bottom: 8px; letter-spacing: 0.3px;
-        }
-        .pf-row select, .pf-row input {
-            width: 100%; padding: 9px 12px;
-            border: 1.5px solid var(--border); border-radius: 10px;
-            font-size: 13px; outline: none; background: #fff;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        .pf-row select:focus, .pf-row input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 8%, transparent); }
-        .pf-row-checks { display: flex; flex-direction: column; gap: 8px; }
-        .pf-checks { display: flex; flex-wrap: wrap; gap: 6px 14px; }
-        .pf-check {
-            display: inline-flex; align-items: center; gap: 6px;
-            font-size: 13px; font-weight: 500; color: var(--text);
-            cursor: pointer; user-select: none; margin: 0;
-        }
-        .pf-check input[type="checkbox"] {
-            width: 16px; height: 16px; margin: 0; accent-color: var(--accent);
-            cursor: pointer; flex-shrink: 0;
-        }
-        .pf-hint { font-size: 12px; color: var(--text-light); background: var(--bg); border-radius: 10px; padding: 10px 12px; }
-        .pf-actions { display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
-        .pf-actions button {
-            padding: 11px 16px; border-radius: 10px; font-size: 14px;
-            font-weight: 600; cursor: pointer; transition: all 0.2s; border: none;
-        }
-        .pf-btn-primary { background: var(--accent); color: #fff; }
-        .pf-btn-primary:hover { background: #b08a3a; transform: translateY(-1px); box-shadow: var(--shadow-md); }
-        .pf-btn-outline { background: #fff; border: 1.5px solid var(--border); color: var(--text); }
-        .pf-btn-outline:hover { border-color: var(--primary); color: var(--primary); }
-        .poster-preview {
-            flex: 1; background: #eef1f7; border-radius: 12px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            position: relative; min-height: 360px; padding: 14px 14px 56px;
-        }
-        .poster-preview canvas {
-            max-width: 100%; max-height: 56vh; width: auto; height: auto;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.15); border-radius: 4px;
-            background: #fff;
-        }
-        .poster-pager {
-            position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
-            display: flex; align-items: center; gap: 12px;
-            background: rgba(255,255,255,0.95); backdrop-filter: blur(6px);
-            padding: 6px 10px; border-radius: 999px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.18); z-index: 5;
-        }
-        .pager-btn {
-            width: 30px; height: 30px; border: none; border-radius: 50%;
-            background: var(--accent); color: #fff; font-size: 18px; line-height: 1;
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
-            transition: background 0.2s, transform 0.15s;
-        }
-        .pager-btn:hover { background: #b08a3a; }
-        .pager-btn:active { transform: scale(0.92); }
-        .pager-btn:disabled { background: #cfcfcf; cursor: not-allowed; }
-        .pager-info { font-size: 13px; font-weight: 600; color: var(--text); min-width: 56px; text-align: center; }
-        .poster-loading {
-            position: absolute; inset: 0;
-            background: rgba(238,241,247,0.85);
-            display: flex; flex-direction: column; gap: 12px;
-            align-items: center; justify-content: center;
-            color: var(--text-light); font-size: 13px; border-radius: 12px;
-        }
-        @media (max-width: 800px) {
-            .poster-modal-body { flex-direction: column; }
-            .poster-form { flex: none; }
-        }
-
-        /* Print styles */
-        @media print {
-            .toolbar, .upload-btn, .header-stats { display: none !important; }
-            .card { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
-            .card:hover { transform: none; }
-        }
-
-        /* ======================== REDUCED MOTION ======================== */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-            .card { opacity: 1 !important; transform: none !important; }
-        }
-    </style>
-</head>
-<body>
-
-<header class="header">
-    <div class="header-inner">
-        <div class="header-branding">
-            <h1>
-                <span id="site-title">客户品牌墙</span>
-                <span class="en" id="site-title-en">CLIENT LOGO WALL</span>
-            </h1>
-            <p class="tagline" id="tagline">OFFICE × BUSINESS LINE  ·  连接客户价值，共创长期合作</p>
-        </div>
-        <div style="display:flex;align-items:center;gap:20px;">
-            <div class="header-stats">
-                <div class="stat-item">
-                    <div class="stat-num accent" id="stat-total">0</div>
-                    <div class="stat-label" data-i18n="stat_total">客户总数</div>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat-item">
-                    <div class="stat-num" id="stat-offices">0</div>
-                    <div class="stat-label" data-i18n="stat_offices">覆盖城市</div>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat-item">
-                    <div class="stat-num" id="stat-depts">0</div>
-                    <div class="stat-label" data-i18n="stat_depts">业务线</div>
-                </div>
-            </div>
-            <div class="header-auth-wrap">
-                <button class="login-btn" id="login-btn" onclick="handleLoginClick()" aria-label="登录 / 退出">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    <span id="login-btn-user" class="login-btn-user" hidden></span>
-                    <span id="login-btn-text" data-i18n="login">登录</span>
-                </button>
-                <button class="header-collapse-btn" onclick="toggleHeader()" title="收起 / 展开头部" aria-label="收起或展开头部" data-i18n-title="collapse_header">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>
-                </button>
-            </div>
-        </div>
-    </div>
-</header>
-
-<div class="toolbar">
-    <div class="toolbar-inner">
-        <div class="search-box">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            <input type="text" id="search" placeholder="搜索客户名称、城市、负责人..." data-i18n-placeholder="search_ph">
-        </div>
-        <div class="filter-group" id="region-group">
-            <span class="filter-label" data-i18n="region">区域</span>
-            <button class="filter-btn active" data-filter="region" data-value="all" data-i18n="all">全部</button>
-        </div>
-        <div class="filter-group" id="office-group">
-            <span class="filter-label" data-i18n="city">城市</span>
-            <button class="filter-btn active" data-filter="office" data-value="all" data-i18n="all">全部</button>
-        </div>
-        <div class="filter-group" id="dept-group">
-            <span class="filter-label" data-i18n="dept">业务线</span>
-            <button class="filter-btn active" data-filter="dept" data-value="all" data-i18n="all">全部</button>
-        </div>
-        <div class="filter-group" id="owner-group">
-            <span class="filter-label" data-i18n="owner">负责人</span>
-            <div class="ms-dropdown" id="owner-dropdown">
-                <button type="button" class="ms-trigger" id="owner-trigger" onclick="toggleOwnerDropdown(event)">
-                    <span class="ms-trigger-text" id="owner-trigger-text" data-i18n="all">全部</span>
-                    <svg class="ms-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-                </button>
-                <div class="ms-panel" id="owner-panel">
-                    <div class="ms-search">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                        <input type="text" id="owner-search" data-i18n-placeholder="owner_search_ph" placeholder="搜索负责人..." oninput="filterOwnerOptions(this.value)">
-                    </div>
-                    <div class="ms-options" id="owner-options"></div>
-                </div>
-            </div>
-        </div>
-        <div class="filter-group" id="year-group">
-            <span class="filter-label" data-i18n="coop_year">合作年份</span>
-            <button class="filter-btn active" data-filter="year" data-value="all" data-i18n="all">全部</button>
-        </div>
-        <button class="clear-filters-btn" id="clear-filters-btn" onclick="clearAllFilters()" hidden data-i18n="clear_filters">清除筛选</button>
-        <div class="toolbar-spacer"></div>
-        <button class="collapse-toggle-btn" onclick="toggleToolbar()" title="收起 / 展开搜索与筛选" aria-label="收起或展开搜索与筛选" data-i18n-title="collapse_toolbar">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>
-        </button>
-        <span class="result-count"><span data-i18n="show_before">显示</span> <strong id="visible-count">0</strong> <span data-i18n="show_after">家</span></span>
-        <button class="select-btn" id="select-btn" onclick="toggleSelectMode()" title="自由勾选客户后导出海报" data-i18n-title="select_title">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-            <span data-i18n="select_mode">多选</span>
-        </button>
-        <button class="poster-btn" onclick="openPosterModal()" title="将当前筛选结果导出为活动海报" data-i18n-title="export_poster_title">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-            <span data-i18n="export_poster">导出海报</span>
-        </button>
-        <button class="theme-btn" id="lang-btn" onclick="toggleLang()" title="Switch language / 切换语言" style="font-size:11px;font-weight:700;width:40px;border-radius:20px;">EN</button>
-        <button class="dark-toggle-btn" id="dark-btn" onclick="toggleDarkMode(event)" title="日间 / 夜间模式" data-i18n-title="dark_mode_title">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        </button>
-        <div class="theme-pop-wrap">
-            <button class="theme-btn" onclick="toggleThemePop(event)" title="主题与背景" data-i18n-title="theme_title">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
-            </button>
-            <div class="theme-pop" id="theme-pop">
-                <h4 data-i18n="theme_colors">主题配色</h4>
-                <div class="theme-swatches" id="theme-swatches"></div>
-                <h4 style="margin-top:14px" data-i18n="theme_bg">背景纹理</h4>
-                <div class="pattern-btns" id="pattern-btns"></div>
-                <div style="margin-top:14px;display:flex;align-items:center;justify-content:space-between">
-                    <span style="font-size:12px;color:var(--text-light)" data-i18n="dark_mode">夜间模式</span>
-                    <label class="dark-switch"><input type="checkbox" id="dark-switch" onchange="toggleDarkModeFromSwitch(this.checked)"><span class="dark-slider"></span></label>
-                </div>
-                <span class="reset-link" onclick="resetThemePreview()" data-i18n="theme_reset">恢复站点默认</span>
-            </div>
-        </div>
-    </div>
-</div>
-
-<main class="main">
-    <div class="loading" id="loading">
-        <div class="spinner"></div>
-        <p data-i18n="loading">正在加载客户数据...</p>
-    </div>
-    <div class="grid" id="grid" style="display:none"></div>
-    <div class="empty-state" id="empty" style="display:none">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <p id="empty-text" data-i18n="empty">未找到匹配的客户</p>
-    </div>
-</main>
-
-<!-- Client Detail Modal -->
-<div class="detail-overlay" id="detail-overlay" onclick="closeDetailModal(event)">
-    <div class="detail-modal" onclick="event.stopPropagation()">
-        <button class="detail-close" onclick="closeDetailModal()">&times;</button>
-        <div class="detail-header">
-            <div class="detail-logo" id="detail-logo"></div>
-            <div class="detail-info">
-                <h2 id="detail-brand"></h2>
-                <p class="detail-company" id="detail-company"></p>
-                <div class="detail-meta">
-                    <span class="detail-city" id="detail-city"></span>
-                    <span class="detail-depts" id="detail-depts"></span>
-                </div>
-            </div>
-        </div>
-        <div class="detail-description" id="detail-description"></div>
-        <div class="detail-footer">
-            <div class="detail-owners" id="detail-coop"></div>
-            <div class="detail-owners" id="detail-owners"></div>
-            <a class="detail-website" id="detail-website" target="_blank" rel="noopener"></a>
-        </div>
-    </div>
-</div>
-
-<!-- Poster Export Modal -->
-<div class="poster-overlay" id="poster-overlay">
-    <div class="poster-modal">
-        <div class="poster-modal-head">
-            <h3 data-i18n="poster_modal_title">导出品牌墙海报</h3>
-            <button class="poster-close" onclick="closePosterModal()">&times;</button>
-        </div>
-        <div class="poster-modal-body">
-            <div class="poster-form">
-                <div class="pf-row">
-                    <label data-i18n="poster_size">海报尺寸</label>
-                    <select id="poster-size">
-                        <option value="portrait" data-i18n="size_portrait">竖版海报 3:4（1800×2400）</option>
-                        <option value="screen" data-i18n="size_screen">现场大屏 16:9（1920×1080）</option>
-                        <option value="a4" data-i18n="size_a4">A4 打印 300dpi（2480×3508）</option>
-                    </select>
-                </div>
-                <div class="pf-row">
-                    <label data-i18n="poster_quality">清晰度</label>
-                    <select id="poster-quality">
-                        <option value="1" data-i18n="quality_std">标准（1×，适合屏幕预览）</option>
-                        <option value="2" selected data-i18n="quality_hd">高清（2×，推荐打印/分享）</option>
-                        <option value="3" data-i18n="quality_uhd">超清（3×，大尺寸印刷）</option>
-                    </select>
-                </div>
-                <div class="pf-row">
-                    <label data-i18n="poster_main">主标题</label>
-                    <input type="text" id="poster-title" maxlength="40">
-                </div>
-                <div class="pf-row">
-                    <label data-i18n="poster_sub">副标题</label>
-                    <input type="text" id="poster-subtitle" maxlength="80">
-                </div>
-                <div class="pf-row pf-row-checks">
-                    <label data-i18n="poster_showinfo">卡片显示</label>
-                    <div class="pf-checks">
-                        <label class="pf-check"><input type="checkbox" id="pf-show-city" checked> <span data-i18n="pf_city">城市 / 区域</span></label>
-                        <label class="pf-check"><input type="checkbox" id="pf-show-dept"> <span data-i18n="pf_dept">业务线</span></label>
-                        <label class="pf-check"><input type="checkbox" id="pf-show-owner"> <span data-i18n="pf_owner">负责人</span></label>
-                        <label class="pf-check"><input type="checkbox" id="pf-show-coop"> <span data-i18n="pf_coop">合作时间</span></label>
-                    </div>
-                </div>
-                <div class="pf-row">
-                    <label data-i18n="poster_footer">页脚文字</label>
-                    <input type="text" id="poster-footer" maxlength="100">
-                </div>
-                <p class="pf-hint" id="poster-count-hint"></p>
-                <div class="pf-actions">
-                    <button class="pf-btn-outline" onclick="renderPoster()" data-i18n="poster_refresh">刷新预览</button>
-                    <button class="pf-btn-primary" onclick="downloadPoster()" data-i18n="poster_download">下载 PNG 海报</button>
-                </div>
-            </div>
-            <div class="poster-preview">
-                <canvas id="poster-canvas" width="8" height="10"></canvas>
-                <div class="poster-pager" id="poster-pager" style="display:none">
-                    <button class="pager-btn" id="pager-prev" onclick="posterPrevPage()" aria-label="上一页">‹</button>
-                    <span class="pager-info" id="pager-info"></span>
-                    <button class="pager-btn" id="pager-next" onclick="posterNextPage()" aria-label="下一页">›</button>
-                </div>
-                <div class="poster-loading" id="poster-loading" style="display:none">
-                    <div class="spinner"></div>
-                    <p data-i18n="poster_loading">正在绘制海报，抓取 Logo 图片中...</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<footer class="footer">
-    <span id="site-footer">连接  ·  协作  ·  共创价值</span> &nbsp;|&nbsp;
-    <span data-i18n="footer_admin">数据维护请前往</span> &nbsp;
-    <a href="/admin" style="color:inherit;text-decoration:underline" data-i18n="footer_admin_link">管理后台</a>
-    &nbsp;&nbsp;·&nbsp;&nbsp;
-    <span id="footer-update" style="opacity:0.7"></span>
-</footer>
-
-<div class="select-bar" id="select-bar">
-    <span class="sel-count" id="sel-count">0</span>
-    <span data-i18n="select_bar_label">家客户已选中</span>
-    <button class="sb-btn sb-primary" onclick="exportSelectedPoster()" data-i18n="export_selected">导出选中</button>
-    <button class="sb-btn sb-ghost" onclick="clearSelection()" data-i18n="clear_selection">清除</button>
-    <button class="sb-btn sb-ghost" onclick="toggleSelectMode()" data-i18n="exit_select">退出多选</button>
-</div>
-
-<script>
 // ============================================================
 // DATA STATE
 // ============================================================
@@ -1323,11 +178,12 @@ function updateAuthButton() {
     }
 }
 
-function handleLoginClick() {
+async function handleLoginClick() {
     const token = localStorage.getItem('lw_token');
     if (token) {
         localStorage.removeItem('lw_token');
         localStorage.removeItem('lw_user');
+        try { await fetch('/api/auth/logout', { method: 'POST' }); } catch (e) {}
     }
     window.location.href = '/login?redirect=display';
 }
@@ -1389,20 +245,38 @@ function authHeaders() {
     return token ? { 'Authorization': 'Bearer ' + token } : {};
 }
 
+// <img> requests are authorised by the HttpOnly session cookie the server
+// sets on login / auth check, so tokens never appear in URLs or logs.
 function authLogoUrl(url) {
     if (!url) return '';
     // External logos are routed through the same-origin imgproxy so:
     //   1) the canvas-based padding trim can read pixels (no CORS taint), and
     //   2) the poster exporter can draw them without cross-origin issues.
     if (/^https?:\/\//i.test(url)) {
-        const token = localStorage.getItem('lw_token');
-        let proxy = '/api/imgproxy?url=' + encodeURIComponent(url);
-        if (token) proxy += '&token=' + encodeURIComponent(token);
-        return proxy;
+        return '/api/imgproxy?url=' + encodeURIComponent(url);
     }
-    const token = localStorage.getItem('lw_token');
-    const sep = url.includes('?') ? '&' : '?';
-    return (url.startsWith('/') ? '' : '/') + url + (token ? sep + 'token=' + encodeURIComponent(token) : '');
+    return (url.startsWith('/') ? '' : '/') + url;
+}
+
+// ---- HTML escaping (all data is untrusted when building markup) ----
+function esc(v) {
+    return String(v == null ? '' : v)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function safeColor(c) {
+    return /^#[0-9a-fA-F]{3,8}$/.test(c || '') ? c : '#4F46E5';
+}
+function logoFallbackHtml(r, color) {
+    return `<div class="logo-fallback" style="background:${color}">${esc(getInitials(r.brand))}</div>`;
+}
+// onerror handler for logo <img>: swap in the initials badge
+function logoFallback(img) {
+    const div = document.createElement('div');
+    div.className = 'logo-fallback';
+    div.style.background = safeColor(img.dataset.color);
+    div.textContent = img.dataset.initials || '?';
+    img.replaceWith(div);
 }
 
 // Trim transparent (and near-white on light cards) padding around a logo so
@@ -1492,7 +366,8 @@ function autoTrimLogo(img) {
 // ============================================================
 async function loadData() {
     try {
-        const resp = await fetch('data.json?t=' + Date.now(), {
+        const resp = await fetch('/data.json', {
+            cache: 'no-cache',
             headers: authHeaders()
         });
         if (resp.status === 401 || resp.status === 403) {
@@ -1721,9 +596,9 @@ function renderOwnerOptions(list) {
     box.innerHTML = list.map(name => {
         const sel = activeOwner.has(name) ? ' selected' : '';
         const cnt = ownerCount(name);
-        return `<div class="ms-option${sel}" data-owner="${name.replace(/"/g, '&quot;')}" onclick="toggleOwnerOption('${name.replace(/'/g, "\\'")}')">
+        return `<div class="ms-option${sel}" data-owner="${esc(name)}" onclick="toggleOwnerOption(this.dataset.owner)">
             <span class="ms-check"></span>
-            <span class="ms-name">${name}</span>
+            <span class="ms-name">${esc(name)}</span>
             <span class="ms-count">${cnt}</span>
         </div>`;
     }).join('');
@@ -1879,57 +754,61 @@ function getInitials(name) {
     return clean.substring(0, 2).toUpperCase();
 }
 
+function logoImgHtml(r, color, extraAttrs) {
+    return `<img src="${esc(authLogoUrl(r.logo_url))}" alt="${esc(r.brand)}"${extraAttrs || ''}
+            data-color="${esc(color)}" data-initials="${esc(getInitials(r.brand))}" onerror="logoFallback(this)">`;
+}
+
 function renderCard(r) {
     const deptTags = (r.departments || []).map(d =>
-        `<span class="dept-tag ${d}">${d}</span>`
+        `<span class="dept-tag ${esc(d)}">${esc(d)}</span>`
     ).join('');
 
     const owners = (r.owners || []).join(lang === 'zh' ? '、' : ', ');
-    const color = r.color || '#4F46E5';
+    const color = safeColor(r.color);
+    const id = Number(r.id) || 0;
 
     let logoHtml;
     if (r.logo_url) {
-        const logoSrc = authLogoUrl(r.logo_url);
         const isExternal = /^https?:\/\//i.test(r.logo_url);
         const trimAttr = isExternal ? ' onload="autoTrimLogo(this)"' : '';
-        logoHtml = `<img src="${logoSrc}" alt="${r.brand}" loading="lazy"${trimAttr} referrerpolicy="no-referrer"
-            onerror="this.parentElement.innerHTML='<div class=\\'logo-fallback\\' style=\\'background:${color}\\'>${getInitials(r.brand)}</div>'">`;
+        logoHtml = logoImgHtml(r, color, ` loading="lazy"${trimAttr} referrerpolicy="no-referrer"`);
     } else {
-        logoHtml = `<div class="logo-fallback" style="background:${color}">${getInitials(r.brand)}</div>`;
+        logoHtml = logoFallbackHtml(r, color);
     }
 
     const fullCompany = r.company || '';
     const companyFull = (fullCompany && fullCompany !== r.brand)
-        ? `<div class="company-full" title="${fullCompany}">${fullCompany}</div>` : '';
+        ? `<div class="company-full" title="${esc(fullCompany)}">${esc(fullCompany)}</div>` : '';
     const ownersHtml = owners
-        ? `<div class="meta-owners" title="${t('owner_title')(owners)}"><span class="owner-label">${t('owner_label')}</span>${owners}</div>` : '';
+        ? `<div class="meta-owners" title="${esc(t('owner_title')(owners))}"><span class="owner-label">${t('owner_label')}</span>${esc(owners)}</div>` : '';
     const coopDate = r.cooperation_date || '';
     const coopDateHtml = coopDate
-        ? `<div class="meta-coop" title="${t('coop_since')}${coopDate}">${t('coop_since')}${coopDate}</div>` : '';
+        ? `<div class="meta-coop" title="${esc(t('coop_since') + coopDate)}">${esc(t('coop_since') + coopDate)}</div>` : '';
 
     const tooltipOwners = (r.owners || []).join(lang === 'zh' ? '、' : ', ');
 
     return `
-        <div class="card${selectedIds.has(r.id) ? ' selected' : ''}" style="--card-color:${color}" data-id="${r.id}" onclick="openDetailModal(${r.id})">
+        <div class="card${selectedIds.has(r.id) ? ' selected' : ''}" style="--card-color:${color}" data-id="${id}" onclick="openDetailModal(${id})">
             <div class="card-check"></div>
             <div class="logo-area">${logoHtml}</div>
-            <div class="brand-name" title="${r.brand}">${r.brand}</div>
+            <div class="brand-name" title="${esc(r.brand)}">${esc(r.brand)}</div>
             ${companyFull}
             <div class="card-meta">
                 <div class="meta-row meta-office">
-                    <span class="city">${r.office_city}</span>
+                    <span class="city">${esc(r.office_city)}</span>
                     <span>·</span>
-                    <span>${r.office_code}</span>
+                    <span>${esc(r.office_code)}</span>
                 </div>
                 <div class="dept-tags">${deptTags}</div>
                 ${ownersHtml}
                 ${coopDateHtml}
             </div>
             <div class="card-tooltip">
-                <div class="tip-company">${r.brand || r.company}</div>
-                ${fullCompany && fullCompany !== r.brand ? '<div class="tip-company" style="font-weight:400;font-size:11px;color:rgba(255,255,255,0.7)">' + fullCompany + '</div>' : ''}
-                <div>${r.office_city} (${r.office_code})</div>
-                <div class="tip-owners">${tooltipOwners}</div>
+                <div class="tip-company">${esc(r.brand || r.company)}</div>
+                ${fullCompany && fullCompany !== r.brand ? '<div class="tip-company" style="font-weight:400;font-size:11px;color:rgba(255,255,255,0.7)">' + esc(fullCompany) + '</div>' : ''}
+                <div>${esc(r.office_city)} (${esc(r.office_code)})</div>
+                <div class="tip-owners">${esc(tooltipOwners)}</div>
             </div>
         </div>
     `;
@@ -2005,14 +884,13 @@ function openDetailModal(clientId) {
     const record = allRecords.find(r => r.id === clientId);
     if (!record) return;
     const overlay = document.getElementById('detail-overlay');
-    const color = record.color || '#4F46E5';
+    const color = safeColor(record.color);
 
     const logoEl = document.getElementById('detail-logo');
     if (record.logo_url) {
-        const logoSrc = authLogoUrl(record.logo_url);
-        logoEl.innerHTML = `<img src="${logoSrc}" alt="${record.brand}" onerror="this.parentElement.innerHTML='<div class=\\'logo-fallback\\' style=\\'background:${color}\\'>${getInitials(record.brand)}</div>'">`;
+        logoEl.innerHTML = logoImgHtml(record, color);
     } else {
-        logoEl.innerHTML = `<div class="logo-fallback" style="background:${color}">${getInitials(record.brand)}</div>`;
+        logoEl.innerHTML = logoFallbackHtml(record, color);
     }
 
     document.getElementById('detail-brand').textContent = record.brand || record.company;
@@ -2020,7 +898,7 @@ function openDetailModal(clientId) {
     document.getElementById('detail-city').textContent = `${record.office_city} (${record.office_code})`;
 
     const deptsEl = document.getElementById('detail-depts');
-    deptsEl.innerHTML = (record.departments || []).map(d => `<span class="dept-tag ${d}">${d}</span>`).join('');
+    deptsEl.innerHTML = (record.departments || []).map(d => `<span class="dept-tag ${esc(d)}">${esc(d)}</span>`).join('');
 
     const descEl = document.getElementById('detail-description');
     if (record.description) {
@@ -2058,7 +936,8 @@ function openDetailModal(clientId) {
         let url = record.website;
         if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
         websiteEl.href = url;
-        websiteEl.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>${record.website}`;
+        websiteEl.rel = 'noopener noreferrer';
+        websiteEl.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>${esc(record.website)}`;
         websiteEl.style.display = 'flex';
     } else {
         websiteEl.href = '';
@@ -2220,12 +1099,7 @@ let posterSizeKey = 'portrait';
 
 function posterLogoSrc(r) {
     if (!r.logo_url) return null;
-    const token = localStorage.getItem('lw_token');
-    const suffix = token ? (r.logo_url.includes('?') ? '&' : '?') + 'token=' + encodeURIComponent(token) : '';
-    if (/^https?:\/\//i.test(r.logo_url)) {
-        return '/api/imgproxy?url=' + encodeURIComponent(r.logo_url) + (token ? '&token=' + encodeURIComponent(token) : '');
-    }
-    return '/' + r.logo_url.replace(/^\/+/, '') + suffix;
+    return authLogoUrl(r.logo_url.replace(/^\/+/, ''));
 }
 
 function openPosterModal() {
@@ -2860,7 +1734,3 @@ if (localStorage.getItem('lw_toolbar_collapsed') === '1') {
     const ok = await checkAuth();
     if (ok) loadData();
 })();
-</script>
-
-</body>
-</html>

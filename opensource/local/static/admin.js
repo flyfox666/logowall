@@ -1,679 +1,3 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>管理员后台 | Logo Wall Admin</title>
-<style>
-:root {
-    --primary: #1a1a2e; --primary-light: #16213e; --accent: #e94560;
-    --bg: #f0f2f5; --card: #fff; --text: #1a202c; --text-light: #718096;
-    --text-muted: #a0aec0; --border: #e2e8f0; --success: #38a169;
-    --danger: #e53e3e; --warning: #d69e2e; --info: #3182ce;
-    --radius: 10px; --shadow: 0 1px 3px rgba(0,0,0,0.08);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    background: var(--bg); color: var(--text); min-height: 100vh;
-}
-
-/* Header */
-.topbar {
-    background: linear-gradient(135deg, var(--primary), var(--primary-light));
-    color: #fff; padding: 14px 28px; display: flex; align-items: center;
-    justify-content: space-between; box-shadow: var(--shadow-md); position: sticky; top: 0; z-index: 50;
-}
-.topbar h1 { font-size: 18px; font-weight: 700; }
-.topbar h1 .sub { font-size: 12px; font-weight: 400; opacity: 0.6; margin-left: 10px; }
-.topbar-actions { display: flex; gap: 10px; align-items: center; }
-.btn {
-    padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer;
-    font-size: 13px; font-weight: 500; transition: all 0.2s; display: inline-flex;
-    align-items: center; gap: 6px;
-}
-.btn-primary { background: var(--accent); color: #fff; }
-.btn-primary:hover { background: #c73650; }
-.btn-light { background: rgba(255,255,255,0.15); color: #fff; }
-.btn-light:hover { background: rgba(255,255,255,0.25); }
-.btn-success { background: var(--success); color: #fff; }
-.btn-danger { background: var(--danger); color: #fff; }
-.btn-danger:hover { background: #c53030; }
-.btn-outline { background: #fff; border: 1px solid var(--border); color: var(--text); }
-.btn-outline:hover { border-color: var(--primary); }
-.btn-sm { padding: 5px 10px; font-size: 12px; }
-.btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-/* Layout */
-.container { max-width: 1400px; margin: 0 auto; padding: 24px 28px; }
-.stats-row { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
-.stat-card {
-    background: var(--card); border-radius: var(--radius); padding: 18px 22px;
-    box-shadow: var(--shadow); flex: 1; min-width: 140px;
-}
-.stat-card .num { font-size: 28px; font-weight: 700; color: var(--primary); }
-.stat-card .label { font-size: 12px; color: var(--text-light); margin-top: 4px; }
-.stat-card .sub { font-size: 11px; margin-top: 6px; font-weight: 600; min-height: 14px; }
-.stat-card.clickable { cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; }
-.stat-card.clickable:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-
-/* Toolbar */
-.toolbar {
-    background: var(--card); border-radius: var(--radius); padding: 14px 18px;
-    margin-bottom: 16px; display: flex; gap: 10px; align-items: center;
-    flex-wrap: wrap; box-shadow: var(--shadow);
-}
-.search-input {
-    padding: 8px 14px; border: 1px solid var(--border); border-radius: 6px;
-    font-size: 13px; width: 240px;
-}
-.search-input:focus { outline: none; border-color: var(--accent); }
-select.filter-select {
-    padding: 8px 28px 8px 12px; border: 1px solid var(--border); border-radius: 6px;
-    font-size: 13px; background: #fff; cursor: pointer;
-}
-
-/* Table */
-.table-wrap {
-    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
-    overflow: hidden;
-}
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-thead { background: #f7fafc; }
-th {
-    padding: 12px 14px; text-align: left; font-weight: 600; color: var(--text-light);
-    font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;
-    border-bottom: 1px solid var(--border); white-space: nowrap;
-}
-th.sortable { cursor: pointer; user-select: none; }
-th.sortable:hover { color: var(--primary); }
-.sort-arrow { display: inline-block; margin-left: 4px; font-size: 10px; opacity: 0.3; }
-.sort-arrow::after { content: '▲▼'; }
-th.sort-asc .sort-arrow { opacity: 1; }
-th.sort-asc .sort-arrow::after { content: '▲'; }
-th.sort-desc .sort-arrow { opacity: 1; }
-th.sort-desc .sort-arrow::after { content: '▼'; }
-td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-tr:last-child td { border-bottom: none; }
-tr:hover { background: #f7fafc; }
-.logo-cell { width: 44px; }
-.logo-cell img { width: 40px; height: 40px; object-fit: contain; border-radius: 6px; background: #f7fafc; padding: 4px; }
-.logo-fallback-sm {
-    width: 40px; height: 40px; border-radius: 6px; display: flex; align-items: center;
-    justify-content: center; color: #fff; font-size: 13px; font-weight: 700;
-}
-.logo-missing-badge {
-    width: 40px; margin-top: 4px; text-align: center; font-size: 10px;
-    font-weight: 600; color: #c53030; background: rgba(229,62,62,0.1);
-    border-radius: 4px; padding: 1px 0;
-}
-.company-cell { font-weight: 500; max-width: 260px; }
-.company-cell .full { font-size: 12px; color: var(--text-light); font-weight: 400; margin-top: 2px; }
-.tag {
-    display: inline-block; padding: 2px 8px; border-radius: 4px;
-    font-size: 11px; font-weight: 600; margin: 1px;
-}
-.tag-OOSG { background: rgba(79,70,229,0.1); color: #4f46e5; }
-.tag-OPLS { background: rgba(8,145,178,0.1); color: #0891b2; }
-.tag-OPCS { background: rgba(217,119,6,0.1); color: #d97706; }
-.owners-cell { font-size: 12px; color: var(--text-light); max-width: 160px; }
-.actions-cell { white-space: nowrap; text-align: right; }
-.empty-row { text-align: center; padding: 40px; color: var(--text-muted); }
-
-/* Modal */
-.modal-overlay {
-    display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center;
-    padding: 20px;
-}
-.modal-overlay.show { display: flex; }
-.modal {
-    background: var(--card); border-radius: var(--radius); width: 100%; max-width: 640px;
-    max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-}
-.modal-header {
-    padding: 18px 24px; border-bottom: 1px solid var(--border);
-    display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #fff;
-}
-.modal-header h3 { font-size: 17px; }
-.modal-close {
-    width: 30px; height: 30px; border: none; background: none; font-size: 22px;
-    cursor: pointer; color: var(--text-light); border-radius: 6px;
-}
-.modal-close:hover { background: var(--bg); }
-.modal-body { padding: 20px 24px; }
-.modal-footer {
-    padding: 14px 24px; border-top: 1px solid var(--border);
-    display: flex; justify-content: flex-end; gap: 10px; position: sticky; bottom: 0; background: #fff;
-}
-.form-group { margin-bottom: 16px; }
-.form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
-.form-group input, .form-group select, .form-group textarea {
-    width: 100%; padding: 9px 12px; border: 1px solid var(--border);
-    border-radius: 6px; font-size: 14px; font-family: inherit;
-}
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-    outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(233,69,96,0.1);
-}
-.form-group .hint { font-size: 12px; color: var(--text-light); margin-top: 4px; }
-.form-row { display: flex; gap: 14px; }
-.form-row .form-group { flex: 1; }
-
-/* Logo section in modal */
-.logo-section {
-    border: 1px dashed var(--border); border-radius: 8px; padding: 16px;
-    margin-bottom: 16px; background: #fafbfc;
-}
-.logo-preview {
-    width: 80px; height: 80px; object-fit: contain; border-radius: 8px;
-    background: #fff; border: 1px solid var(--border); padding: 8px;
-}
-.logo-preview-row { display: flex; gap: 16px; align-items: center; margin-bottom: 12px; }
-.logo-url-input { display: flex; gap: 8px; margin-bottom: 10px; }
-.logo-url-input input { flex: 1; }
-.logo-discover {
-    display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px;
-}
-.discover-results {
-    display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;
-}
-.discover-item {
-    width: 72px; text-align: center; cursor: pointer; padding: 8px;
-    border: 2px solid var(--border); border-radius: 8px; transition: all 0.2s;
-}
-.discover-item:hover { border-color: var(--accent); transform: translateY(-2px); }
-.discover-item.selected { border-color: var(--accent); background: rgba(233,69,96,0.05); }
-.discover-item img { width: 48px; height: 48px; object-fit: contain; margin-bottom: 4px; }
-.discover-item .src { font-size: 10px; color: var(--text-light); }
-
-/* Toast */
-.toast {
-    position: fixed; bottom: 24px; right: 24px; background: var(--primary);
-    color: #fff; padding: 12px 20px; border-radius: 8px; box-shadow: var(--shadow-md);
-    font-size: 14px; z-index: 200; transform: translateY(100px); opacity: 0;
-    transition: all 0.3s;
-}
-.toast.show { transform: translateY(0); opacity: 1; }
-.toast.success { background: var(--success); }
-.toast.error { background: var(--danger); }
-
-/* Pagination */
-.pagination {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 14px 18px; background: var(--card); border-top: 1px solid var(--border);
-    font-size: 13px; color: var(--text-light);
-}
-.pagination .pages { display: flex; gap: 4px; }
-.page-size-wrap { display: flex; align-items: center; gap: 6px; }
-.page-size-wrap select {
-    padding: 4px 8px; border: 1px solid var(--border); border-radius: 5px;
-    font-size: 12px; background: #fff; cursor: pointer;
-}
-.page-size-wrap select:focus { outline: none; border-color: var(--accent); }
-.page-btn {
-    padding: 5px 11px; border: 1px solid var(--border); background: #fff;
-    border-radius: 5px; cursor: pointer; font-size: 12px;
-}
-.page-btn:hover { border-color: var(--primary); }
-.page-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-.page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-.spinner-sm {
-    display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3);
-    border-top-color: #fff; border-radius: 50%; animation: spin 0.6s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* ===== Logo Library Modal ===== */
-.logo-lib-body { padding: 0 !important; max-height: 70vh; display: flex; flex-direction: column; }
-.upload-zone {
-    margin: 20px 24px 0;
-    border: 2px dashed var(--border);
-    border-radius: 10px;
-    padding: 28px 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: #fafbfc;
-}
-.upload-zone:hover, .upload-zone.dragover {
-    border-color: var(--accent);
-    background: rgba(233,69,96,0.04);
-}
-.upload-zone .icon { font-size: 32px; margin-bottom: 8px; }
-.upload-zone .text { font-size: 14px; color: var(--text); font-weight: 500; }
-.upload-zone .hint { font-size: 12px; color: var(--text-light); margin-top: 4px; }
-.upload-zone input { display: none; }
-
-.logo-lib-toolbar {
-    display: flex; align-items: center; gap: 10px;
-    padding: 14px 24px; border-bottom: 1px solid var(--border);
-}
-.logo-lib-toolbar .search-input { width: 200px; }
-.logo-lib-count { font-size: 13px; color: var(--text-light); }
-
-.logo-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 12px;
-    padding: 18px 24px;
-    overflow-y: auto;
-    flex: 1;
-}
-.logo-grid-item {
-    background: #fff;
-    border: 2px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 8px 8px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-}
-.logo-grid-item:hover {
-    border-color: var(--primary);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-.logo-grid-item.selected {
-    border-color: var(--accent);
-    background: rgba(233,69,96,0.04);
-}
-.logo-grid-item img {
-    width: 64px; height: 64px; object-fit: contain;
-    margin-bottom: 6px; background: #f7fafc; border-radius: 4px; padding: 4px;
-}
-.logo-grid-item .logo-name {
-    font-size: 10px; color: var(--text-light);
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.logo-grid-item .logo-used {
-    font-size: 10px; color: var(--success); margin-top: 2px;
-}
-.logo-grid-item .logo-delete {
-    position: absolute; top: 4px; right: 4px;
-    width: 20px; height: 20px; border: none; background: rgba(0,0,0,0.08);
-    border-radius: 50%; cursor: pointer; font-size: 12px; line-height: 1;
-    color: var(--text-light); display: none; align-items: center; justify-content: center;
-}
-.logo-grid-item:hover .logo-delete { display: flex; }
-.logo-grid-item .logo-delete:hover { background: var(--danger); color: #fff; }
-.logo-grid-empty {
-    grid-column: 1 / -1;
-    text-align: center; padding: 40px; color: var(--text-muted);
-}
-.upload-progress {
-    margin: 0 24px 12px; font-size: 12px; color: var(--text-light);
-}
-
-/* Logo Edit Panel */
-.logo-edit-panel {
-    display: flex; gap: 20px; padding: 20px 24px;
-}
-.logo-edit-preview {
-    flex: 0 0 160px; text-align: center;
-}
-.logo-edit-preview img {
-    width: 140px; height: 140px; object-fit: contain;
-    background: #f7fafc; border: 1px solid var(--border); border-radius: 8px; padding: 12px;
-}
-.logo-edit-preview .replace-btn {
-    margin-top: 10px; width: 100%;
-}
-.logo-edit-info { flex: 1; }
-.logo-edit-info .info-row {
-    display: flex; justify-content: space-between; padding: 6px 0;
-    border-bottom: 1px solid var(--border); font-size: 13px;
-}
-.logo-edit-info .info-row:last-child { border-bottom: none; }
-.logo-edit-info .info-label { color: var(--text-light); }
-.logo-edit-info .info-value { font-weight: 500; }
-.logo-edit-info .used-clients {
-    margin-top: 10px; font-size: 12px; color: var(--text-light);
-}
-.logo-edit-info .used-clients .client-tag {
-    display: inline-block; padding: 2px 8px; background: var(--bg);
-    border-radius: 4px; margin: 2px; font-size: 11px;
-}
-
-@media (max-width: 768px) {
-    .container { padding: 16px; }
-    .toolbar { flex-direction: column; align-items: stretch; }
-    .search-input { width: 100%; }
-    .form-row { flex-direction: column; gap: 0; }
-}
-</style>
-</head>
-<body>
-
-<div id="app-view" style="display:none">
-    <div class="topbar">
-        <h1><span data-i18n="brand_title">客户品牌墙</span> <span class="sub" data-i18n="admin_panel">ADMIN PANEL</span></h1>
-        <div class="topbar-actions">
-            <a href="/" class="btn btn-light" target="_blank" rel="noopener" data-i18n="view_front">查看前台</a>
-            <button class="btn btn-light" onclick="openSettings()" data-i18n="site_settings">站点设置</button>
-            <button class="btn btn-light" onclick="openLogoLibrary()" data-i18n="logo_lib">Logo库</button>
-            <button class="btn btn-light" onclick="openUserManager()" data-i18n="user_mgmt">用户管理</button>
-            <button class="btn btn-light" onclick="exportExcel()" data-i18n="export_xlsx">导出Excel</button>
-            <button class="btn btn-light" onclick="document.getElementById('import-file').click()" data-i18n="import_xlsx">导入Excel</button>
-            <input type="file" id="import-file" accept=".xlsx,.xls" style="display:none">
-            <button class="btn btn-light" onclick="exportBackup()" data-i18n="export_backup">导出备份</button>
-            <button class="btn btn-light" onclick="document.getElementById('backup-file').click()" data-i18n="import_backup">导入备份</button>
-            <input type="file" id="backup-file" accept=".zip" style="display:none">
-            <button class="btn btn-primary" onclick="openAddModal()" data-i18n="add_client">+ 新增客户</button>
-            <button class="btn btn-light lang-toggle" onclick="toggleLang()" id="app-lang">EN</button>
-            <button class="btn btn-light" onclick="logout()" data-i18n="logout">退出</button>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="stats-row">
-            <div class="stat-card"><div class="num" id="stat-total">0</div><div class="label" data-i18n="stat_total">客户总数</div></div>
-            <div class="stat-card"><div class="num" id="stat-offices">0</div><div class="label" data-i18n="stat_offices">覆盖城市</div></div>
-            <div class="stat-card"><div class="num" id="stat-depts">0</div><div class="label" data-i18n="stat_depts">业务线</div></div>
-            <div class="stat-card"><div class="num" id="stat-owners">0</div><div class="label" data-i18n="stat_owners">负责人</div></div>
-            <div class="stat-card clickable" onclick="showMissingLogos()" title="点击查看未配 Logo 的客户" data-i18n-title="click_missing">
-                <div class="num" id="stat-logos">0</div>
-                <div class="label" data-i18n="stat_logos">已配Logo</div>
-                <div class="sub" id="stat-logos-missing"></div>
-            </div>
-        </div>
-
-        <div class="toolbar">
-            <input type="text" class="search-input" id="search" placeholder="搜索公司、负责人..." oninput="loadClients()" data-i18n-placeholder="search_ph">
-            <select class="filter-select" id="filter-office" onchange="loadClients()"><option value="all" data-i18n="all_city">全部城市</option></select>
-            <select class="filter-select" id="filter-region" onchange="loadClients()"><option value="all" data-i18n="all_region">全部区域</option></select>
-            <select class="filter-select" id="filter-dept" onchange="loadClients()"><option value="all" data-i18n="all_dept">全部业务线</option></select>
-            <select class="filter-select" id="filter-owner" onchange="loadClients()"><option value="all" data-i18n="all_owner">全部负责人</option></select>
-            <select class="filter-select" id="filter-logo" onchange="loadClients()">
-                <option value="all" data-i18n="logo_all">Logo：全部</option>
-                <option value="set" data-i18n="logo_set">Logo：已配</option>
-                <option value="missing" data-i18n="logo_missing">Logo：未配</option>
-            </select>
-            <div style="flex:1"></div>
-            <span style="font-size:13px;color:var(--text-light)"><span data-i18n="total_pre">共</span> <strong id="result-count">0</strong> <span data-i18n="total_post">条</span></span>
-        </div>
-
-        <div class="table-wrap">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Logo</th>
-                        <th class="sortable" data-sort="brand" data-i18n="th_client">客户名称<span class="sort-arrow"></span></th>
-                        <th class="sortable" data-sort="region" data-i18n="th_region">区域<span class="sort-arrow"></span></th>
-                        <th class="sortable" data-sort="office_city" data-i18n="th_office">办公室<span class="sort-arrow"></span></th>
-                        <th class="sortable" data-sort="departments" data-i18n="th_dept">业务线<span class="sort-arrow"></span></th>
-                        <th class="sortable" data-sort="owners" data-i18n="th_owner">负责人<span class="sort-arrow"></span></th>
-                        <th class="sortable" data-sort="cooperation_date" data-i18n="th_coop_date">合作时间<span class="sort-arrow"></span></th>
-                        <th style="text-align:right" data-i18n="th_action">操作</th>
-                    </tr>
-                </thead>
-                <tbody id="client-tbody"></tbody>
-            </table>
-            <div class="pagination">
-                <span id="page-info"></span>
-                <div class="page-size-wrap">
-                    <span data-i18n="per_page_pre">每页</span>
-                    <select id="page-size" onchange="changePageSize(this.value)">
-                        <option value="15">15</option>
-                        <option value="30">30</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                        <option value="200">200</option>
-                    </select>
-                    <span data-i18n="per_page_post">条</span>
-                </div>
-                <div class="pages" id="page-buttons"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Add/Edit Modal -->
-<div class="modal-overlay" id="client-modal">
-    <div class="modal">
-        <div class="modal-header">
-            <h3 id="modal-title" data-i18n="add_client">新增客户</h3>
-            <button class="modal-close" onclick="closeModal()">&times;</button>
-        </div>
-        <div class="modal-body">
-            <input type="hidden" id="edit-id">
-            <div class="form-group">
-                <label data-i18n="f_company">客户公司全称 *</label>
-                <input type="text" id="f-company" placeholder="如：灵犀科技（上海）有限公司（星辰通信）" data-i18n-placeholder="f_company_ph">
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label data-i18n="f_office">办公室代码 *</label>
-                    <select id="f-office"></select>
-                </div>
-                <div class="form-group">
-                    <label data-i18n="f_website">公司官网（可选，用于自动找Logo）</label>
-                    <input type="text" id="f-website" placeholder="如：www.example.com" data-i18n-placeholder="f_website_ph">
-                </div>
-            </div>
-            <div class="form-group">
-                <label data-i18n="f_depts">业务线（多个用分号分隔）</label>
-                <input type="text" id="f-depts" placeholder="如：OOSG；OPLS" data-i18n-placeholder="f_depts_ph">
-            </div>
-            <div class="form-group">
-                <label data-i18n="f_owners">业务负责人（多个用分号分隔）</label>
-                <input type="text" id="f-owners" placeholder="如：张三2026；李四2025" data-i18n-placeholder="f_owners_ph">
-            </div>
-            <div class="form-group">
-                <label data-i18n="f_coop_date">合作时间（可选）</label>
-                <input type="date" id="f-coop-date" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text);font-family:inherit;font-size:13px">
-            </div>
-            <div class="form-group">
-                <label data-i18n="f_description">公司简介（可选）</label>
-                <textarea id="f-description" rows="4" placeholder="输入公司简介，将在前台点击卡片时展示" data-i18n-placeholder="f_description_ph" style="width:100%;resize:vertical;font-family:inherit;font-size:13px;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text)"></textarea>
-            </div>
-
-            <div class="logo-section">
-                <label style="font-size:13px;font-weight:600;display:block;margin-bottom:10px" data-i18n="f_logo">品牌Logo</label>
-                <div class="logo-preview-row">
-                    <img class="logo-preview" id="f-logo-preview" src="" alt="" style="display:none">
-                    <div class="logo-fallback-sm" id="f-logo-fallback" style="width:80px;height:80px;font-size:18px">?</div>
-                    <div>
-                        <div style="font-size:12px;color:var(--text-light)" data-i18n="f_logo_tip1">支持三种方式设置Logo：</div>
-                        <div style="font-size:12px;color:var(--text-light)" data-i18n="f_logo_tip2">1. 输入图片URL；2. 自动抓取；3. 本地上传</div>
-                    </div>
-                </div>
-                <div class="logo-url-input">
-                    <input type="text" id="f-logo-url" placeholder="Logo图片URL（粘贴后点应用）" data-i18n-placeholder="f_logo_url_ph">
-                    <button class="btn btn-outline btn-sm" onclick="applyLogoUrl()" data-i18n="apply">应用</button>
-                </div>
-                <div class="logo-discover">
-                    <button class="btn btn-outline btn-sm" onclick="discoverLogo()">
-                        <span id="discover-spinner" style="display:none" class="spinner-sm"></span>
-                        <span data-i18n="auto_fetch">自动抓取Logo</span>
-                    </button>
-                    <button class="btn btn-outline btn-sm" onclick="document.getElementById('f-logo-upload').click()" data-i18n="upload_local">本地上传</button>
-                    <button class="btn btn-outline btn-sm" onclick="openLogoLibraryForClient()" data-i18n="from_lib">从Logo库选择</button>
-                    <input type="file" id="f-logo-upload" accept="image/*" style="display:none">
-                </div>
-                <div class="discover-results" id="discover-results"></div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-outline" onclick="closeModal()" data-i18n="cancel">取消</button>
-            <button class="btn btn-primary" id="save-btn" onclick="saveClient()" data-i18n="save">保存</button>
-        </div>
-    </div>
-</div>
-
-<!-- Logo Library Modal -->
-<div class="modal-overlay" id="logo-lib-modal">
-    <div class="modal" style="max-width:720px">
-        <div class="modal-header">
-            <h3 data-i18n="logo_lib_title">Logo 图片库</h3>
-            <button class="modal-close" onclick="closeLogoLibrary()">&times;</button>
-        </div>
-        <div class="modal-body logo-lib-body">
-            <div class="upload-zone" id="upload-zone">
-                <div class="icon">📁</div>
-                <div class="text" data-i18n="upload_zone_text">点击或拖拽Logo图片到此处上传</div>
-                <div class="hint" data-i18n="upload_zone_hint">支持 PNG / JPG / SVG / WebP，单个最大5MB，可多文件</div>
-                <input type="file" id="lib-upload-input" accept="image/*" multiple>
-            </div>
-            <div class="upload-progress" id="upload-progress" style="display:none"></div>
-
-            <!-- Logo Edit Panel (hidden by default) -->
-            <div id="logo-edit-section" style="display:none">
-                <div class="logo-edit-panel">
-                    <div class="logo-edit-preview">
-                        <img id="edit-logo-img" src="" alt="">
-                        <button class="btn btn-outline btn-sm replace-btn" onclick="document.getElementById('replace-logo-input').click()" data-i18n="replace_img">替换图片</button>
-                        <input type="file" id="replace-logo-input" accept="image/*" style="display:none">
-                    </div>
-                    <div class="logo-edit-info">
-                        <div class="info-row"><span class="info-label" data-i18n="info_filename">文件名</span><span class="info-value" id="edit-logo-name"></span></div>
-                        <div class="info-row"><span class="info-label" data-i18n="info_size">文件大小</span><span class="info-value" id="edit-logo-size"></span></div>
-                        <div class="info-row"><span class="info-label" data-i18n="info_used">引用客户数</span><span class="info-value" id="edit-logo-used-count"></span></div>
-                        <div class="used-clients" id="edit-logo-clients"></div>
-                        <div style="margin-top:14px;display:flex;gap:8px">
-                            <button class="btn btn-danger btn-sm" id="edit-logo-delete-btn" onclick="deleteEditLogo()" data-i18n="delete_logo">删除此Logo</button>
-                            <button class="btn btn-outline btn-sm" onclick="closeLogoEdit()" data-i18n="back_list">返回列表</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="logo-lib-toolbar">
-                <input type="text" class="search-input" id="lib-search" placeholder="搜索文件名..." oninput="filterLogoGrid()" data-i18n-placeholder="search_filename">
-                <span class="logo-lib-count" id="lib-count-wrap"><span data-i18n="total_logos_pre">共</span> <strong id="lib-count">0</strong> <span data-i18n="total_logos_post">个Logo</span></span>
-            </div>
-            <div class="logo-grid" id="logo-grid"></div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-outline" onclick="closeLogoLibrary()" data-i18n="close">关闭</button>
-        </div>
-    </div>
-</div>
-
-<!-- Site Settings Modal -->
-<div class="modal-overlay" id="settings-modal">
-    <div class="modal">
-        <div class="modal-header">
-            <h3 data-i18n="settings_title">站点设置</h3>
-            <button class="modal-close" onclick="closeSettings()">&times;</button>
-        </div>
-        <div class="modal-body">
-            <div class="form-group">
-                <label data-i18n="s_title">主标题</label>
-                <input type="text" id="s-title" placeholder="如：客户品牌墙" data-i18n-placeholder="s_title_ph">
-            </div>
-            <div class="form-group">
-                <label data-i18n="s_title_en">英文副标题</label>
-                <input type="text" id="s-title-en" placeholder="如：CLIENT LOGO WALL" data-i18n-placeholder="s_title_en_ph">
-            </div>
-            <div class="form-group">
-                <label data-i18n="s_tagline">标语</label>
-                <input type="text" id="s-tagline">
-            </div>
-            <div class="form-group">
-                <label data-i18n="s_tagline_en">英文标语（EN 模式显示）</label>
-                <input type="text" id="s-tagline-en">
-            </div>
-            <div class="form-group">
-                <label data-i18n="s_footer">页脚文字</label>
-                <input type="text" id="s-footer">
-            </div>
-            <div class="form-group">
-                <label data-i18n="s_footer_en">英文页脚（EN 模式显示）</label>
-                <input type="text" id="s-footer-en">
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label data-i18n="s_theme">默认主题</label>
-                    <select id="s-theme"></select>
-                </div>
-                <div class="form-group">
-                    <label data-i18n="s_pattern">背景纹理</label>
-                    <select id="s-pattern"></select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label style="display:flex;align-items:center;gap:8px;font-weight:400">
-                    <input type="checkbox" id="s-use-custom" style="width:auto">
-                    <span data-i18n="s_custom_toggle">启用自定义配色（覆盖所选主题的主色/强调色）</span>
-                </label>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label data-i18n="s_primary">自定义主色</label>
-                    <input type="color" id="s-primary" value="#1a1a2e">
-                </div>
-                <div class="form-group">
-                    <label data-i18n="s_accent">自定义强调色</label>
-                    <input type="color" id="s-accent" value="#e94560">
-                </div>
-            </div>
-            <p class="hint" style="font-size:12px;color:var(--text-light)" data-i18n="s_hint">保存后前台刷新即生效；访客仍可在前台用调色盘按钮做个人预览。</p>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-outline" onclick="closeSettings()" data-i18n="cancel">取消</button>
-            <button class="btn btn-primary" onclick="saveSettings()" data-i18n="save">保存</button>
-        </div>
-    </div>
-</div>
-
-<!-- User Management Modal -->
-<div class="modal-overlay" id="users-modal">
-    <div class="modal" style="max-width:700px">
-        <div class="modal-header">
-            <h3 data-i18n="users_title">用户管理</h3>
-            <button class="modal-close" onclick="closeUsers()">&times;</button>
-        </div>
-        <div class="modal-body">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-                <p style="font-size:13px;color:var(--text-light)" data-i18n="users_desc">管理可以访问品牌墙的用户账户</p>
-                <button class="btn btn-primary btn-sm" onclick="showAddUser()" data-i18n="add_user">+ 添加用户</button>
-            </div>
-            <div id="users-list" style="border:1px solid var(--border);border-radius:8px;overflow:hidden">
-                <div style="padding:20px;text-align:center;color:var(--text-light)" data-i18n="loading">加载中...</div>
-            </div>
-            <!-- Add/Edit User Form -->
-            <div id="user-form" style="display:none;margin-top:20px;padding:16px;background:var(--bg);border-radius:8px">
-                <h4 id="user-form-title" style="margin-bottom:12px;font-size:15px" data-i18n="add_user">添加用户</h4>
-                <input type="hidden" id="u-edit-mode" value="add">
-                <input type="hidden" id="u-orig-username" value="">
-                <div class="form-row">
-                    <div class="form-group" style="flex:1">
-                        <label data-i18n="u_username">用户名</label>
-                        <input type="text" id="u-username" placeholder="如：zhangsan">
-                    </div>
-                    <div class="form-group" style="flex:1">
-                        <label data-i18n="u_display_name">显示名称</label>
-                        <input type="text" id="u-display-name" placeholder="如：张三">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group" style="flex:1">
-                        <label data-i18n="u_password">密码</label>
-                        <input type="password" id="u-password" placeholder="至少4个字符">
-                    </div>
-                    <div class="form-group" style="flex:1">
-                        <label data-i18n="u_role">角色</label>
-                        <select id="u-role">
-                            <option value="viewer" data-i18n="role_viewer">访客（仅查看展示页）</option>
-                            <option value="admin" data-i18n="role_admin">管理员（完全访问）</option>
-                        </select>
-                    </div>
-                </div>
-                <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
-                    <button class="btn btn-outline" onclick="hideUserForm()" data-i18n="cancel">取消</button>
-                    <button class="btn btn-primary" onclick="saveUser()" data-i18n="save">保存</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script>
 const API = '/api';
 let token = localStorage.getItem('lw_token') || '';
 let currentLogoUrl = '';
@@ -686,14 +10,22 @@ let sortDir = ''; // 'asc' or 'desc' or ''
 // Cache-bust local logo files so replaced/updated images show immediately;
 // external URLs (e.g. DuckDuckGo icons) must stay as-is because they
 // return a placeholder when given an unexpected query string.
-// Local files are served behind auth, so <img> tags (which can't send
-// headers) must carry the token as a query parameter.
+// Local files are served behind auth; <img> requests are authorised by the
+// HttpOnly session cookie set at login, so no token goes into URLs.
 function logoImgUrl(url) {
     if (!url) return '';
     if (/^https?:\/\//i.test(url)) return url;
-    let u = '/' + url.replace(/^\/+/, '') + '?t=' + Date.now();
-    if (token) u += '&token=' + encodeURIComponent(token);
-    return u;
+    return '/' + url.replace(/^\/+/, '') + '?t=' + Date.now();
+}
+
+// ---- HTML escaping (all data is untrusted when building markup) ----
+function esc(v) {
+    return String(v == null ? '' : v)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function safeColor(c) {
+    return /^#[0-9a-fA-F]{3,8}$/.test(c || '') ? c : '#4F46E5';
 }
 
 // ---- i18n ----
@@ -786,7 +118,9 @@ const I18N = {
         confirm_backup_export: '将导出全部数据（客户数据 + Logo 图片 + 用户账户）为 zip 备份文件，是否继续？',
         backup_export_ok: '备份已导出',
         backup_export_fail: '备份导出失败',
-        confirm_backup_import: '导入备份将用备份文件中的数据覆盖现有客户数据与用户账户，Logo 文件合并覆盖，是否继续？',
+        confirm_backup_import: '导入备份将用备份文件中的数据覆盖现有客户数据，Logo 文件合并覆盖（导入前会自动在服务器 backups/ 目录保存当前数据快照），是否继续？',
+        confirm_backup_users: '是否同时恢复备份中的用户账户？\n\n「确定」= 用备份中的账户替换现有账户（当前登录可能失效）\n「取消」= 保留现有账户，仅恢复客户数据与 Logo',
+        weak_password_banner: '当前账户仍在使用弱密码/默认密码，请立即在「用户管理」中修改。',
         backup_import_ok: (n, m) => `备份导入成功：${n} 条记录，${m} 个Logo`,
         backup_import_fail: '备份导入失败：',
         loading: '加载中...',
@@ -826,7 +160,7 @@ const I18N = {
         role_admin_short: '管理员',
         need_username: '请填写用户名',
         need_password: '请填写密码',
-        password_short: '密码至少4个字符',
+        password_short: '密码至少8个字符',
         confirm_delete_user: (u) => `确定删除用户 "${u}"？`,
         actions: '操作',
     },
@@ -919,7 +253,9 @@ const I18N = {
         confirm_backup_export: 'Export the full dataset (clients + logo images + user accounts) as a zip backup?',
         backup_export_ok: 'Backup exported',
         backup_export_fail: 'Backup export failed',
-        confirm_backup_import: 'Importing a backup will replace existing client data and user accounts; logo files are merged. Continue?',
+        confirm_backup_import: 'Importing a backup will replace existing client data; logo files are merged (a snapshot of the current data is saved to backups/ on the server first). Continue?',
+        confirm_backup_users: 'Also restore the user accounts from the backup?\n\nOK = replace current accounts with the ones in the backup (you may be logged out)\nCancel = keep current accounts, restore clients and logos only',
+        weak_password_banner: 'This account still uses a weak/default password. Change it in User Management now.',
         backup_import_ok: (n, m) => `Backup imported: ${n} records, ${m} logos`,
         backup_import_fail: 'Backup import failed: ',
         loading: 'Loading...',
@@ -959,7 +295,7 @@ const I18N = {
         role_admin_short: 'Admin',
         need_username: 'Please enter username',
         need_password: 'Please enter password',
-        password_short: 'Password must be at least 4 characters',
+        password_short: 'Password must be at least 8 characters',
         confirm_delete_user: (u) => `Delete user "${u}"?`,
         actions: 'Actions',
     },
@@ -997,14 +333,24 @@ function toggleLang() {
 }
 
 // ---- Auth ----
-function logout() {
+async function logout() {
     localStorage.removeItem('lw_token');
     localStorage.removeItem('lw_user');
     token = '';
+    try { await fetch(API + '/auth/logout', { method: 'POST' }); } catch (e) {}
     window.location.href = '/login?redirect=admin';
+}
+function showWeakPasswordBanner() {
+    if (localStorage.getItem('lw_password_weak') !== '1') return;
+    const bar = document.createElement('div');
+    bar.id = 'weak-pw-banner';
+    bar.style.cssText = 'background:#fff5f5;color:#c53030;border-bottom:1px solid #feb2b2;padding:10px 16px;font-size:13px;text-align:center';
+    bar.textContent = t('weak_password_banner');
+    document.body.prepend(bar);
 }
 function showApp() {
     document.getElementById('app-view').style.display = 'block';
+    showWeakPasswordBanner();
     applyLang();
     const psSel = document.getElementById('page-size');
     if (![...psSel.options].some(o => o.value === String(pageSize))) pageSize = 15;
@@ -1131,29 +477,32 @@ function showMissingLogos() {
 
 function renderRow(r) {
     const logoSrc = logoImgUrl(r.logo_url);
+    const color = safeColor(r.color);
+    const initials = esc((r.brand || '?').substring(0, 2));
+    const id = Number(r.id) || 0;
     const logo = r.logo_url
-        ? `<img src="${logoSrc}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-           <div class="logo-fallback-sm" style="background:${r.color};display:none">${(r.brand||'?').substring(0,2)}</div>`
-        : `<div class="logo-fallback-sm" style="background:${r.color}">${(r.brand||'?').substring(0,2)}</div>
+        ? `<img src="${esc(logoSrc)}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+           <div class="logo-fallback-sm" style="background:${color};display:none">${initials}</div>`
+        : `<div class="logo-fallback-sm" style="background:${color}">${initials}</div>
            <div class="logo-missing-badge">${t('missing_badge')}</div>`;
-    const depts = (r.departments || []).map(d => `<span class="tag tag-${d}">${d}</span>`).join('');
+    const depts = (r.departments || []).map(d => `<span class="tag tag-${esc(d)}">${esc(d)}</span>`).join('');
     const owners = (r.owners || []).join(lang === 'zh' ? '、' : ', ');
     const region = r.region || '-';
     return `<tr>
         <td class="logo-cell">${logo}</td>
         <td class="company-cell">
-            <div>${r.brand || r.company}</div>
-            <div class="full">${r.company}</div>
+            <div>${esc(r.brand || r.company)}</div>
+            <div class="full">${esc(r.company)}</div>
         </td>
-        <td><span class="tag" style="background:rgba(113,128,150,0.12);color:#4a5568">${region}</span></td>
-        <td>${r.office_city} <span style="color:var(--text-muted)">(${r.office_code})</span></td>
+        <td><span class="tag" style="background:rgba(113,128,150,0.12);color:#4a5568">${esc(region)}</span></td>
+        <td>${esc(r.office_city)} <span style="color:var(--text-muted)">(${esc(r.office_code)})</span></td>
         <td>${depts}</td>
-        <td class="owners-cell">${owners || '-'}</td>
-        <td class="owners-cell">${r.cooperation_date || '-'}</td>
+        <td class="owners-cell">${esc(owners || '-')}</td>
+        <td class="owners-cell">${esc(r.cooperation_date || '-')}</td>
         <td class="actions-cell">
-            <button class="btn btn-outline btn-sm" onclick="window._assignClientId=${r.id};openLogoLibrary()">Logo</button>
-            <button class="btn btn-outline btn-sm" onclick="openEditModal(${r.id})">${t('edit')}</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteClient(${r.id})">${t('delete')}</button>
+            <button class="btn btn-outline btn-sm" onclick="window._assignClientId=${id};openLogoLibrary()">Logo</button>
+            <button class="btn btn-outline btn-sm" onclick="openEditModal(${id})">${t('edit')}</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteClient(${id})">${t('delete')}</button>
         </td>
     </tr>`;
 }
@@ -1258,7 +607,7 @@ const PATTERN_OPTIONS = [
 function metaLabel(m) { return (lang === 'zh') ? m.label : (m.label_en || m.label); }
 
 async function openSettings() {
-    const d = await fetch('/data.json?t=' + Date.now(), { headers: authHeaders() }).then(r => r.json());
+    const d = await fetch('/data.json', { cache: 'no-cache', headers: authHeaders() }).then(r => r.json());
     document.getElementById('s-title').value = d.title || '';
     document.getElementById('s-title-en').value = d.title_en || '';
     document.getElementById('s-tagline').value = d.tagline || '';
@@ -1352,14 +701,14 @@ async function discoverLogo() {
             results.innerHTML = '<div style="font-size:12px;color:var(--text-muted)">' + t('discover_empty') + '</div>';
         } else {
             results.innerHTML = items.map((item, i) => `
-                <div class="discover-item" onclick="selectDiscoverLogo('${item.url.replace(/'/g, "\\'")}', this)">
-                    <img src="${item.url}" alt="" onerror="this.parentElement.style.display='none'">
-                    <div class="src">${item.source}</div>
+                <div class="discover-item" data-url="${esc(item.url)}" onclick="selectDiscoverLogo(this.dataset.url, this)">
+                    <img src="${esc(item.url)}" alt="" referrerpolicy="no-referrer" onerror="this.parentElement.style.display='none'">
+                    <div class="src">${esc(item.source)}</div>
                 </div>
             `).join('');
         }
     } catch (e) {
-        results.innerHTML = '<div style="font-size:12px;color:var(--danger)">' + t('search_fail') + e.message + '</div>';
+        results.innerHTML = '<div style="font-size:12px;color:var(--danger)">' + esc(t('search_fail') + e.message) + '</div>';
     } finally {
         spinner.style.display = 'none';
     }
@@ -1501,14 +850,21 @@ document.getElementById('backup-file').addEventListener('change', async e => {
     const file = e.target.files[0];
     if (!file) return;
     if (!confirm(t('confirm_backup_import'))) { e.target.value = ''; return; }
+    const restoreUsers = confirm(t('confirm_backup_users'));
     const form = new FormData();
     form.append('file', file);
+    form.append('restore_users', restoreUsers ? 'true' : 'false');
     try {
         const r = await fetch(API + '/backup/import', {
             method: 'POST', headers: { Authorization: 'Bearer ' + token },
             body: form
         }).then(r => r.json());
-        if (r.ok) { toast(t('backup_import_ok')(r.records, r.logos), 'success'); loadClients(); }
+        if (r.ok) {
+            toast(t('backup_import_ok')(r.records, r.logos), 'success');
+            // Restored accounts may not include the current session
+            if (r.users) { setTimeout(() => window.location.reload(), 1200); }
+            else loadClients();
+        }
         else toast(t('backup_import_fail') + (r.detail || ''), 'error');
     } catch (err) {
         toast(t('backup_import_fail') + err.message, 'error');
@@ -1548,7 +904,7 @@ async function loadLogoLibrary() {
         document.getElementById('lib-count').textContent = allLogos.length;
         renderLogoGrid(allLogos);
     } catch (e) {
-        grid.innerHTML = '<div class="logo-grid-empty">' + t('load_fail') + e.message + '</div>';
+        grid.innerHTML = '<div class="logo-grid-empty">' + esc(t('load_fail') + e.message) + '</div>';
     }
 }
 
@@ -1560,12 +916,12 @@ function renderLogoGrid(logos) {
     }
     grid.innerHTML = logos.map(item => {
         const usedText = item.used_by.length > 0
-            ? '<div class="logo-used">' + t('used_by') + item.used_by.join(', ').substring(0, 20) + '</div>' : '';
-        return `<div class="logo-grid-item" onclick="openLogoEdit('${item.filename}')">
-            <img src="${logoImgUrl(item.url)}" alt="" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2264%22 height=%2264%22><rect fill=%22%23eee%22 width=%2264%22 height=%2264%22/><text x=%2232%22 y=%2236%22 text-anchor=%22middle%22 font-size=%2210%22 fill=%22%23999%22>N/A</text></svg>'">
-            <div class="logo-name">${item.filename}</div>
+            ? '<div class="logo-used">' + esc(t('used_by') + item.used_by.join(', ').substring(0, 20)) + '</div>' : '';
+        return `<div class="logo-grid-item" data-file="${esc(item.filename)}" onclick="openLogoEdit(this.dataset.file)">
+            <img src="${esc(logoImgUrl(item.url))}" alt="" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2264%22 height=%2264%22><rect fill=%22%23eee%22 width=%2264%22 height=%2264%22/><text x=%2232%22 y=%2236%22 text-anchor=%22middle%22 font-size=%2210%22 fill=%22%23999%22>N/A</text></svg>'">
+            <div class="logo-name">${esc(item.filename)}</div>
             ${usedText}
-            <button class="logo-delete" onclick="event.stopPropagation();deleteLibLogo('${item.filename}')" title="${t('delete')}">&times;</button>
+            <button class="logo-delete" onclick="event.stopPropagation();deleteLibLogo(this.parentElement.dataset.file)" title="${t('delete')}">&times;</button>
         </div>`;
     }).join('');
 }
@@ -1584,7 +940,7 @@ function filterLogoGrid() {
 async function openLogoEdit(filename) {
     editingLogo = filename;
     try {
-        const r = await fetch(API + '/logo/info/' + filename, { headers: authHeaders() }).then(r => r.json());
+        const r = await fetch(API + '/logo/info/' + encodeURIComponent(filename), { headers: authHeaders() }).then(r => r.json());
         document.getElementById('edit-logo-img').src = logoImgUrl(r.url);
         document.getElementById('edit-logo-name').textContent = r.filename;
         document.getElementById('edit-logo-size').textContent = formatSize(r.size);
@@ -1593,7 +949,7 @@ async function openLogoEdit(filename) {
         const clientsEl = document.getElementById('edit-logo-clients');
         if (r.used_by.length > 0) {
             clientsEl.innerHTML = '<div style="margin-bottom:4px;font-weight:500">' + t('used_by_label') + '</div>' +
-                r.used_by.map(c => `<span class="client-tag">${c.brand}</span>`).join('');
+                r.used_by.map(c => `<span class="client-tag">${esc(c.brand)}</span>`).join('');
         } else {
             clientsEl.innerHTML = '<div style="color:var(--text-muted)">' + t('no_client_uses') + '</div>';
         }
@@ -1811,17 +1167,17 @@ async function loadUsers() {
                 const roleLabel = u.role === 'admin' ? t('role_admin_short') : t('role_viewer_short');
                 const roleColor = u.role === 'admin' ? 'var(--accent)' : 'var(--success)';
                 return '<tr style="border-top:1px solid var(--border)">' +
-                    '<td style="padding:10px 14px"><strong>' + u.username + '</strong></td>' +
-                    '<td style="padding:10px 14px;color:var(--text-light)">' + (u.display_name || '-') + '</td>' +
+                    '<td style="padding:10px 14px"><strong>' + esc(u.username) + '</strong></td>' +
+                    '<td style="padding:10px 14px;color:var(--text-light)">' + esc(u.display_name || '-') + '</td>' +
                     '<td style="padding:10px 14px"><span style="color:' + roleColor + ';font-weight:500">' + roleLabel + '</span></td>' +
                     '<td style="padding:10px 14px;text-align:right">' +
-                    '<button class="btn btn-outline btn-sm" onclick="editUser(\'' + u.username + '\')">' + t('edit') + '</button> ' +
-                    '<button class="btn btn-danger btn-sm" onclick="deleteUser(\'' + u.username + '\')">' + t('delete') + '</button>' +
+                    '<button class="btn btn-outline btn-sm" data-user="' + esc(u.username) + '" onclick="editUser(this.dataset.user)">' + t('edit') + '</button> ' +
+                    '<button class="btn btn-danger btn-sm" data-user="' + esc(u.username) + '" onclick="deleteUser(this.dataset.user)">' + t('delete') + '</button>' +
                     '</td></tr>';
             }).join('') +
             '</tbody></table>';
     } catch (e) {
-        list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--danger)">' + t('load_fail') + e.message + '</div>';
+        list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--danger)">' + esc(t('load_fail') + e.message) + '</div>';
     }
 }
 
@@ -1869,7 +1225,7 @@ async function saveUser() {
 
     if (!username) { toast(t('need_username'), 'error'); return; }
     if (mode === 'add' && !password) { toast(t('need_password'), 'error'); return; }
-    if (password && password.length < 4) { toast(t('password_short'), 'error'); return; }
+    if (password && password.length < 8) { toast(t('password_short'), 'error'); return; }
 
     try {
         let r;
@@ -1893,6 +1249,19 @@ async function saveUser() {
         }
         const d = await r.json();
         if (r.ok) {
+            // Editing your own password/role/username revokes the old session;
+            // the server hands back a fresh token for the current admin.
+            if (d.token) {
+                token = d.token;
+                localStorage.setItem('lw_token', d.token);
+                if (d.user) localStorage.setItem('lw_user', JSON.stringify(d.user));
+                if (password) {
+                    localStorage.removeItem('lw_password_weak');
+                    const banner = document.getElementById('weak-pw-banner');
+                    if (banner) banner.remove();
+                }
+                await fetch(API + '/auth/check', { headers: authHeaders() });
+            }
             toast(t('saved'), 'success');
             hideUserForm();
             loadUsers();
@@ -1956,6 +1325,3 @@ if (token) {
     // No token, redirect to login
     window.location.href = '/login?redirect=admin';
 }
-</script>
-</body>
-</html>

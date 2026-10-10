@@ -1,6 +1,6 @@
 # Docker Deployment
 
-[English](README.md) | **简体中文**
+**English** | [简体中文](README.zh-CN.md)
 
 Built for long-running deployments on servers / NAS with data persisted in a
 Docker volume.
@@ -13,9 +13,12 @@ docker compose up -d --build
 
 Open http://localhost:8080/ (admin panel: http://localhost:8080/admin).
 
-A default admin `admin / admin123` is created on first run — change the
-password in "User management" afterwards and add read-only viewer accounts as
-needed. `ADMIN_TOKEN` still works as a master token for API calls.
+On first run an `admin` account is created. Its random password is printed
+once in the log (`docker compose logs logo-wall | grep password`), or set
+`ADMIN_PASSWORD` in `.env` before the first start to choose it. Add read-only
+viewer accounts in "User management". For anything beyond a trusted LAN, put
+the container behind an HTTPS reverse proxy (see "Security & Production
+Deployment" in the root README).
 
 Both the wall and the admin panel have an "EN / 中文" button (top-right) that
 switches the interface language (remembered independently).
@@ -26,14 +29,18 @@ Edit the `environment` section of `docker-compose.yml`, or create a `.env`
 file next to it:
 
 ```
-ADMIN_TOKEN=your-secret-token
+ADMIN_PASSWORD=choose-a-strong-password
+# optional master token for API scripts (>= 12 chars), e.g. `openssl rand -hex 24`
+ADMIN_TOKEN=
 ```
 
 | Env var | Default | Description |
 |---|---|---|
-| `ADMIN_TOKEN` | admin123 | Master token for API calls (pages use account login — change in production) |
+| `ADMIN_PASSWORD` | random | Password of the first `admin` account (printed to the log when unset) |
+| `ADMIN_TOKEN` | *(disabled)* | Optional master token for API scripts; < 12 chars or `admin123` is refused |
 | `AUTH_ENABLED` | true | Login page toggle (admin / viewer users) |
-| `JWT_SECRET` | derived | Login session secret; set a fixed value to survive restarts |
+| `JWT_SECRET` | random | Session secret; random and stored in the volume (`/data/.jwt_secret`) when unset |
+| `FORWARDED_ALLOW_IPS` | 127.0.0.1 | Reverse-proxy address(es) whose `X-Forwarded-For` is trusted |
 | `JWT_EXPIRE_DAYS` | 7 | Login session lifetime (days) |
 | `DATA_DIR` | /data | In-container data directory (mounted to a volume) |
 | `BACKUP_MAX_MB` | 200 | Max backup zip size on import |
@@ -44,7 +51,10 @@ Port mapping is set in the `ports` section of `docker-compose.yml`
 ## Data
 
 - Client data and uploaded logos live in the `logo-wall-data` volume
-  (`data.json` + `logos/` + `users.json`).
+  (`data.json` + `logos/` + `users.json`, plus `audit.log` and pre-import
+  snapshots in `backups/`).
+- The container runs as an unprivileged user (uid 10001); the entrypoint
+  fixes ownership of volumes created by older, root-based images.
 - On first start the built-in demo data is automatically seeded into the
   volume.
 - **Recommended backup**: the admin toolbar's "Export backup / Import backup"

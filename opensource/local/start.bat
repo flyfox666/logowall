@@ -25,12 +25,11 @@ call .venv\Scripts\activate.bat
 echo Syncing dependencies...
 pip install -r server\requirements.txt
 
-REM Load config.env (PORT / ADMIN_TOKEN) if present, fall back to defaults
+REM Load config.env (PORT / ADMIN_PASSWORD / ...) if present, fall back to defaults
 if exist "config.env" (
     for /f "usebackq eol=# tokens=1,* delims==" %%a in ("config.env") do set "%%a=%%b"
 )
 if not defined PORT set PORT=8080
-if not defined ADMIN_TOKEN set ADMIN_TOKEN=admin123
 
 REM Auto-release the configured port if it is already in use
 echo Checking port %PORT%...
@@ -50,7 +49,7 @@ if defined _KILLED (
 echo.
 echo ========================================================
 echo   Starting on port %PORT%... (addresses will show below)
-echo   Config file: config.env (PORT / ADMIN_TOKEN)
+echo   Config file: config.env (see config.env.example)
 echo ========================================================
 echo.
 

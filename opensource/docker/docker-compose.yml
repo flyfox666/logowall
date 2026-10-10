@@ -1,20 +1,26 @@
 services:
   logo-wall:
-    build: .
+    build:
+      # Build from opensource/ so the image uses the single source in local/
+      context: ..
+      dockerfile: docker/Dockerfile
     container_name: logo-wall
     restart: unless-stopped
     ports:
       - "${PORT:-8080}:8080"
     environment:
-      - ADMIN_TOKEN=${ADMIN_TOKEN:-admin123}
       - DATA_DIR=/data
+      # Optional: first-run admin password (random + printed to logs if empty)
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-}
+      # Optional legacy master API token; disabled when empty
+      - ADMIN_TOKEN=${ADMIN_TOKEN:-}
+      # Optional: comma-separated origins allowed for cross-origin API calls
+      - CORS_ORIGINS=${CORS_ORIGINS:-}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      # Address(es) of your reverse proxy whose X-Forwarded-For is trusted
+      - FORWARDED_ALLOW_IPS=${FORWARDED_ALLOW_IPS:-127.0.0.1}
     volumes:
       - logo-wall-data:/data
-    healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/api/health')"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
 
 volumes:
   logo-wall-data:

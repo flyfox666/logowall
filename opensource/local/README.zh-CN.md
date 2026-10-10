@@ -1,6 +1,6 @@
 # 本地部署版（Local）
 
-**English** | **简体中文**
+[English](README.md) | **简体中文**
 
 直接用 Python 运行，适合个人电脑 / 活动现场笔记本。
 
@@ -21,16 +21,17 @@ From other phones/computers on the same Wi-Fi/LAN:
 
 ## 配置
 
-最简单：把 `config.env.example` 复制为 `config.env`，在里面改 `PORT` / `ADMIN_TOKEN`，重启即生效。
+最简单：把 `config.env.example` 复制为 `config.env`，在里面改 `PORT` / `ADMIN_PASSWORD` 等，重启即生效。
 也可以用环境变量：
 
 | 变量 | 默认值 | 说明 |
 |---|---|---|
 | `PORT` | 8080 | 服务端口 |
 | `HOST` | 0.0.0.0 | 监听地址，仅本机用可改 127.0.0.1 |
-| `ADMIN_TOKEN` | admin123 | API 主令牌（写操作兜底认证，页面登录用账号） |
+| `ADMIN_PASSWORD` | 随机 | 首个 `admin` 账户的密码（未设置时随机生成并打印一次） |
+| `ADMIN_TOKEN` | *（禁用）* | 可选，API 脚本用主令牌；少于 12 位或 `admin123` 会被拒绝 |
 | `AUTH_ENABLED` | true | 登录页开关（admin / viewer 多用户） |
-| `JWT_SECRET` | 自动派生 | 登录会话密钥；固定后重启不掉登录态 |
+| `JWT_SECRET` | 随机 | 会话密钥；未设置时随机生成并保存在 `DATA_DIR/.jwt_secret` |
 | `JWT_EXPIRE_DAYS` | 7 | 登录会话有效期（天） |
 | `DATA_DIR` | 本目录 | data.json / logos/ / users.json 的位置 |
 | `MAX_UPLOAD_MB` | 5 | Logo 上传大小上限 |
@@ -46,7 +47,7 @@ From other phones/computers on the same Wi-Fi/LAN:
 - 「站点设置」：修改标题 / 英文副标题 / 标语 / 页脚、默认主题与背景、自定义配色。
 - 前台右上「导出海报」：把当前筛选结果导出为 PNG 海报（竖版 / 大屏 / A4）。
 - 前台调色盘按钮：访客个人预览主题，不影响他人；「恢复站点默认」清除预览。
-- **登录与多用户**：访问前台会先进入登录页；首次启动自动创建默认管理员 `admin / admin123`（登录后请在「用户管理」中修改密码、按需新增 viewer 只读账号）。`AUTH_ENABLED=false` 可关闭登录页。
+- **登录与多用户**：访问前台会先进入登录页；首次启动会自动创建 `admin` 账户，随机密码在终端打印一次（也可以在 `config.env` 中用 `ADMIN_PASSWORD` 指定），可在「用户管理」中新增 viewer 只读账号。`AUTH_ENABLED=false` 可关闭登录页。
 - **全量备份**：管理后台工具栏「导出备份 / 导入备份」一键下载或恢复 zip（客户 + Logo 文件 + 用户账户），适合跨环境迁移与定期备份。
 - **中英文切换**：前台与管理后台右上角均有「EN / 中文」按钮，一键切换整站语言（各自独立记忆）。英文模式下标题、筛选、统计、客户卡片、后台表格与弹窗等全部文案切换为英文；站点设置中的「英文副标题 / 英文标语 / 英文页脚」在英文模式下显示。
 - 数据保存在 `DATA_DIR`（默认本目录）：`data.json`（客户与站点设置）、`logos/`（Logo 文件）、`users.json`（登录账户）；用管理后台的备份导出/导入即可整体迁移，无需手工拷贝。
